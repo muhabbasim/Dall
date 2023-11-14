@@ -1,0 +1,4 @@
+.blur_background {
+  backdrop-filter: blur(20px);
+  transition: all 1 ease-in-out;
+}

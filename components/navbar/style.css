@@ -1,0 +1,4 @@
+.navbar {
+  margin-top: -200px;
+  transition: all .3s ease-in-out;
+}

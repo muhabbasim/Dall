@@ -1,0 +1,28 @@
+.center-element {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.added-values {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: space-around;
+}
+
+.added-values_item {
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 10px;
+  align-items: center;
+  background-color: rgb(255, 255, 255);
+  color: black;
+  padding: 20px;
+  /* width: 350px;
+  height: 200px; */
+
+  border-radius: 5px;
+  text-align: center;
+}
