@@ -120,7 +120,7 @@ export default function Vision() {
     if(isInViewJourny) {
       Journyshow();
     } 
-  }, [isInView, isInViewJourny])
+  }, [isInView, isInViewJourny, controls])
 
   return (
     <div className='vision_container pt-60 text-white w-full md:px-48 px-20 '>

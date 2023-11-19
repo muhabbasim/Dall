@@ -63,7 +63,7 @@ export default function Projects() {
     if(isInView) {
       show();
     }
-  }, [isInView])
+  }, [isInView, controls])
 
   return (
     <div ref={projectRef} className=' min-h-[100vh] pt-[30vh] pb-52 w-full bg-white md:px-48 py-20 space-y-20 '>

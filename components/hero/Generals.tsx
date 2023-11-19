@@ -45,7 +45,7 @@ export default function  Generals() {
           }}
           className='text-2xl'
         >
-          A platform designed to assist students and job seekers by analyzing the needs of the job market, individuals' capabilities, and connecting them through artificial intelligence algorithms
+          A platform designed to assist students and job seekers by analyzing the needs of the job market, individuals capabilities, and connecting them through artificial intelligence algorithms
         </motion.h4>
 
         <motion.div 
@@ -101,7 +101,7 @@ export default function  Generals() {
             <h4 className='text-3xl text-opacity-50 text-white'>
               Managements 
             </h4>
-            <h1 className='text-lg text-white'> Managemente services </h1>
+            <h1 className='text-lg text-white'>Managemente services</h1>
             {/* <div className='border rounded-[50%] p-2 text-white'>
               <ArrowBigRight />
             </div> */}

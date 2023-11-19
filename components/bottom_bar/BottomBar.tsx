@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import './bottomBar.css'
+import Image from 'next/image';
 
 export default function BottomBar() {
 
@@ -51,7 +52,13 @@ export default function BottomBar() {
       { <div className={`hidden md:flex mt-[-100px] ${isActive && 'active'} barContainer w-5/12 fixed top-5 left-0 right-0 m-auto h-12 px-5 flex justify-around items-center backdrop-blur-sm rounded-[50px] shadow-sm shadow-gray-700`}>
         <div className=' w-full flex justify-around items-center'>
           <div className=''>
-            <img className='h-10 w-10 cursor-pointer grayscale hover:grayscale-0 transition-all' src="./assets/logo.png" alt="" />
+            <Image 
+              src="/assets/logo.png" 
+              alt="logo bar image" 
+              width={0}
+              height={0}
+              className='h-10 w-10 cursor-pointer grayscale hover:grayscale-0 transition-all' 
+            />
           </div>
           {barData.map((barItem, i) => (
             <div className='barItem cursor-pointer'
