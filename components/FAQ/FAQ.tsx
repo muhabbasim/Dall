@@ -1,9 +1,38 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import './faq.css';
-import { ArrowBigDown, ArrowDown10, ChevronDown, ChevronUp } from 'lucide-react';
-import { Button } from '../ui/button';
+import { ChevronDown } from 'lucide-react';
+import { motion, useScroll, useTransform } from "framer-motion";
 
+interface Props {
+  children: React.ReactNode;
+  onClick: (event: any) => void;
+}
+
+const FAQWrapper = ({ children, onClick }:Props) => {
+
+  const faqElement = useRef(null);
+
+  const { scrollYProgress } = useScroll({
+    target: faqElement,
+    offset: ["start end", "end start"],
+    
+  });
+
+  const opacity = useTransform(scrollYProgress, [1, 0.5, 0], [1, 1, 0]);
+  const x = useTransform(scrollYProgress, [1, 0.2, 0], [0, 0, -2000]);
+  
+
+  return (
+    <motion.div 
+      className={`item space-y-2`} 
+      ref={faqElement}
+      style={{ opacity, x}}
+    >
+      {children}
+    </motion.div>
+  )
+}
 
 export default function FAQ() {
 
@@ -44,14 +73,15 @@ export default function FAQ() {
     setSelected(i)
   }
 
+
   return (
-    <div className=' wrapper px-10 py-40 md:px-72 md:py-60 md:flex md:flex-col md:gap-20 space-y-14 justify-center items-center'>
+    <div className=' px-10 py-40 md:px-72 md:py-60 md:flex md:flex-col md:gap-20 space-y-14 justify-center items-center overflow-hidden'>
       <h1 className='faq_title text-6xl font-bold leading-[80px] text-center text-white max-w-xl'>
         Frequently Asked Questions
       </h1>
       <div className='accordion flex flex-col gap-6 max-w-4xl'>
         {FAQdata.map((item, i) => (
-          <div className={`item space-y-2 `}
+          <FAQWrapper
             key={i}
             onClick={() => toggle(i)}
           >
@@ -66,7 +96,7 @@ export default function FAQ() {
             <p className={`content faq_title ${ selected === i && 'show'}`}>
               {item.answer}
             </p>
-          </div>
+          </FAQWrapper>
         ))}
         
         <div className='text-center'>

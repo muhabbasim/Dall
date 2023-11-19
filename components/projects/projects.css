@@ -1,0 +1,74 @@
+.projects_title {
+  /* background: -webkit-linear-gradient(120deg, #eaee44, #33d0ff); */
+  background-image: linear-gradient(-225deg, #CBBACC 0%, #2580B3 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+
+.projects_card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(-180deg, #BCC5CE 0%, #929EAD 98%), radial-gradient(at top left, rgba(255,255,255,0.30) 0%, rgba(0,0,0,0.30) 100%);
+  background-blend-mode: screen;
+  /* background-image: linear-gradient(60deg, #64b3f4 0%, #c2e59c 100%); */
+  opacity: .3;
+  z-index: 0;
+
+}
+
+.projects_card {
+  position: relative;
+  min-width: 400px;
+  height: 300px;
+}
+
+.projects_card:hover .project_card_overlay {
+  background-image: linear-gradient(to top, #09203f 0%, #537895 100%);
+  opacity: .8;
+  transition: all .3s ease;
+}
+
+.projects_card:hover .project_date {
+  /* font-size: large; */
+  transition: all .3s ease;
+}
+
+
+.project_title {
+  background: -webkit-linear-gradient(120deg, #eaee44, #33d0ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: all .5s ease;
+
+}
+
+.project_desc{
+  opacity: 0;
+  transition: all .3s ease;
+}
+
+.projects_card:hover .project_desc {
+  opacity: 1;
+  transition: all .3s ease;
+}
+
+.projects_card:hover .project_title {
+  background: linear-gradient(120deg, #ffffff, #ffffff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: xx-large;
+  transition: all .3s ease;
+}
+
+.projects_card > * {
+  position: relative;
+  z-index: 2;
+}
+
+
+

@@ -2,3 +2,29 @@
   backdrop-filter: blur(20px);
   transition: all 1 ease-in-out;
 }
+
+.hero_btn {
+  background-image: linear-gradient(-45deg, #FFC796 0%, #FF6B95 100%);
+
+}
+
+.hero_before::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(-180deg, #68686824 0%, #5e5e5e0f 98%), radial-gradient(at top right, rgba(255,255,255,0.30) 0%, rgba(0,0,0,0.30) 100%);
+  background-blend-mode: screen;
+  /* background-image: linear-gradient(60deg, #64b3f4 0%, #c2e59c 100%); */
+  opacity: .8;
+  z-index: -9;
+}
+
+.hero_before {
+  position: relative;
+  width: 100vw;
+  height: 150vh;
+}
+

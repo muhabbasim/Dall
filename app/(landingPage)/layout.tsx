@@ -8,11 +8,10 @@ export default function layout({ children } :
   return (
     <main className=''>
       <div className=''>
-        <div className=' fixd inset-y-0 w-full z-50 '>
+        <div className='inset-y-0 w-full z-50'>
           <Navbar /> 
         </div>
-        <div className='content_section w-full'>{ children }</div>
-      
+        <div className=' w-full'>{ children }</div>
       </div>
     </main>
   )

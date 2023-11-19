@@ -1,7 +1,7 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import MobileSidebar from '../MobileSidebar'
-import NavbarRoutes from '../NavbarRoutes'
+import NavbarRoutes from './NavbarRoutes'
 import './style.css';
 
 
@@ -22,9 +22,10 @@ export default function Navbar() {
   })
 
   return (
-    <div className={` flex w-full fixed items-center md:px-48 px-10 z-50  ${visible && 'navbar'}`}>
+    <div className={` flex w-full fixed items-center md:px-48 px-10 z-50 ${visible && 'navbar'}`}>
       <MobileSidebar />
       <NavbarRoutes /> 
     </div>
   )
 }
+

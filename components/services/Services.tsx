@@ -1,125 +1,97 @@
 'use client'
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
 import './services.css';
-import { stylesWithCssVar } from "@/lib/motion";
+import Visuals from "../Visual_section/Visuals";
+
+import SingleService from "../service_features/SingleService";
+import { Dall, Tamkeen, Twafuq } from "../service_features/ServiceCard";
+import AnimatedText from "../AnimatedText";
+
 
 export default function Services() {
 
- 
-  const servise = [
+  const servises = [
     {
-      src: '',
-      title: 'توافق',  
-      desc:  'لقياس قدرات الباحثين عن عمل وربطهم بسوق العمل',
+      id: 1,
+      url: '',
+      title: 'Twafuq',  
+      desc:  'To conduct a thorough assessment of students capabilities and establish a seamless connection between their skill sets and the dynamic demands of the job market. This entails a comprehensive evaluation designed to measure proficiency, ensuring a strategic alignment with opportunities in the professional landscape.',
       btnUrl: '',
+      card: Twafuq,
     },
     {
-      src: '',
-      title: 'توافق',  
-      desc:  'لقياس قدرات الباحثين عن عمل وربطهم بسوق العمل',
+      id: 2,
+      url: '',
+      title: 'Tamkeen',  
+      desc:  'To evaluate the aptitudes of students and establish a linkage between their skill sets and the demands of the job market. This involves a comprehensive assessment aimed at gauging their proficiency and readiness for successful integration into professional domains',
       btnUrl: '',
+      card: Tamkeen,
     },
     {
-      src: '',
-      title: 'توافق',  
-      desc:  'لقياس قدرات الباحثين عن عمل وربطهم بسوق العمل',
+      id: 3,
+      url: '',
+      title: 'Dall',  
+      desc:  'A platform designed to assist students and job seekers by analyzing the needs of the job market, individuals capabilities, and connecting them through artificial intelligence algorithms',
       btnUrl: '',
+      card: Dall,
     },
-    {
-      src: '',
-      title: 'توافق',  
-      desc:  'لقياس قدرات الباحثين عن عمل وربطهم بسوق العمل',
-      btnUrl: '',
-    },
+  
   ]
 
-  const targetRef = useRef<HTMLDivElement | null>(null);
-  const { scrollYProgress } = useScroll({
-    target: targetRef,
-    offset: ["start end", "end end"],
-  });
-  const textX = useTransform(scrollYProgress, [0.1, 0.7], ["100%", "-100%"]);
-  const opacitySection = useTransform(scrollYProgress, [0.1, 0.5], [0, 1]);
-  const scale = useTransform(scrollYProgress, [0.1, 0.7], [1, 0.7]);
-
-  const opacityBorder = useTransform(
-    scrollYProgress,
-    [0.7, 0.71, 0.72],
-    [1, 1, 0]
-  );
-  const finalTextOpacity = useTransform(
-    scrollYProgress,
-    [0.7, 0.71, 0.72, 0.8, 0.9],
-    [0, 0, 1, 1, 0]
-  );
-
-  const finalTextScale = useTransform(scrollYProgress, [0.8, 0.9], [1, 0.7]);
-
   return (
-    <motion.section
-      style={stylesWithCssVar({
-        opacity: opacitySection,
-        "--scale": scale,
-        "--opacity-border": opacityBorder,
-      })}
-      ref={targetRef}
-      className="mt-[50vh] flex h-[500vh] items-start justify-start"
-    >
-      <div className="sticky top-1/2 left-1/2 min-h-[50rem] min-w-[50rem] -translate-x-1/2 -translate-y-1/2 whitespace-nowrap before:absolute before:inset-0 before:scale-[var(--scale)] before:border-[2.5rem] before:border-[#CEF144] before:opacity-[var(--opacity-border)]">
-        <motion.p
-          aria-hidden
-          style={{ x: textX, y: "-50%" }}
-          className="whitepspace-nowrap min-w-screen absolute top-1/2 left-[calc(-50vw+25rem)] text-[23rem] text-heading"
-        >
-          Streamlined Experience.
-        </motion.p>
-        <motion.p
-          aria-hidden
-          style={{ x: textX, y: "-50%" }}
-          className="whitepspace-nowrap min-w-screen absolute top-1/2 left-[calc(-50vw+25rem)] z-[11] text-[23rem] text-transparent [-webkit-text-stroke:2px_var(--color-heading)]"
-        >
-          Streamlined Experience.
-        </motion.p>
 
-        <motion.p
-          style={{
-            opacity: finalTextOpacity,
-            scale: finalTextScale,
-            y: "-50%",
-            x: "-50%",
-          }}
-          className="absolute left-1/2 top-1/2 text-[8.8rem] leading-tight text-black"
-        >
-          Streamlined
-          <br />
-          Experience.
-        </motion.p>
-        <span className="absolute left-[calc(50%*var(--scale)+50%)] top-0 z-10 h-full w-[50vw] origin-left scale-[var(--scale)] bg-background opacity-[var(--opacity-border)]" />
-        <span className="absolute left-[calc(50%*var(--scale)+50%-(2.5rem*var(--scale)))] top-0 z-[12] h-full w-[50vw] origin-left scale-[var(--scale)] border-l-[2.5rem] border-[#CEF144] opacity-[var(--opacity-border)]" />
+    <div className="services_container bg-white md:px-48 px-10">
+      <div className="w-full pt-56">
+
+      <AnimatedText
+          el="h1"
+          text={[
+            "Our services",
+          ]}
+          className="service_title text-6xl font-bold"
+          once
+          // repeatDelay={10000}
+        />
+        {/* <h1 className='service_title text-6xl font-bold'>
+          Our services
+        </h1> */}
       </div>
-    </motion.section>
+      <div className="grid grid-cols-1 gap-20 md:grid-cols-2 w-full min-h-screen items-start">
+        <div className="flex flex-col gap-32 pt-[20vh]">
+          {servises.map((service) => (
+            <SingleService id={service.id} key={service.id}>
+              <div>
+                <span className="text-2xl ml-[-30px] ">{service.id}</span>
+                <h1 className="text-6xl">{service.title}</h1>
+              </div>
+
+              <div className=" flex flex-col">
+                <p className="service_desc text-2xl">{service.desc}</p>
+
+                <div className="flex gap-8 mt-16">
+                  <button className='bg-transperante border border-white px-16 py-3 text-lg rounded-md'>
+                    Explore More
+                  </button>
+                  <button className='services_btn px-16 py-3 text-lg rounded-md'>
+                    Register
+                  </button>
+                </div>
+              </div>
+            </SingleService>
+          )) }
+        </div>
+
+        <div className="sticky top-0 flex h-screen w-full items-center">
+          <div className="relative aspect-square w-full rounded-2xl">
+            {servises.map((feature) => (
+              <feature.card id={feature.id} key={feature.id}/>
+            ))}
+          </div>
+        </div>
+
+      </div>
+
+      <Visuals/>
+    </div>
   )
 }
-
-
-// <div className="bg-white min-h-[100vh] text-center pt-60 md:px-48 p-72">
-//   <div className="w-full h-[600px] rounded-xl">
-
-//     <h1 className="title text-4xl">خدماتنا</h1>
-//     <div className='px-36'>
-//       <div className=' w-96 h-72  overflow-hidden  bg-white border border-black rounded-lg'>
-//         <div className='w-full h-[40%]  '>
-//           <img className='w-full h-full object-cover' src="https://pudder.imgix.net/fotografer/Sara/A-New-Type-of-Imprint/SAS_Mariama_2_1166V2_flat_final.jpg?auto=compress%2Cformat&bg=%23FFFFFF&crop=focalpoint&fit=crop&fm=jpg&fp-x=0.5&fp-y=0.5&h=3733&q=90&w=2800&s=c5738e4e6a8ad387d3e78665df14da12" alt="" />
-//         </div>
-//         <div className='flex h-[50%] w-full flex-col justify-center gap-5'>
-//           <h1>توافق</h1>
-//           <p>لقياس قدرات الباحثين عن عمل وربطهم بسوق العمل</p>
-//         </div>
-//         <Button variant={'destructive'}>
-//           اكتشف اكثر
-//         </Button>
-//       </div>
-//     </div>
-//   </div>
-// </div>

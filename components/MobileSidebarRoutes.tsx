@@ -6,12 +6,12 @@ import Link from "next/link";
 export default function MobileSidebarRoutes() {
 
   const navbarItems = [
-    {name: 'الرئيسية'},
-    {name: 'رؤيتنا وأهدافنا'},
-    {name: 'خدماتنا'},
-    {name: 'أعمالنا المستقبلية'},
-    {name: 'فريق العمل'},
-    {name: 'تواصل معنا'},
+    {name: 'Home'},
+    {name: ' Visions'},
+    {name: 'Services'},
+    {name: 'Future Projects'},
+    {name: 'Management'},
+    {name: 'Contact us'},
   ]
   
   return (
@@ -29,13 +29,13 @@ export default function MobileSidebarRoutes() {
 
         <div className="flex flex-col gap-6 mt-10 items-center">
           <Link href='/'>
-            <Button variant={'secondary'}>
-              انشاء حساب 
+            <Button className="w-40" variant={"secondary"}>
+              Register
             </Button>
           </Link>
           <Link href='/'>
-            <Button variant={'default'}>
-              تسجيل الدخول
+            <Button className="w-40"  variant={'default'}>
+              Login
             </Button>
           </Link>
         </div>

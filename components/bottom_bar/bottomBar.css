@@ -19,6 +19,6 @@
 }
 
 .active {
-  margin-bottom: 0px;
+  margin-top: 0px;
   transition: all 0.3s ease-in-out;
 }

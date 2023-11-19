@@ -5,7 +5,7 @@ import { Separator } from '../ui/separator'
 
 export default function Hero() {
   return (
-    <div className='relative w-full h-[100vh]'>
+    <div className='hero_before'>
       <video autoPlay loop muted
         className='w-full h-[100vh] object-cover fixed z-[-10]'
       >

@@ -1,11 +1,28 @@
-import React from 'react'
+'use client'
+
+import React, { useRef } from 'react'
 import './contact.css'
 import { Input } from '../ui/input'
 import { Textarea } from '../ui/textarea'
 import { Button } from '../ui/button'
 import { Mail, MapPin, Phone } from 'lucide-react'
+import { useScroll, useTransform, motion } from 'framer-motion'
 
 export default function ContactUs() {
+
+
+  const addressElement = useRef(null);
+
+  const { scrollYProgress } = useScroll({
+    target: addressElement,
+    offset: ["start end", "end start"],
+  });
+
+  const opacity = useTransform(scrollYProgress, [1, 0.5, 0], [1, 1, 0]);
+  const y = useTransform(scrollYProgress, [1, 0.4, 0], [0, 0, 1000]);
+
+
+
   return (
     <div className='relative contact md:flex justify-center items-center h-[100vh] md:px-48 md:py-20'>
       <div className='  bg-white space-y-8 w-7/12 h-5/6 md:flex md:flex-col pl-20 pr-72 py-16 rounded-lg shadow-sm shadow-slate-600 '> 
@@ -22,7 +39,10 @@ export default function ContactUs() {
         </div>
       </div>
 
-      <div className=' bg-gray-800 w-80 h-5/6 px-6 py-16 ml-[-200px] mt-[120px] rounded-lg shadow-sm shadow-slate-900 text-white space-y-7'>
+      <motion.div 
+        ref={addressElement} 
+        style={{ opacity, y}}
+        className=' bg-gray-800 w-80 h-5/6 px-6 py-16 ml-[-200px] mt-[120px] rounded-lg shadow-sm shadow-slate-900 text-white space-y-7'>
         <div className='space-y-5'>
           <h1 className='text-3xl location_text'>DROP IN OUR OFFICE</h1>
           <p className='text-gray-400'>Our office is located in a beautiful building inside the busiest area in Makkah</p>
@@ -46,7 +66,7 @@ export default function ContactUs() {
             <h4>+966 555 48373</h4>
           </div>
         </div>
-      </div>
+      </motion.div >
     </div>
   )
 }

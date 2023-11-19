@@ -17,14 +17,14 @@ export default function ImageScal({children}: Props) {
 
   const scale = useTransform(scrollYProgress, [0, 0.5], [0, 1]);
   const xtransfrom = useTransform(scrollYProgress, [0, 0.5, 0.1, 0], [10, 0, 0, 0]);
-  // const opacity = useTransform(scrollYProgress, [0, 0.8, 1], [1, 1, 0]);
+  const opacity = useTransform(scrollYProgress, [0, 0.8, 1], [1, 1, 0]);
 
   return (
     <div ref={sectionRef}>
       <motion.div style={{
         scale: scale,
         x: xtransfrom,
-        // opacity: opacity,
+        opacity: opacity,
         width: '100%',
       }}>
         {children}
