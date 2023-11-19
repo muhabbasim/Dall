@@ -24,7 +24,7 @@ export default function  Generals() {
   return (
     <div className={`flex flex-col pt-60 w-full md:px-48 ${blurBackground && 'blur_background'}`}>
  
-      <div className=' text-white md:max-w-[70%] flex flex-col space-y-6 z-20'>
+      <div className='text-white md:max-w-[70%] flex flex-col space-y-6 z-20'>
         <AnimatedText
           el="h1"
           text={[
@@ -40,7 +40,7 @@ export default function  Generals() {
           initial={{ x: -100, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{
-            duration: '1',
+            duration: 1,
             delay: .5
           }}
           className='text-2xl'
@@ -52,13 +52,13 @@ export default function  Generals() {
           initial={{ y: 200, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{
-            duration: '1',
+            duration: 1,
             delay: 2
           }}
           className='space-x-6'
         >
           <button className='hero_btn px-16 py-3 text-lg rounded-lg'>
-            !Join us
+            Join us
           </button>
           <Button className='px-16 py-6 text-black' variant={'outline'}>
             Indiviuals
@@ -74,7 +74,7 @@ export default function  Generals() {
           initial={{ x: 500, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{
-            duration: '1',
+            duration: 1,
             delay: 5
           }}
           className=" absolute flex flex-col gap-6  mt-28 w-full py-10 md:flex-row justify-around items-center backdrop-blur-md rounded-lg"

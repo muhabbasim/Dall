@@ -12,7 +12,6 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import HorizentalWrapper from '../HorizentalWrapper';
-import Image from 'next/image';
 
 
 export default function Comments() {
@@ -94,7 +93,7 @@ export default function Comments() {
             <SwiperSlide key={i} className='py-20'>
               <div className='comment_card flex text-white p-10 items-center gap-10 rounded-3xl'>
                 <div className='comment_img_container w-[30%] rounded-xl'>
-                  <Image width={0} height={0} className='comment_img object-cover' src={comment.imageUrl} alt="comment pics" />
+                  <img className='comment_img object-cover' src={comment.imageUrl} alt="comment pics" />
                 </div>   
                 <div className='w-[70%] ml-10'>
                   <div className='comment_info space-y-1'>
