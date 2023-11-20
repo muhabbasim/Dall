@@ -1,18 +1,43 @@
 "use client"
 
 import { Button } from "../ui/button";
-import Link from "next/link";
+import { Link, animateScroll as scroll, scrollSpy } from 'react-scroll/modules';
+
+
 import './style.css'
+// import Link from "next/link";
 
 export default function NavbarRoutes() {
 
   const navbarItems = [
-    {name: 'Home'},
-    {name: ' Visions'},
-    {name: 'Services'},
-    {name: 'Future Projects'},
-    {name: 'Management'},
-    {name: 'Contact us'},
+    // {
+    //   name: 'Home',
+    //   id:"home"
+    // },
+    {
+      name: ' Visions',
+      id:"vision"
+    },
+    {
+      name: 'Services',
+      id:"services"
+    },
+    {
+      name: 'Projects',
+      id:"projects"
+    },
+    {
+      name: 'FQA',
+      id:"FAQ"
+    },
+    {
+      name: 'Testimonials',
+      id:"Testimonials"
+    },
+    {
+      name: 'Contact us',
+      id:"contact"
+    },
   
   ]
 
@@ -25,9 +50,15 @@ export default function NavbarRoutes() {
           <img className="md:w-20 w-14 md:h-20 h-14 object-cover cursor-pointer" src="./assets/logo.png" alt="logo image" />
         </div>
 
-        <div className="hidden flex-row-reverse gap-6 md:flex ">
+        <div className="hidden flex-row gap-6 md:flex ">
           {navbarItems.map((item, i) => (
-            <Link href="/" className="text-lg px-3 py-1 rounded-lg text-white hover:bg-blue-100 hover:bg-opacity-70 hover:text-blue-800" key={i}>
+            <Link 
+              to={item.id} 
+              smooth={true} 
+              offset={0} 
+              duration={2000} 
+              className="text-lg px-3 py-1 rounded-lg text-white  hover:bg-opacity-70 hover:text-gray-500 cursor-pointer" key={i}
+            >
               {item.name}  
             </Link>
           ))}

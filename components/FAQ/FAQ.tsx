@@ -6,10 +6,10 @@ import { motion, useScroll, useTransform } from "framer-motion";
 
 interface Props {
   children: React.ReactNode;
-  onClick: (event: any) => void;
+  // onClick: (event: any) => void;
 }
 
-const FAQWrapper = ({ children, onClick }:Props) => {
+const FAQWrapper = ({ children }:Props) => {
 
   const faqElement = useRef(null);
 
@@ -75,28 +75,32 @@ export default function FAQ() {
 
 
   return (
-    <div className=' px-10 py-40 md:px-72 md:py-60 md:flex md:flex-col md:gap-20 space-y-14 justify-center items-center overflow-hidden'>
+    <div id='FAQ' className=' px-10 py-40 md:px-72 md:py-60 md:flex md:flex-col md:gap-20 space-y-14 justify-center items-center '>
       <h1 className='faq_title text-6xl font-bold leading-[80px] text-center text-white max-w-xl'>
         Frequently Asked Questions
       </h1>
       <div className='accordion flex flex-col gap-6 max-w-4xl'>
         {FAQdata.map((item, i) => (
-          <FAQWrapper
+          <div
             key={i}
             onClick={() => toggle(i)}
           >
-            <div className='title flex justify-between items-center'>
-              <h2 className='text-2xl ml-5 faq_title'>
-                {item.question}
-              </h2>
-              <div className={`arrow_circle ${ selected === i && 'arrow_circle_rotate'}`}>
-                <ChevronDown/>
-              </div> 
-            </div>
-            <p className={`content faq_title ${ selected === i && 'show'}`}>
-              {item.answer}
-            </p>
-          </FAQWrapper>
+            <FAQWrapper
+            >
+              <div className='title flex justify-between items-center transition-all'>
+                <h2 className='text-2xl ml-5 faq_title'>
+                  {item.question}
+                </h2>
+                <div className={`arrow_circle transition-all ${ selected === i && 'arrow_circle_rotate'}`}>
+                  <ChevronDown/>
+                </div> 
+              </div>
+              <p className={`content faq_title transition-all ${ selected === i && 'show'}`}>
+                {item.answer}
+              </p>
+            </FAQWrapper>
+          </div>
+
         ))}
         
         <div className='text-center'>

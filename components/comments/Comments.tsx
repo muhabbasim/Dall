@@ -50,7 +50,7 @@ export default function Comments() {
 
 
   return (
-    <div className='comment_container  md:min-h-[80vh] min-h-[220vh] md:px-48 py-20 space-y-20 px-20'>
+    <div id='Testimonials' className='comment_container  md:min-h-[100vh] min-h-[220vh] md:px-48 py-20 space-y-20 px-20'>
       <div className='flex justify-center items-center'>
         <motion.h1 
           className='comment_title text-6xl font-bold leading-[80px] text-center max-w-xl drop-shadow-xl'

@@ -123,8 +123,8 @@ export default function Vision() {
   }, [isInView, isInViewJourny, controls])
 
   return (
-    <div className='vision_container pt-60 text-white w-full md:px-48 px-20 '>
-      <div className=' vision_text_cont p-20 rounded-2xl text-black'>
+    <div id='vision' className='vision_container  text-white w-full md:px-48 px-20 '>
+      <div className='  p-20 rounded-2xl text-black'>
         <div className=' h-full md:flex items-center md:space-x-16'>
           <div className='space-y-10 max-w-[60%]'>
          

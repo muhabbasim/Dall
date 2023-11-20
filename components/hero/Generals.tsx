@@ -22,7 +22,7 @@ export default function  Generals() {
   })
 
   return (
-    <div className={`flex flex-col pt-60 w-full md:px-48 ${blurBackground && 'blur_background'}`}>
+    <div id='home' className={`flex flex-col pt-60 w-full md:px-48 ${blurBackground && 'blur_background'}`}>
  
       <div className='text-white md:max-w-[70%] flex flex-col space-y-6 z-20'>
         <AnimatedText

@@ -45,7 +45,8 @@ export default function Footer() {
   return (
     <div className='footer md:px-48 md:py-20'>
       <div className="md:flex items-center md:gap-32">
-        <div className='space-y-5 md: min-w-[400px]'>
+        <div className='space-y-1 md: min-w-[400px]'>
+          <p className='text-gray-400'>Licensed granted by</p>
           <h1 className='footer_logo_text text-6xl text-white'>BEGINING</h1>
           {/* <div className='flex gap-2 items-center justify-between'>
             <Input></Input>

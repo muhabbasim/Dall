@@ -66,7 +66,7 @@ export default function Projects() {
   }, [isInView, controls])
 
   return (
-    <div ref={projectRef} className=' min-h-[100vh] pt-[30vh] pb-52 w-full bg-white md:px-48 py-20 space-y-20 '>
+    <div id='projects' ref={projectRef} className=' min-h-[100vh] pt-[30vh] pb-52 w-full bg-white md:px-48 py-20 space-y-20 '>
       <div className='flex justify-center items-center'>
         <h1 className='projects_title text-6xl font-bold leading-[80px] text-center max-w-xl drop-shadow-xl'>Up comming projects</h1>
       </div>

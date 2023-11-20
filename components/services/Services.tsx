@@ -40,7 +40,7 @@ export default function Services() {
 
   return (
 
-    <div className="services_container bg-white md:px-48 px-10">
+    <div id="services" className="services_container bg-white md:px-48 px-10">
       <div className="w-full pt-56">
 
       <AnimatedText

@@ -2,34 +2,38 @@
 
 import React, { useEffect, useState } from 'react'
 import './bottomBar.css'
-import Image from 'next/image';
+import { Link, animateScroll as scroll, scrollSpy } from 'react-scroll/modules';
 
 export default function BottomBar() {
 
   const barData = [
     // {
     //   name: 'Home',
-    //   url: 'http://localhost'
+    //   id:"home"
     // },
     {
-      name: 'Management',
-      url: 'http://localhost'
+      name: ' Visions',
+      id:"vision"
     },
     {
       name: 'Services',
-      url: 'http://localhost'
+      id:"services"
     },
     {
       name: 'Projects',
-      url: 'http://localhost'
+      id:"projects"
     },
     {
-      name: 'Our Vision',
-      url: 'http://localhost'
+      name: 'FQA',
+      id:"FAQ"
     },
     {
-      name: 'Contact Us',
-      url: 'http://localhost'
+      name: 'Testimonials',
+      id:"Testimonials"
+    },
+    {
+      name: 'Contact us',
+      id:"contact"
     },
   ]
 
@@ -49,23 +53,27 @@ export default function BottomBar() {
 
   return (
     <>
-      { <div className={`hidden md:flex mt-[-100px] ${isActive && 'active'} barContainer w-5/12 fixed top-5 left-0 right-0 m-auto h-12 px-5 flex justify-around items-center backdrop-blur-sm rounded-[50px] shadow-sm shadow-gray-700`}>
+      { <div className={`hidden md:flex mt-[-100px] ${isActive && 'active_bar'} barContainer w-5/12 fixed top-5 left-0 right-0 m-auto h-12 px-5 flex justify-around items-center backdrop-blur-sm rounded-[50px] shadow-sm shadow-gray-700 z-50`}>
         <div className=' w-full flex justify-around items-center'>
-          <div className=''>
-            <Image 
+          <Link to='home' smooth={true} className=''>
+            <img 
               src="/assets/logo.png" 
               alt="logo bar image" 
-              width={0}
-              height={0}
               className='h-10 w-10 cursor-pointer grayscale hover:grayscale-0 transition-all' 
             />
-          </div>
+          </Link>
           {barData.map((barItem, i) => (
-            <div className='barItem cursor-pointer'
+            <Link className='barItem cursor-pointer'
+              to={barItem.id}
+              smooth={true}
+              spy={true}
               key={i}
+              offset={0} 
+              duration={2000} 
+              activeClass="active_link" 
             >
               <span>{barItem.name}</span>
-            </div>
+            </Link>
           ))}
         </div>    
       </div> }

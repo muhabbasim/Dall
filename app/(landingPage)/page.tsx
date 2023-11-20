@@ -14,14 +14,14 @@ import React from 'react'
 export default function Home() {
 
   return (
-    <div className='relative'>
+    <div className='relative w-full'>
       <div className='absolute'>
         <Hero />
       </div >
       <Generals />
       <Vision />
       <Services/>
-      <Projects/>
+      <Projects/> 
       <div className='wrapper'>
         <FAQ/>
         <Comments/>

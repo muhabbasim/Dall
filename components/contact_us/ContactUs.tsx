@@ -24,7 +24,7 @@ export default function ContactUs() {
 
 
   return (
-    <div className='relative contact md:flex justify-center items-center h-[100vh] md:px-48 md:py-20'>
+    <div id='contact' className='relative contact md:flex justify-center items-center h-[100vh] md:px-48 md:py-20'>
       <div className='  bg-white space-y-8 w-7/12 h-5/6 md:flex md:flex-col pl-20 pr-72 py-16 rounded-lg shadow-sm shadow-slate-600 '> 
         <h1 className='text-2xl text-bold'>SEND US A MESSAGE <span className='text-rose-500'>*</span></h1>
         <div>

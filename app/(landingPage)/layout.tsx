@@ -11,8 +11,10 @@ export default function layout({ children } :
         <div className='inset-y-0 w-full z-50'>
           <Navbar /> 
         </div>
-        <div className=' w-full'>{ children }</div>
+        <div className='w-full'>{ children }</div>
       </div>
     </main>
   )
 }
+
+// dir='rtl'
