@@ -40,7 +40,7 @@ export default function Services() {
 
   return (
 
-    <div id="services" className="services_container bg-white md:px-48 px-10">
+    <div id="services" className="services_container bg-white md:px-96 px-10">
       <div className="w-full pt-56">
 
       <AnimatedText
@@ -66,7 +66,7 @@ export default function Services() {
               </div>
 
               <div className=" flex flex-col">
-                <p className="service_desc text-2xl">{service.desc}</p>
+                <p className="service_desc text-lg">{service.desc}</p>
 
                 <div className="flex gap-8 mt-16">
                   <button className='bg-transperante border border-white px-16 py-3 text-lg rounded-md'>

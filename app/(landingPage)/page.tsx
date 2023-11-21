@@ -1,5 +1,4 @@
 import FAQ from '@/components/FAQ/FAQ'
-import Visuals from '@/components/Visual_section/Visuals'
 import BottomBar from '@/components/bottom_bar/BottomBar'
 import Comments from '@/components/comments/Comments'
 import ContactUs from '@/components/contact_us/ContactUs'
@@ -18,6 +17,7 @@ export default function Home() {
       <div className='absolute'>
         <Hero />
       </div >
+
       <Generals />
       <Vision />
       <Services/>
@@ -31,6 +31,7 @@ export default function Home() {
         <BottomBar/>
       </div>
       <Footer/>
+ 
     </div>
   )
 }
