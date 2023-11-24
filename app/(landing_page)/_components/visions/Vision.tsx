@@ -2,7 +2,7 @@
 
 import { motion, useAnimation, useInView, useScroll, useTransform } from 'framer-motion'
 import './vision.css';
-import { Separator } from '../ui/separator';
+import { Separator } from '../../../../components/ui/separator';
 import { useEffect, useRef } from 'react';
 
 interface Props {

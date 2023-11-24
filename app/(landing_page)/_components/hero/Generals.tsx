@@ -1,7 +1,7 @@
 'use client'
 import React, { useEffect, useState } from 'react'
-import { Button } from '../ui/button'
-import { Separator } from '../ui/separator'
+import { Button } from '../../../../components/ui/button'
+import { Separator } from '../../../../components/ui/separator'
 import './style.css'
 import HorizentalWrapper from '../HorizentalWrapper'
 import { motion } from 'framer-motion'
@@ -55,13 +55,13 @@ export default function  Generals() {
             duration: 1,
             delay: 2
           }}
-          className='space-x-6'
+          className='space-x-6 pt-6'
         >
           <button className='hero_btn px-16 py-3 text-lg rounded-lg'>
             Join us
           </button>
-          <Button className='px-16 py-6 text-black' variant={'outline'}>
-            Indiviuals
+          <Button className='px-16 py-6' variant={'outline'}>
+          Join us
           </Button>
         </motion.div>
       </div>

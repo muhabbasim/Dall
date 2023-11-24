@@ -69,10 +69,10 @@ export default function Services() {
                 <p className="service_desc text-lg">{service.desc}</p>
 
                 <div className="flex gap-8 mt-16">
-                  <button className='bg-transperante border border-white px-16 py-3 text-lg rounded-md'>
+                  <button className='bg-transperante border border-white px-8 py-3 rounded-md'>
                     Explore More
                   </button>
-                  <button className='services_btn px-16 py-3 text-lg rounded-md'>
+                  <button className='services_btn px-8 py-3 rounded-md'>
                     Register
                   </button>
                 </div>

@@ -1,7 +1,7 @@
 import React from 'react'
-import { Button } from '../ui/button'
+import { Button } from '../../../../components/ui/button'
 import { ArrowBigRight } from 'lucide-react'
-import { Separator } from '../ui/separator'
+import { Separator } from '../../../../components/ui/separator'
 
 export default function Hero() {
   return (

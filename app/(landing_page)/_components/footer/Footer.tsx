@@ -1,9 +1,9 @@
 import { Facebook, Instagram, Linkedin, Twitter } from 'lucide-react'
 import './footer.css'
 import Link from 'next/link'
-import { Input } from '../ui/input'
-import { Button } from '../ui/button'
-import { Separator } from '../ui/separator'
+import { Input } from '../../../../components/ui/input'
+import { Button } from '../../../../components/ui/button'
+import { Separator } from '../../../../components/ui/separator'
 
 export default function Footer() {
   const footerData = [
@@ -41,6 +41,7 @@ export default function Footer() {
     },
    
   ]
+
 
   return (
     <div className='footer md:px-48 md:py-20'>
