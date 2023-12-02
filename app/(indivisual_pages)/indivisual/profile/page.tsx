@@ -120,7 +120,7 @@ import {
 } from '@/components/data/dataFether';
 
 
-export default function page() {
+export default function Profile() {
 
   const queryClient = useQueryClient()
   const [ countryId, setCountryId ] = useState('')
