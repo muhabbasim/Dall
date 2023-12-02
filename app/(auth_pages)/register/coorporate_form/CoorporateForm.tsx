@@ -1,9 +1,8 @@
 'use client'
 
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Link from "next/link";
 import '../register.css'
-import { Building2, UserCircle2 } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -14,46 +13,147 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
+
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+} from "@/components/ui/command"
+
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+
 import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
+import { Check, ChevronsUpDown } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { AuthContext } from '@/context/authContext';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
+import axios, { AxiosError } from 'axios';
 
 const formSchema = z.object({
-  firstname: z.string().min(1, 'Fistname is required'),
-  lastname: z.string().min(1, 'Lastname is required'),
-  
-  password: z.string().min(1, 'Password is required').min(8, 'Password must be at least 8 characters'),
-  confirm_pasword: z.string().min(1, {
+  company_name: z.string().min(1, 'company_name is required'),
+  company_country: z.number().min(1, 'company_country is required'),
+  company_city: z.number().min(1, 'company_city is required'),
+  company_address: z.string().min(1, 'company_address is required'),
+  company_departments: z.string().min(1, 'company_departments is required'),
+  company_staff: z.string().min(1, 'company_staff is required'),
+
+  company_phone: z.string().min(1, {message: "Phone must be at least 5 characters."}),
+  company_email: z.string().min(1, {message: "Email must be at least 5 characters."}).email('Invalid Email'),
+
+  company_password: z.string().min(1, 'Password is required').min(8, 'Password must be at least 8 characters'),
+  company_password_confirmation: z.string().min(1, {
     message: "confirm password must be at least 5 characters.",
   }),
-  phonen_number: z.string().min(1, {
-    message: "Phone must be at least 5 characters.",
-  }),
-  email: z.string().min(1, {
-    message: "Email must be at least 5 characters.",
-  }).email('Invalid Email'),
 
 })
+
+const languages = [
+  { label: "English", value: "1" },
+  { label: "French", value: "2" },
+  { label: "German", value: "3" },
+  { label: "Spanish", value: "4" },
+  { label: "Portuguese", value: "5" },
+  { label: "Russian", value: "6" },
+  { label: "Japanese", value: "7" },
+  { label: "Korean", value: "8" },
+  { label: "Chinese", value: "9" },
+] 
+
+interface Country {
+  arabic_name: string;
+  code: string;
+  english_name: string;
+  id: number;
+  isActive: number;
+  phone_code: string;
+}
+
+interface CountriesArray {
+  countries: Country[];
+}
+
+
+
 export default function CoorporateForm() {
+
+  const { CooperationRegister } = useContext(AuthContext);
+  const router = useRouter();
+
+  const [ err, setErr ] = useState('');
+  const [ countries, setContries ] = useState('');
+  const [ Cities, setCities ] = useState('');
+
+  
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      firstname: "",
-      lastname: "",
-      password: "",
-      confirm_pasword: "",
-      phonen_number: "",
-      email: "",
+      company_name: "",
+      // company_country: "",
+      // company_city: "",
+      company_address: "",
+      company_departments: "",
+      company_email: "",
+      company_staff: "",
+      company_phone: "",
+      company_password: "",
+      company_password_confirmation: "",
     },
   })
+
   const { isSubmitting, isValid } = form.formState;
 
   const submitForm = async (values: z.infer<typeof formSchema>) => {
+    const { company_password, company_password_confirmation } = values;
     console.log(values)
+
+    try {
+
+      if (company_password !== company_password_confirmation ) {
+        toast.error('Password does not match password comfirmation')
+        return
+      }
+
+      await CooperationRegister(values)
+
+      toast.success('Account creaated successfully')
+      // router.push('/')
+
+      
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        setErr(error.response?.data.message)
+        toast.error(err)
+
+      }
+      console.log(error);
+    }
+    
   }
+
+
+  const fetchData = async () => {
+
+    const res = await axios.get('https://dall.app/api/get/countries')
+    setContries(res.data)
+    // console.log(res.data)
+  }
+
+  useEffect(() => {
+    fetchData();
+
+  }, [])
 
 
   return (
@@ -68,7 +168,7 @@ export default function CoorporateForm() {
           
             <FormField
               control={form.control}
-              name="email"
+              name="company_name"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Company name</FormLabel>
@@ -83,52 +183,137 @@ export default function CoorporateForm() {
                 </FormItem>
               )}
             />
-            <div className='flex flex-col md:flex-row flex-wrap gap-5 w-full'>
-              <div className='w-full flex-1'>
-                <FormField
-                  control={form.control}
-                  name="firstname"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Country</FormLabel>
-                      <FormControl>
-                        <Input
-                          // disabled={isSubmitting}
-                          placeholder="e.g. 'Saudi Arabia'"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage/> 
-                    </FormItem>
-                  )}
-                />
-              </div>
 
-              <div className='w-full flex-1'>
-                <FormField
-                  control={form.control}
-                  name="lastname"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>City</FormLabel>
-                      <FormControl>
-                        <Input
-                          // disabled={isSubmitting}
-                          placeholder="e.g. 'Ryiadh'"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage/> 
-                    </FormItem>
-                  )}
-                />
-              </div>
+            <div className='flex flex-col md:flex-row flex-wrap w-full gap-5'>
+            <div className='w-full flex-1'>
+              <FormField
+                control={form.control}
+                name="company_country"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    <FormLabel className='py-1'>Company country</FormLabel>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant="outline"
+                            role="combobox"
+                            className={cn(
+                              "w-full justify-between",
+                              !field.value && "text-muted-foreground"
+                            )}
+                          >
+                            {field.value
+                              ? (Array.isArray(countries) ?
+                                countries.find(country => country.id === field.value)?.english_name
+                                : "")
+                              : "Select country"}
+                            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-full p-0">
+                        <Command>
+                          <CommandInput placeholder="Search language..." />
+                          <CommandEmpty>No language found.</CommandEmpty>
+                          <CommandGroup>
+                            { Array.isArray(countries) &&
+                              countries.map((country) => (
+                              <CommandItem
+                                value={country.english_name}
+                                key={country.id}
+                                onSelect={() => {
+                                  form.setValue("company_country", country.id)
+                                }}
+                              >
+                                <Check
+                                  className={cn(
+                                    "mr-2 h-4 w-4",
+                                    country.code === field.value
+                                      ? "opacity-100"
+                                      : "opacity-0"
+                                  )}
+                                />
+                                {country.english_name}
+                              </CommandItem>
+                            ))}
+                          </CommandGroup>
+                        </Command>
+                      </PopoverContent>
+                    </Popover>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <div className='w-full flex-1'>
+              <FormField
+                control={form.control}
+                name="company_city"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    <FormLabel className='py-1'>Company country</FormLabel>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant="outline"
+                            role="combobox"
+                            className={cn(
+                              "w-full justify-between",
+                              !field.value && "text-muted-foreground"
+                            )}
+                          >
+                            {field.value
+                              ? (Array.isArray(countries) ?
+                                countries.find(country => country.id === field.value)?.english_name
+                                : "")
+                              : "Select country"}
+                            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-full p-0">
+                        <Command>
+                          <CommandInput placeholder="Search language..." />
+                          <CommandEmpty>No language found.</CommandEmpty>
+                          <CommandGroup>
+                            { Array.isArray(countries) &&
+                              countries.map((country) => (
+                              <CommandItem
+                                value={country.english_name}
+                                key={country.id}
+                                onSelect={() => {
+                                  form.setValue("company_city", country.id)
+                                }}
+                              >
+                                <Check
+                                  className={cn(
+                                    "mr-2 h-4 w-4",
+                                    country.code === field.value
+                                      ? "opacity-100"
+                                      : "opacity-0"
+                                  )}
+                                />
+                                {country.english_name}
+                              </CommandItem>
+                            ))}
+                          </CommandGroup>
+                        </Command>
+                      </PopoverContent>
+                    </Popover>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
 
             </div>
               
             <FormField
               control={form.control}
-              name="email"
+              name="company_address"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Adress Line</FormLabel>
@@ -146,7 +331,7 @@ export default function CoorporateForm() {
 
             <FormField
               control={form.control}
-              name="phonen_number"
+              name="company_departments"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Departments</FormLabel>
@@ -166,7 +351,7 @@ export default function CoorporateForm() {
               <div className='w-full flex-1'>
                 <FormField
                   control={form.control}
-                  name="password"
+                  name="company_email"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>email</FormLabel>
@@ -186,7 +371,7 @@ export default function CoorporateForm() {
               <div className='w-full flex-1'>
                 <FormField
                   control={form.control}
-                  name="confirm_pasword"
+                  name="company_staff"
                   render={({ field }) => (
                     <FormItem>
                     <FormLabel>Employyees No</FormLabel>
@@ -207,7 +392,7 @@ export default function CoorporateForm() {
 
             <FormField
               control={form.control}
-              name="phonen_number"
+              name="company_phone"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Phone number</FormLabel>
@@ -227,7 +412,7 @@ export default function CoorporateForm() {
               <div className='w-full flex-1'>
                 <FormField
                   control={form.control}
-                  name="password"
+                  name="company_password"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Password</FormLabel>
@@ -249,7 +434,7 @@ export default function CoorporateForm() {
               <div className='w-full flex-1'>
                 <FormField
                   control={form.control}
-                  name="confirm_pasword"
+                  name="company_password_confirmation"
                   render={({ field }) => (
                     <FormItem>
                     <FormLabel>Confirm Password</FormLabel>

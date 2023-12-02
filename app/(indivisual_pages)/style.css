@@ -1,0 +1,12 @@
+.indivisual_Dashboard_container {
+  background-image: linear-gradient(to right, #f4f9ff 0%, white 100%);
+  /* background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); */
+}
+
+.exam_intro_title {
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-image: linear-gradient(to top, #5ee7df 0%, #b490ca 100%);
+  background-image: linear-gradient(to top, #30cfd0 0%, #330867 100%);
+}
+

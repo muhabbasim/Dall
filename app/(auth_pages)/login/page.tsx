@@ -1,6 +1,7 @@
 "use client"
 
-import React, { useContext } from 'react'
+import './login.css'
+import React, { useContext, useEffect, useState } from 'react'
 import Link from "next/link";
  
 import { Button } from "@/components/ui/button"
@@ -19,6 +20,7 @@ import * as z from "zod"
 import { AuthContext } from '@/context/authContext';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
+import axios, { AxiosError } from 'axios';
 
 
 const formSchema = z.object({
@@ -35,6 +37,7 @@ export default function Login() {
 
   const { login } = useContext(AuthContext)
   const router = useRouter();
+  const [ err, setErr ] = useState('')
   
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -45,18 +48,21 @@ export default function Login() {
   })
   const { isSubmitting, isValid } = form.formState;
 
+  const userToken = typeof window !== 'undefined' ? localStorage.getItem('dallUserToken') : null;
+
   const submitForm = async (values: z.infer<typeof formSchema>) => {
 
     try {
-
+      
       await login(values)
-
-      // const res = await axios.post('/login', values)
-      // console.log(res);
       toast.success('Logged in successfully')
-      router.push('/')
+      router.push('/indivisual/dashboard')
 
     } catch (error) {
+      if (error instanceof AxiosError) {
+        setErr(error.response?.data?.message || error.response?.data.error)
+        toast.error(err)
+      }
       console.log(error);
     }
   }
@@ -146,7 +152,7 @@ export default function Login() {
       </div>
 
       <div className='login_img_container hidden md:inline left md:w-[40%]'>
-        <div className='flex  flex-col justify-center gap-10 pt-20 px-10'>
+        <div className='flex h-full flex-col justify-between gap-10 py-20 px-10'>
           <h1 className='text-3xl text-white font-bold'>Welcom to Dall <span className=''></span> </h1>
           <p className='text-white text-xl'>whe measurement of capabilities is the foundation of success!</p>
         </div>

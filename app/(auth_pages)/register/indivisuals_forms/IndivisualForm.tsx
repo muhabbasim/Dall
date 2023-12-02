@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import Link from "next/link";
 import '../register.css'
 import { Button } from "@/components/ui/button"
@@ -19,9 +19,10 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 import { toast } from 'sonner';
-import newRequest from '@/context/newRequest';
+import newRequest from '@/context/apiRequest';
 import { useRouter } from 'next/navigation';
 import { AuthContext } from '@/context/authContext';
+import { AxiosError } from 'axios' 
 
 const formSchema = z.object({
   first_name: z.string().min(1, 'Fistname is required'),
@@ -44,6 +45,8 @@ export default function IndivisualForm() {
   const { register } = useContext(AuthContext);
   const router = useRouter();
 
+  const [ err, setErr ] = useState('')
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -58,10 +61,7 @@ export default function IndivisualForm() {
 
   const { isSubmitting, isValid } = form.formState;
 
-
   const submitForm = async (values: z.infer<typeof formSchema>) => {
-
-
     const { password, password_confirmation } = values;
 
     try {
@@ -71,7 +71,7 @@ export default function IndivisualForm() {
         return
       }
 
-      // await register(values)
+      await register(values)
       // const res = await newRequest.post('https://dall.app/api/individual/register', values)
       // console.log(res);
       toast.success('Account creaated successfully')
@@ -79,6 +79,11 @@ export default function IndivisualForm() {
 
       
     } catch (error) {
+      if (error instanceof AxiosError) {
+        setErr(error.response?.data.message)
+        toast.error(err)
+
+      }
       console.log(error);
     }
   }

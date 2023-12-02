@@ -57,14 +57,14 @@ export default function Register() {
       <div className='auth_img_container hidden relative left w-[40%] md:flex flex-col'>
       {toggle === 1 ? (
           
-          <div className='flex  flex-col justify-center gap-10 pt-20 px-10'>
+          <div className='flex h-full flex-col justify-between gap-10 py-20 px-10 '>
             <h1 className='text-3xl text-white font-bold'>Welcom to Dall <span className='text--500'>indivisual</span> </h1>
-            <p className='text-white text-xl'>whe measurement of capabilities is the foundation of success!</p>
+            <p className='text-white text-xl'>Where measurement of capabilities is the foundation of success!</p>
           </div>
         ) : (
-          <div className='flex  flex-col justify-center gap-10 pt-20 px-10'>
+          <div className='flex h-full flex-col justify-between gap-10 py-20 px-10'>
             <h1 className='text-3xl text-white font-bold'>Welcom to Dall <span className='text--500'>Cooperation</span> </h1>
-            <p className='text-white text-xl'>whe measurement of capabilities is the foundation of success!</p>
+            <p className='text-white text-xl'>Where measurement of capabilities is the foundation of success!</p>
           </div>
         )}
         

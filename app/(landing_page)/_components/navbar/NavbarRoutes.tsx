@@ -5,10 +5,17 @@ import { Link as ScrollLink } from 'react-scroll/modules';
 
 import './style.css'
 import Link from "next/link";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "@/context/authContext";
 import { toast } from "sonner";
-import { LogOut } from "lucide-react";
+import { useRouter } from "next/navigation";
+
+
+type userProps = {
+  first_name: string,
+  email: string,
+  last_name: string,
+}
 
 export default function NavbarRoutes() {
 
@@ -45,7 +52,7 @@ export default function NavbarRoutes() {
   ]
 
   const { logout, currentUser } = useContext(AuthContext)
-
+  const router = useRouter()
   const handleLogout = async (e) => {
     e.preventDefault()
 
@@ -54,8 +61,16 @@ export default function NavbarRoutes() {
       toast.success('Logged out successfully')
     } catch (error) {
       console.log(error)
+    } finally {
+      router.refresh();
     }
   }
+
+  const [ user, setUser ] = useState<userProps>()
+  useEffect(() => {
+    setUser(currentUser?.user)
+    
+  },[currentUser])
 
   return (
     <>
@@ -78,9 +93,10 @@ export default function NavbarRoutes() {
             </ScrollLink>
           ))}
         </div>
-        {currentUser ? (
+       
+        {user ? (
           <div className="hidden md:flex gap-6 items-center justify-center">
-            <h2 className=" text-white">{currentUser.user?.first_name}</h2>
+            <Link href={'/indivisual/dashboard'} className=" text-white hover:text-slate-400">{user.first_name}</Link>
             <Button 
             variant={'outline'}
               onClick={handleLogout}
@@ -106,5 +122,5 @@ export default function NavbarRoutes() {
       </div>
     </>
   )
-}
+} 
 

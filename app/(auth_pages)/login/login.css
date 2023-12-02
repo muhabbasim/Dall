@@ -1,0 +1,22 @@
+.auth_container {
+
+  background-image: url('../../../public/assets/images/auth_background.avif');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: fill;
+}
+
+.login_img_container {
+  background-image: url('../../../public/assets/images/login_img.avif');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.register_btn {
+  border-left: 4px solid rgb(255, 255, 255);
+}
+
+.active_register_but {
+  border-left: 4px solid rgb(27, 166, 226);
+}
