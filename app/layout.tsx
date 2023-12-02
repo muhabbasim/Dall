@@ -21,24 +21,20 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
 
-
+  // function setToken(token) {
+  //   const expirationTime = token.expires_in; // Assuming expires_in is in milliseconds
+  //   const expirationDate = new Date().getTime() + expirationTime;
   
-  // const token = localStorage.getItem('token')
+  //   localStorage.setItem('accessToken', JSON.stringify({
+  //     token: token.access_token,
+  //     expiration: expirationDate,
+  //   }));
   
-  function setToken(token) {
-    const expirationTime = token.expires_in; // Assuming expires_in is in milliseconds
-    const expirationDate = new Date().getTime() + expirationTime;
-  
-    // localStorage.setItem('accessToken', JSON.stringify({
-    //   token: token.access_token,
-    //   expiration: expirationDate,
-    // }));
-  
-    // Schedule removal of the token after expiration
-    setTimeout(() => {
-      localStorage.removeItem('accessToken');
-    }, expirationTime);
-  }
+  //   // Schedule removal of the token after expiration
+  //   setTimeout(() => {
+  //     localStorage.removeItem('accessToken');
+  //   }, expirationTime);
+  // }
 
   return (
     <html lang="en">

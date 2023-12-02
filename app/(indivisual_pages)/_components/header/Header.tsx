@@ -14,6 +14,7 @@ export default function Header() {
   const isPfofile = pathName?.includes('profile')
   const isConsultation = pathName?.includes('consultation')
   const isExamProfile = pathName?.includes('exam_intro')
+  const isExamQuestions = pathName?.includes('exams')
 
   let title;
 
@@ -25,6 +26,8 @@ export default function Header() {
     title = 'Consultation'
   } else if (isExamProfile) {
     title = 'Dall_In Eaxamination'
+  } else if (isExamQuestions) {
+    title = 'Exams Questions'
   }
   
   return (

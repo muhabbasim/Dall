@@ -27,7 +27,9 @@ export default function layout({ children } : {
             delay: .5
           }}  
         >
-          <PersonalCard/>
+          <div className=' sticky top-0'>
+            <PersonalCard/>
+          </div>
         </motion.div>
       </div>
       </div>

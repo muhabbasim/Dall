@@ -1,6 +1,6 @@
 'use client'
 import { Separator } from '@/components/ui/separator'
-import { CalendarIcon, Check, ChevronsUpDown, Loader2, Pencil } from 'lucide-react'
+import { Ban, CalendarIcon, Check, ChevronsUpDown, Loader2, Pencil } from 'lucide-react'
 
 import React, { useEffect, useState } from 'react'
 import Link from "next/link";
@@ -126,7 +126,7 @@ export default function page() {
   const [ countryId, setCountryId ] = useState('')
   
   // data fetchers 
-  const {data: userData, isLoading: userIsLoading } = useUserData();
+  const {data: userData, isLoading: userIsLoading, isError } = useUserData();
   const { data: countries } = useCountries();
   const { data: cities } = useCities(1);
   const { data: genders } = useGenders();
@@ -1272,11 +1272,18 @@ export default function page() {
                 </div>
               </div>
             </div>
-          ) : (
+          ) : userIsLoading ? (
             <div className='min-h-[600px]  w-full flex items-center justify-center'>
               <div className='flex items-center justify-center gap-2'>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                <h1>Loading...</h1>
+                <Loader2 className="mr-2 h-10 w-10 text-cyan-700 animate-spin" />
+                <h1>Loading questions...</h1>
+              </div>
+            </div>
+          ) : isError && (
+            <div className='min-h-[600px]  w-full flex items-center justify-center'>
+              <div className='flex items-center justify-center gap-2'>
+                <Ban className="mr-2 h-10 w-10 text-rose-700" />
+                <h1>Internet Error...</h1>
               </div>
             </div>
           )}
