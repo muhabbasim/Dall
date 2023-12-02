@@ -71,7 +71,7 @@ interface OptionsProps {
   exam_option_id: number;
 }
 
-export default function page() {
+export default function IndivisualExams() {
 
 
   const [selectedOptions, setSelectedOptions] = useState<Record<number, string>>({});
