@@ -24,6 +24,24 @@ interface UserDataProps {
   password_confirmation: string;
 }
 
+
+// interface FormDataProps {
+//   countries: [];
+//   departments: [];
+//   education_levels: [];
+//   education_institutes: [];
+//   specializations: [];
+//   occupations: [];
+//   experience_year: [];
+//   skills: [];
+//   majors: [];
+//   hobbies: [];
+//   jobs: [];
+//   genders: [];
+//   diplomas: [];
+// }
+
+
 // User data
 export const useUserData = () => {
   return useQuery({
@@ -35,16 +53,7 @@ export const useUserData = () => {
   });
 };
 
-// Countries data
-export const useCountries = () => {
-  return useQuery({
-    queryKey: ['countries'],
-    queryFn: async () => {
-      const res = await api.get(`/get/countries`);
-      return res.data;
-    },
-  });
-};
+
 
 // Cities data
 export const useCities = (countryId: number) => {
@@ -57,110 +66,18 @@ export const useCities = (countryId: number) => {
   });
 };
 
-// Education level data
-export const useEducationLevel = () => {
-  return useQuery({
-    queryKey: ['educationLevel'],
-    queryFn: async () => {
-      const res = await api.get(`/get/education-levels`);
-      return res.data;
-    },
-  });
-};
-
-export const useEducationInstitutions = () => {
-  return useQuery({
-    queryKey: ['educationInstitutions'],
-    queryFn: async () => {
-      const res = await api.get(`/get/education-institutes`);
-      return res.data;
-    },
-  });
-};
-
-export const useSpecialization = () => {
-  return useQuery({
-    queryKey: ['specialization'],
-    queryFn: async () => {
-      const res = await api.get(`/get/specializations`);
-      return res.data;
-    },
-  });
-};
-
-export const useOccupations = () => {
-  return useQuery({
-    queryKey: ['occupations'],
-    queryFn: async () => {
-      const res = await api.get(`/get/occupations`);
-      return res.data;
-    },
-  });
-};
-
-export const useExperienceYears = () => {
-  return useQuery({
-    queryKey: ['experienceYears'],
-    queryFn: async () => {
-      const res = await api.get(`/get/experience-years`);
-      return res.data;
-    },
-  });
-};
-
-export const useSkills = () => {
-  return useQuery({
-    queryKey: ['skills'],
-    queryFn: async () => {
-      const res = await api.get(`/get/skills`);
-      return res.data;
-    },
-  });
-};
-
-export const useMajors = () => {
-  return useQuery({
-    queryKey: ['majors'],
-    queryFn: async () => {
-      const res = await api.get(`/get/majors`);
-      return res.data;
-    },
-  });
-};
-
-export const useHobbies = () => {
-  return useQuery({
-    queryKey: ['hobbies'],
-    queryFn: async () => {
-      const res = await api.get(`/get/hobbies`);
-      return res.data;
-    },
-  });
-};
-
-export const useDiplomas = () => {
-  return useQuery({
-    queryKey: ['diplomas'],
-    queryFn: async () => {
-      const res = await api.get(`/get/diplomas`);
-      return res.data;
-    },
-  });
-};
-
-export const useGenders = () => {
-  return useQuery({
-    queryKey: ['genders'],
-    queryFn: async () => {
-      const res = await api.get(`/get/genders`);
-      return res.data;
-    },
-  });
-};
+// // Education level data
+// export const useEducationLevel = () => {
+//   return useQuery({
+//     queryKey: ['educationLevel'],
+//     queryFn: async () => {
+//       const res = await api.get(`/get/education-levels`);
+//       return res.data;
+//     },
+//   });
+// };
 
 
-// Export the hooks individually
-// export { useUserData, useCountries, useCities, useEducationLevel }
 
   
 

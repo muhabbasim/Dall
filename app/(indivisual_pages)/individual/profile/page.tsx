@@ -57,7 +57,7 @@ const formSchema = z.object({
   second_name: z.string().min(1, 'Secondname is required'),
   last_name: z.string().min(1, 'Lastname is required'),
   email: z.string().email('Invalid Email'),
-  phone: z.string(),
+  phone: z.number(),
   
   birth_country: z.number().min(1, { message: "pirth day is required."}),
   birth_city: z.number().min(1, { message: "pirth city is required."}),
@@ -82,7 +82,7 @@ interface userDataProps {
   second_name: string;
   last_name: string;
   email: string;
-  phone: string;
+  phone: string | number;
   
   birth_country: Number;
   birth_city: Number;
@@ -90,8 +90,8 @@ interface userDataProps {
   residence_country: Number;
   residence_city: Number;
   genders: Number;
-  
   nationality: Number;
+  
   education_institute: Number;
   education_level: Number;
   major: Number;
@@ -103,58 +103,135 @@ interface userDataProps {
   password_confirmation: string;
 }
 
+interface FormDataProps {
+  countries: [];
+  departments: [];
+  education_levels: [];
+  education_institutes: [];
+  specializations: [];
+  occupations: [];
+  experience_year: [];
+  skills: [];
+  majors: [];
+  hobbies: [];
+  jobs: [];
+  genders: [];
+  diplomas: [];
+}
+
+type CountryProps = {
+  id: number;
+  arabic_name:string;
+  english_name: string;
+  phone_code: string;
+  code: string;
+  isActive: number;
+}
+
+type CityProps = {
+  id: number;
+  arabic_name:string;
+  english_name: string;
+  phone_code: string;
+  code: string;
+  isActive: number;
+}
+
+type EducationLevelsProps = {
+  id: number;
+  arabic_name:string;
+  english_name: string;
+  isActive: number;
+}
+
+type EducationInstitutesProps = {
+  id: number;
+  arabic_name:string;
+  english_name: string;
+  isActive: number;
+}
+
+type OccupationsProps = {
+  id: number;
+  arabic_name:string;
+  english_name: string;
+  isActive: number;
+}
+
+type ExperienceYearProps = {
+  id: number;
+  arabic_name:string;
+  english_name: string;
+  isActive: number;
+}
+
+type SkillsProps = {
+  id: number;
+  arabic_name:string;
+  english_name: string;
+  isActive: number;
+}
+
+type MajorsProps = {
+  id: number;
+  arabic_name:string;
+  english_name: string;
+  isActive: number;
+}
+
+type GendersProps = {
+  id: number;
+  arabic_name:string;
+  english_name: string;
+  isActive: number;
+}
+
+
 import { 
-  useCities, 
-  useCountries, 
-  useEducationLevel, 
   useUserData, 
-  useEducationInstitutions,
-  useSpecialization,
-  useOccupations,
-  useExperienceYears,
-  useSkills,
-  useMajors,
-  useHobbies,
-  useDiplomas,
-  useGenders
+  useCities, 
 } from '@/components/data/dataFether';
 
 
 export default function Profile() {
 
   const queryClient = useQueryClient()
-  const [ countryId, setCountryId ] = useState('')
-  
-  // data fetchers 
+  // user data  
   const {data: userData, isLoading: userIsLoading, isError } = useUserData();
-  const { data: countries } = useCountries();
-  const { data: cities } = useCities(1);
-  const { data: genders } = useGenders();
-  const { data: educationLevel } = useEducationLevel();
-  const { data: educationInstitutions } = useEducationInstitutions();
-  const { data: occupations } = useOccupations();
-  const { data: experienceYears } = useExperienceYears();
-  const { data: skills } = useSkills();
-  const { data: majors } = useMajors();
-  const { data: diplomas } = useDiplomas();
-  const { data: specializations } = useSpecialization();
-  const { data: hobbies } = useHobbies();
 
-  // console.log(userData?.first_name)
-  const userName = 'user'
+  // user data  
+  const { data: cities } = useCities(1);
+
+  // form data
+  const { data: formData } = useQuery({
+    queryKey: ['formData'],
+    queryFn: async () => 
+    await api.get(`/individual/user-update-data`).then((res) => {
+      return res.data as FormDataProps;
+    })
+  })
+
+  const countries: CountryProps[] = formData?.countries || [];
+  const education_institutes: EducationInstitutesProps[] = formData?.education_institutes || [];
+  const education_levels: EducationLevelsProps[] = formData?.education_levels || [];
+  const occupations: OccupationsProps[] = formData?.occupations || [];
+  const experience_year: ExperienceYearProps[] = formData?.experience_year || [];
+  const skills: SkillsProps[] = formData?.skills || [];
+  const majors: MajorsProps[] = formData?.majors || [];
+  const genders: GendersProps[] = formData?.genders || [];
 
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       first_name: userData && userData.first_name ,
-      second_name: "",
-      last_name: "",
-      email: "",
-      phone: "",
+      second_name: userData && userData.second_name,
+      last_name: userData && userData.last_name,
+      email: userData && userData.email,
+      phone: userData && userData.phone,
       
       birth_country: 0,
-      birth_city: 0,
+      birth_city: userData && userData.birth_city,
       // birth_date: ,
       residence_country: 0,
       residence_city: 0,
@@ -174,11 +251,6 @@ export default function Profile() {
   const { isSubmitting } = form.formState;
 
 
-
-  const handleChange = (value: number) => {
-    console.log(value)
-  }
-  
   const { mutate: hanelUpdate, isPending } = useMutation<void, Error, userDataProps>({
     mutationFn: async (values) => {
       return await api.put(`/individual/information/update`, values)
@@ -383,7 +455,7 @@ export default function Profile() {
                                       >
                                         {field.value
                                           ? (Array.isArray(countries) ?
-                                            countries.find(country => country.id === field.value)?.english_name
+                                          countries.find(country => country.id === field.value)?.english_name
                                             : "")
                                           : "Select country"}
                                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -402,7 +474,6 @@ export default function Profile() {
                                             key={country.id}
                                             onSelect={() => {
                                               form.setValue("birth_country", country.id)
-                                              setCountryId(country.id)
                                             }}
                                             // onChange={() => handleChange(country.id)}
 
@@ -434,7 +505,7 @@ export default function Profile() {
                             name="birth_city"
                             render={({ field }) => (
                               <FormItem className="flex flex-col">
-                                <FormLabel className='py-1'>City</FormLabel>
+                                <FormLabel className='py-1'>Birth city</FormLabel>
                                 <Popover>
                                   <PopoverTrigger asChild>
                                     <FormControl>
@@ -582,7 +653,6 @@ export default function Profile() {
                                           key={country.id}
                                           onSelect={() => {
                                             form.setValue("residence_country", country.id)
-                                            setCountryId(country.id)
                                           }}
                                           // onChange={() => handleChange(country.id)}
 
@@ -712,7 +782,6 @@ export default function Profile() {
                                           key={country.id}
                                           onSelect={() => {
                                             form.setValue("nationality", country.id)
-                                            setCountryId(country.id)
                                           }}
                                           // onChange={() => handleChange(country.id)}
 
@@ -777,7 +846,6 @@ export default function Profile() {
                                           key={item.id}
                                           onSelect={() => {
                                             form.setValue("genders", item.id)
-                                            setCountryId(item.id)
                                           }}
                                           // onChange={() => handleChange(country.id)}
 
@@ -825,8 +893,8 @@ export default function Profile() {
                                         )}
                                       >
                                         {field.value
-                                        ? (Array.isArray(educationInstitutions) ?
-                                          educationInstitutions.find(institution => institution.id === field.value)?.english_name
+                                        ? (Array.isArray(education_institutes) ?
+                                          education_institutes.find(institution => institution.id === field.value)?.english_name
                                           : "")
                                         : "Select institution"}
                                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -838,14 +906,13 @@ export default function Profile() {
                                       <CommandInput placeholder="Search education_institute..." />
                                       <CommandEmpty>No education institution found.</CommandEmpty>
                                       <CommandGroup>
-                                      { Array.isArray(educationInstitutions) &&
-                                        educationInstitutions.map((institution) => (
+                                      { Array.isArray(education_institutes) &&
+                                        education_institutes.map((institution) => (
                                         <CommandItem
                                           value={institution.english_name}
                                           key={institution.id}
                                           onSelect={() => {
                                             form.setValue("education_institute", institution.id)
-                                            setCountryId(institution.id)
                                           }}
                                           // onChange={() => handleChange(country.id)}
 
@@ -890,8 +957,8 @@ export default function Profile() {
                                         )}
                                       >
                                         {field.value
-                                        ? (Array.isArray(educationLevel) ?
-                                          educationLevel.find(item => item.id === field.value)?.english_name
+                                        ? (Array.isArray(education_levels) ?
+                                          education_levels.find(item => item.id === field.value)?.english_name
                                           : "")
                                         : "Select level..."}
                                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -903,14 +970,13 @@ export default function Profile() {
                                       <CommandInput placeholder="Search education level..." />
                                       <CommandEmpty>No education level found.</CommandEmpty>
                                       <CommandGroup>
-                                      { Array.isArray(educationLevel) &&
-                                        educationLevel.map((item) => (
+                                      { Array.isArray(education_levels) &&
+                                        education_levels.map((item) => (
                                         <CommandItem
                                           value={item.english_name}
                                           key={item.id}
                                           onSelect={() => {
                                             form.setValue("education_level", item.id)
-                                            setCountryId(item.id)
                                           }}
                                           // onChange={() => handleChange(country.id)}
 
@@ -978,7 +1044,6 @@ export default function Profile() {
                                             key={item.id}
                                             onSelect={() => {
                                               form.setValue("major", item.id)
-                                              setCountryId(item.id)
                                             }}
                                             // onChange={() => handleChange(country.id)}
 
@@ -1026,8 +1091,8 @@ export default function Profile() {
                                         )}
                                       >
                                         {field.value
-                                        ? (Array.isArray(experienceYears) ?
-                                          experienceYears.find(item => item.id === field.value)?.english_name
+                                        ? (Array.isArray(experience_year) ?
+                                          experience_year.find(item => item.id === field.value)?.english_name
                                           : "")
                                         : "Select experience"}
                                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -1039,14 +1104,13 @@ export default function Profile() {
                                       <CommandInput placeholder="Search experience..." />
                                       <CommandEmpty>No experience found.</CommandEmpty>
                                       <CommandGroup>
-                                      { Array.isArray(experienceYears) &&
-                                          experienceYears.map((item) => (
+                                      { Array.isArray(experience_year) &&
+                                          experience_year.map((item) => (
                                           <CommandItem
                                             value={item.english_name}
                                             key={item.id}
                                             onSelect={() => {
                                               form.setValue("experience_years", item.id)
-                                              setCountryId(item.id)
                                             }}
                                             // onChange={() => handleChange(country.id)}
 
@@ -1111,7 +1175,6 @@ export default function Profile() {
                                             key={item.id}
                                             onSelect={() => {
                                               form.setValue("occupation", item.id)
-                                              setCountryId(item.id)
                                             }}
                                             // onChange={() => handleChange(country.id)}
 
@@ -1179,7 +1242,6 @@ export default function Profile() {
                                             key={item.id}
                                             onSelect={() => {
                                               form.setValue("skills", item.id)
-                                              setCountryId(item.id)
                                             }}
                                             // onChange={() => handleChange(country.id)}
 

@@ -96,7 +96,7 @@ export default function NavbarRoutes() {
        
         {user ? (
           <div className="hidden md:flex gap-6 items-center justify-center">
-            <Link href={'/indivisual/dashboard'} className=" text-white hover:text-slate-400">{user.first_name}</Link>
+            <Link href={'/individual/dashboard'} className=" text-white hover:text-slate-400">{user.first_name}</Link>
             <Button 
             variant={'outline'}
               onClick={handleLogout}

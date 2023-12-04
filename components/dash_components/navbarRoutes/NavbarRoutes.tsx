@@ -124,7 +124,7 @@ export default function NavbarRoutes() {
             <DropdownMenuGroup>
               <DropdownMenuItem>
                 <User className="mr-2 h-4 w-4" />
-                <Link href={'/indivisual/profile'}><span>Profile</span></Link>
+                <Link href={'/individual/profile'}><span>Profile</span></Link>
                 <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
               </DropdownMenuItem>
               
