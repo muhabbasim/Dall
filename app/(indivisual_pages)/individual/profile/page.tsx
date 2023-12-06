@@ -260,6 +260,8 @@ export default function Profile() {
     }
   })
 
+
+
   const submitForm = async (values: z.infer<typeof formSchema>) => {
 
     const { birth_date, skills } = values

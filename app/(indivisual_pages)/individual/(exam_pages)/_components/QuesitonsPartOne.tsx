@@ -41,6 +41,8 @@ export default function QuesitonsPartOne({ handleOptionSelected, selectedOptions
     })
   })
 
+  console.log(ExamQuestions)
+
   const individualExams = ExamQuestions?.find((item) => item.id === 2).questions
   const chapter1 = individualExams?.slice(0, 12);
 

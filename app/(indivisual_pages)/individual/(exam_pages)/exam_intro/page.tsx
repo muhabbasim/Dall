@@ -20,20 +20,11 @@ export default function page() {
       <div className='w-full'>
 
         <div className='min-h-[500px] border rounded-lg bg-white'>
-          {/* <div className=' w-full  p-5'>
-            <h1 className=' font-bold text-slate-600'>Introduction</h1>
-          </div> */}
-          {/* <Separator className='w-full px-10 h-[1px]'/> */}
+
 
           <div>
             <div className='flex gap-10 p-10'>
-              <motion.div 
-                // initial={{ x: -100, opacity: 0 }}
-                // animate={{ x: 0, opacity: 1 }}
-                // transition={{
-                //   duration: 1,
-                //   // delay: .5
-                // }}  
+              <div 
                 className='left flex-1'
               >
                 <div className='w-full h-full'>
@@ -44,7 +35,7 @@ export default function page() {
                   />
 
                 </div>
-              </motion.div>
+              </div>
               <div className='right flex-1 flex flex-col gap-16 justify-center'>
                 <div>
                   <motion.h1 
