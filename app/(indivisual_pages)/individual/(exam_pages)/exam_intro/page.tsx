@@ -8,7 +8,15 @@ import Link from 'next/link'
 
 export default function page() {
   return (
-    <div className='w-full flex gap-8 justify-between'>
+    <motion.div
+      initial={{ y: 50, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{
+        duration: .3,
+        delay: .1
+      }} 
+      className='w-full flex gap-8 justify-between'
+    >
       <div className='w-full'>
 
         <div className='min-h-[500px] border rounded-lg bg-white'>
@@ -20,12 +28,12 @@ export default function page() {
           <div>
             <div className='flex gap-10 p-10'>
               <motion.div 
-                initial={{ x: -100, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{
-                  duration: 1,
-                  // delay: .5
-                }}  
+                // initial={{ x: -100, opacity: 0 }}
+                // animate={{ x: 0, opacity: 1 }}
+                // transition={{
+                //   duration: 1,
+                //   // delay: .5
+                // }}  
                 className='left flex-1'
               >
                 <div className='w-full h-full'>
@@ -105,7 +113,7 @@ export default function page() {
                   </div>
                 </div>
                 <div className='flex w-full justify-end'>
-                  <Link href={'/indivisual/exams'}>
+                  <Link href={'/payment'}>
                     <Button
                       className='w-40'
                       variant={'default'}
@@ -120,6 +128,6 @@ export default function page() {
 
         </div>  
       </div>
-    </div>
+    </motion.div>
   )
 }

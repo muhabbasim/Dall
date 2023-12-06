@@ -4,7 +4,7 @@ import api from '@/context/apiRequest';
 import { useQuery } from '@tanstack/react-query';
 import { Ban, Loader2 } from 'lucide-react';
 import React, { FormEvent, useState } from 'react'
-
+import {motion} from 'framer-motion'
 
 import { cn } from '@/lib/utils';
 import { Separator } from '@/components/ui/separator';
@@ -25,9 +25,12 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { useRouter } from 'next/navigation';
+import { UseConfettiStore } from '@/components/hooks/use_confetti_store';
 
 export default function IndivisualExams() {
+  
   const router = useRouter()
+  const confetti = UseConfettiStore();
 
   // state to track evry question has a selected answer
   const [selectedAll, setSelectedAll] = useState(false);
@@ -52,7 +55,7 @@ export default function IndivisualExams() {
 
 
   // questions data fetching
-  const { data: ExamQuestions, isLoading, isError, isSuccess } = useQuery({
+  const { isLoading, isError, isSuccess } = useQuery({
     queryKey: ['exam_questions'],
     queryFn: async () => 
     await api.get(`/individual/questions`).then((res) => {
@@ -63,11 +66,16 @@ export default function IndivisualExams() {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    if (isLastStep) {
-      router.push('/individual/results')
-    }
-    next()
-    // console.log(selectedOptions)
+    router.push('/individual/results')
+    confetti.onOpen();
+
+    const arraySelectedOptions = Object.entries(selectedOptions)
+
+
+    // if (isLastStep) {
+    //   next()
+    // }
+    console.log(arraySelectedOptions)
     setSelectedOptions('')
     setSelectedAll(false)
     window.scrollTo(0, 0);
@@ -77,13 +85,21 @@ export default function IndivisualExams() {
   return (
     <>
       {isSuccess ? (
-        <div className='w-full flex gap-8 justify-between '>
+        <motion.div 
+          initial={{ y: 50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{
+            duration: .3,
+            delay: .1
+          }} 
+          className='w-full flex gap-8 justify-between '
+        >
           <div className='w-full'>
             <div className='min-h-[700px] border rounded-lg bg-white '>
               <div className=' w-full p-5 flex justify-between'>
-                <div>
-                  <h1 className='text-lg text-rose-700'>Exam Question</h1>
-                  <h1 className='text-lg text-gray-600'>Step {currentStepIndex + 1} / {steps.length}</h1>
+                <div className='flex gap-4'>
+                  <h1 className='text-lg text-rose-700'>Exam questions</h1>
+                  <h1 className='text-lg text-gray-600'>steps {currentStepIndex + 1} / {steps.length}</h1>
                 </div>
                 <div className='flex gap-2'>
                   <h1 className=' font-bold text-slate-600'>Estimated time left:</h1>
@@ -100,18 +116,24 @@ export default function IndivisualExams() {
                   <div className='flex justify-end'>
                     <Dialog>
                       <DialogTrigger asChild>
-                      <Button disabled={!selectedAll} className='w-60' type='button'>{ isLastStep ? "Finish" : "Next" }</Button>
+                      <Button 
+                        // disabled={!selectedAll}
+                        type='button'
+                        className='w-60'
+                      >
+                          { isLastStep ? "Finish" : "Next" }
+                      </Button>
                       </DialogTrigger>
                       <DialogContent className="sm:max-w-md">
                         <DialogHeader>
                           <DialogTitle>Note</DialogTitle>
-                          <DialogDescription className='text-center'>
+                          <DialogDescription className='text-center py-2'>
                             On submit you can not change! <br />
                             You sure of all the answers?
                           </DialogDescription>
                         </DialogHeader>
-                        <DialogFooter className="sm:justify-start">
-                          <div onClick={handleSubmit} className='text-white border rounded-md p-2 w-28 flex items-end justify-center bg-black'>
+                        <DialogFooter className="">
+                          <div onClick={handleSubmit} className='text-white border rounded-md p-2 text-sm w-28 flex items-end justify-center bg-gray-800'>
                             <DialogClose className=''>
                               Submit
                             </DialogClose>
@@ -124,7 +146,7 @@ export default function IndivisualExams() {
               </div>
             </div>  
           </div>
-        </div>
+        </motion.div>
       ) : isLoading ? (
         <div className='min-h-[600px]  w-full flex items-center justify-center'>
           <div className='flex items-center justify-center gap-2'>

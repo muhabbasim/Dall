@@ -15,6 +15,7 @@ export default function Header() {
   const isConsultation = pathName?.includes('consultation')
   const isExamProfile = pathName?.includes('exam_intro')
   const isExamQuestions = pathName?.includes('exams')
+  const isResultPage = pathName?.includes('results')
 
   let title;
 
@@ -28,6 +29,8 @@ export default function Header() {
     title = 'Dall_In Eaxamination'
   } else if (isExamQuestions) {
     title = 'Exams Questions'
+  } else if (isResultPage) {
+    title = 'Exam Result'
   }
   
   return (
@@ -45,7 +48,7 @@ export default function Header() {
             </Button>
           </Link>
         )} */}
-        <Link href={'/indivisual/dashboard'}>
+        <Link href={'/individual/dashboard'}>
           <Button variant={'secondary'} className='rounded-full p-5 flex items-center'>
             {/* <LayoutDashboard className='mr-2'/> */}
             Home page

@@ -54,31 +54,6 @@ export const useUserData = () => {
 };
 
 
-
-// Cities data
-export const useCities = (countryId: number) => {
-  return useQuery({
-    queryKey: ['cities', countryId],
-    queryFn: async () => {
-      const res = await api.get(`/get/country-cities/${countryId}`);
-      return res.data;
-    },
-  });
-};
-
-// // Education level data
-// export const useEducationLevel = () => {
-//   return useQuery({
-//     queryKey: ['educationLevel'],
-//     queryFn: async () => {
-//       const res = await api.get(`/get/education-levels`);
-//       return res.data;
-//     },
-//   });
-// };
-
-
-
   
 
 

@@ -67,7 +67,7 @@ export default function DashDataTable<TData, TValue>({
           className="max-w-sm"
         />
 
-        <Link href={`/indivisual/exam_intro`}>
+        <Link href={`/individual/exam_intro`}>
           <Button variant="default"
             className="md:min-w-[150px]"
           >

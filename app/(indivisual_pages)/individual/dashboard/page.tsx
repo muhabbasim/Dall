@@ -8,6 +8,7 @@ import { Expand, GraduationCap, TvIcon } from 'lucide-react';
 import DashDataTable from './dashbord_data_table/DashDataTable';
 import { columns } from './dashbord_data_table/DashColumns';
 import { motion } from 'framer-motion'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export type Payment = {
   id: string
@@ -34,14 +35,22 @@ const data: Payment[] = [
 
 export default function page() {
   return (
-    <div className='w-full h-full flex gap-8 justify-between'>
+    <motion.div 
+      initial={{ y: 50, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{
+        duration: .3,
+        delay: .1
+      }} 
+      className='w-full h-full flex gap-8 justify-between'
+    >
       <div className='w-full space-y-6'>
         <motion.div 
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
+          initial={{ x: 50, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
           transition={{
             duration: .5,
-            // delay: .5
+            delay: .5
           }} 
           className='h-[100px] flex gap-5 justify-between'
         >
@@ -66,6 +75,7 @@ export default function page() {
             </div>
            
           </div>
+   
           <div
           
             className='indivisual_status cursor-pointer text-white bg-white w-full h-26 border rounded-lg flex items-center justify-around gap-5  shadow-lg'
@@ -119,6 +129,6 @@ export default function page() {
 
         </div>  
       </div>
-    </div>
+    </motion.div>
   )
 }

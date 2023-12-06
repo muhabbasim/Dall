@@ -90,7 +90,7 @@ export default function NavbarRoutes() {
           <Link 
             key={i}
             href={''}
-            className={cn(`Dash_nav_link_title cursor-pointer text-sm text-slate-700  hover:text-sky-600 transition-all`)}
+            className={cn(`Dash_nav_link_title cursor-pointer text-sm text-slate-700  hover:text-sky-600 transition-all `)}
           >
             {item.name}  
           </Link>

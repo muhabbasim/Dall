@@ -1,8 +1,8 @@
 'use client'
 import { Separator } from '@/components/ui/separator'
 import { Ban, CalendarIcon, Check, ChevronsUpDown, Loader2, Pencil } from 'lucide-react'
-
-import React, { useEffect, useState } from 'react'
+import {motion} from 'framer-motion'
+import React, { useContext } from 'react'
 import Link from "next/link";
 import { Button } from "@/components/ui/button"
 import {
@@ -39,32 +39,20 @@ import api from '@/context/apiRequest';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-const languages = [
-  { label: "English", value: "en" },
-  { label: "French", value: "fr" },
-  { label: "German", value: "de" },
-  { label: "Spanish", value: "es" },
-  { label: "Portuguese", value: "pt" },
-  { label: "Russian", value: "ru" },
-  { label: "Japanese", value: "ja" },
-  { label: "Korean", value: "ko" },
-  { label: "Chinese", value: "zh" },
-] as const
-
 
 const formSchema = z.object({
   first_name: z.string().min(1, 'Fistname is required'),
   second_name: z.string().min(1, 'Secondname is required'),
   last_name: z.string().min(1, 'Lastname is required'),
   email: z.string().email('Invalid Email'),
-  phone: z.number(),
+  phone: z.string().min(10, 'Phone number is required').max(10, 'Phone number should be at least 10 digits'),
   
   birth_country: z.number().min(1, { message: "pirth day is required."}),
   birth_city: z.number().min(1, { message: "pirth city is required."}),
   birth_date: z.date({required_error: "A date of birth is required."}),
   residence_country: z.number().min(1, { message: "residence country is required"}),
   residence_city: z.number().min(1, { message: "residence city is required"}),
-  genders: z.number({required_error: "Please select a gender."}),
+  gender: z.number({required_error: "Please select a gender."}),
   
   education_institute: z.number({required_error: "Please select education institution."}),
   nationality: z.number({required_error: "Please select a nationality."}),
@@ -72,8 +60,8 @@ const formSchema = z.object({
   occupation: z.number({required_error: "Please select an occupation."}),
   experience_years: z.number({required_error: "Please select years of experience."}),
   major: z.number().min(1, { message: "please select major"}),
-  skills: z.number().min(1, 'Password must be at least 8 characters'),
-  password: z.string().min(1, 'Password is required').min(8, 'Password must be at least 8 characters'),
+  skills: z.number().min(1, 'Skills is required'),
+  password: z.string().min(1, 'Password is required').min(8, 'Password is required'),
   password_confirmation: z.string().min(8, 'Password must be the same as the password'),
 })
 
@@ -82,7 +70,7 @@ interface userDataProps {
   second_name: string;
   last_name: string;
   email: string;
-  phone: string | number;
+  phone: number | string;
   
   birth_country: Number;
   birth_city: Number;
@@ -130,8 +118,7 @@ type CountryProps = {
 
 type CityProps = {
   id: number;
-  arabic_name:string;
-  english_name: string;
+  name:string;
   phone_code: string;
   code: string;
   isActive: number;
@@ -188,19 +175,18 @@ type GendersProps = {
 
 
 import { 
-  useUserData, 
-  useCities, 
+ useUserData, 
 } from '@/components/data/dataFether';
+import { AuthContext } from '@/context/authContext'
+import { timeStamp } from 'console'
 
 
 export default function Profile() {
 
   const queryClient = useQueryClient()
   // user data  
-  const {data: userData, isLoading: userIsLoading, isError } = useUserData();
-
-  // user data  
-  const { data: cities } = useCities(1);
+  const { data: userData, isLoading: userIsLoading, isError  } = useUserData();
+  const { currentUser } = useContext(AuthContext);
 
   // form data
   const { data: formData } = useQuery({
@@ -210,6 +196,15 @@ export default function Profile() {
       return res.data as FormDataProps;
     })
   })
+
+  const { data: cities } = useQuery({
+    queryKey: ['cities'],
+    queryFn: async () => 
+    await api.get(`/get/country-cities/1`).then((res) => {
+      return res.data as FormDataProps;
+    })
+  })
+
 
   const countries: CountryProps[] = formData?.countries || [];
   const education_institutes: EducationInstitutesProps[] = formData?.education_institutes || [];
@@ -224,18 +219,18 @@ export default function Profile() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      first_name: userData && userData.first_name ,
-      second_name: userData && userData.second_name,
-      last_name: userData && userData.last_name,
-      email: userData && userData.email,
-      phone: userData && userData.phone,
+      first_name: currentUser && currentUser?.user.first_name,
+      second_name: currentUser && currentUser?.user.second_name || '',
+      last_name: currentUser && currentUser?.user.last_name,
+      email: currentUser && currentUser?.user.email,
+      phone: '',
       
       birth_country: 0,
-      birth_city: userData && userData.birth_city,
-      // birth_date: ,
+      birth_city: 0,
+      birth_date: new Date,
       residence_country: 0,
       residence_city: 0,
-      genders: 0,
+      gender: 0,
       
       nationality: 0,
       education_institute: 0,
@@ -267,15 +262,17 @@ export default function Profile() {
 
   const submitForm = async (values: z.infer<typeof formSchema>) => {
 
-    const { birth_date } = values
+    const { birth_date, skills } = values
     const formated_birth_date = format(birth_date, 'yyyy-mm-dd').replace(/"/g, '');
+    const skillsArray = Object.entries(skills)
+    // const formated_birth_date = format(birth_date, 'yyyy-mm-dd')
+    // const birth_date_timestamp = new Date(formated_birth_date).getTime()
 
-    console.log({birth_date: formated_birth_date })
-    // console.log(values)
+    console.log(skills)
 
     try {
       // hanelUpdate(values)
-      api.put(`/individual/information/update`, {...values, birth_date: formated_birth_date})
+      api.put(`/individual/information/update`, { ...values, birth_date: formated_birth_date, skills: skillsArray })
       
     } catch (error) {
       toast.error('Something went wrong, please try again!')
@@ -284,7 +281,15 @@ export default function Profile() {
   } 
 
   return (
-    <div className='w-full flex gap-8 justify-between'>
+    <motion.div 
+      initial={{ y: 50, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{
+        duration: .3,
+        delay: .1
+      }} 
+      className='w-full flex gap-8 justify-between'
+    >
       <div className='w-full'>
 
         <div className='min-h-[700px] border rounded-lg bg-white'>
@@ -312,8 +317,8 @@ export default function Profile() {
                       {userIsLoading ? 
                       'Loading...' : (
                       <div className='text-center'>
-                        <h2>{userData?.first_name}, <span className='font-bold'>{userData?.last_name}</span></h2>
-                        <h3 className='text-gray-400 text-sm'>{userData?.email}</h3>
+                        <h2>{currentUser?.user.first_name}, <span className='font-bold'>{currentUser?.user.last_name}</span></h2>
+                        <h3 className='text-gray-400 text-sm'>{currentUser?.user.email}</h3>
                       </div>
                     )}
                   </div>
@@ -421,9 +426,9 @@ export default function Profile() {
                               <FormLabel>Phone Number</FormLabel>
                                 <FormControl>
                                   <Input
-                                    type='number'
+                                  // type='number'
                                     // disabled={isSubmitting}
-                                    placeholder="e.g +966 483 3333"
+                                    placeholder="e.g 054 483 3333"
                                     {...field}
                                     />
                                 </FormControl>
@@ -519,7 +524,7 @@ export default function Profile() {
                                       >
                                         {field.value
                                           ? (Array.isArray(cities) ?
-                                            cities.find(city => city.id === field.value)?.english_name
+                                            cities.find(city => city.id === field.value)?.name
                                             : "")
                                           : "Select country"}
                                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -534,7 +539,7 @@ export default function Profile() {
                                       { Array.isArray(cities) &&
                                           cities.map((city) => (
                                           <CommandItem
-                                            value={city.english_name}
+                                            value={city.name}
                                             key={city.id}
                                             onSelect={() => {
                                               form.setValue("birth_city", city.id)
@@ -548,7 +553,7 @@ export default function Profile() {
                                                   : "opacity-0"
                                               )}
                                             />
-                                            {city.english_name}
+                                            {city.name}
                                           </CommandItem>
                                         ))}
                                       </CommandGroup>
@@ -698,7 +703,7 @@ export default function Profile() {
                                       >
                                         {field.value
                                         ? (Array.isArray(cities) ?
-                                          cities.find(city => city.id === field.value)?.english_name
+                                          cities.find(city => city.id === field.value)?.name
                                           : "")
                                         : "Select country"}
                                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -713,7 +718,7 @@ export default function Profile() {
                                       { Array.isArray(cities) &&
                                         cities.map((city) => (
                                         <CommandItem
-                                          value={city.english_name}
+                                          value={city.name}
                                           key={city.id}
                                           onSelect={() => {
                                             form.setValue("residence_city", city.id)
@@ -727,7 +732,7 @@ export default function Profile() {
                                                 : "opacity-0"
                                             )}
                                           />
-                                          {city.english_name}
+                                          {city.name}
                                         </CommandItem>
                                       ))}
                                       </CommandGroup>
@@ -810,7 +815,7 @@ export default function Profile() {
                         <div className='w-full flex-1'>
                           <FormField
                             control={form.control}
-                            name="genders"
+                            name="gender"
                             render={({ field }) => (
                               <FormItem className="flex flex-col">
                                 <FormLabel className='py-1'>Gender</FormLabel>
@@ -845,7 +850,7 @@ export default function Profile() {
                                           value={item.english_name}
                                           key={item.id}
                                           onSelect={() => {
-                                            form.setValue("genders", item.id)
+                                            form.setValue("gender", item.id)
                                           }}
                                           // onChange={() => handleChange(country.id)}
 
@@ -1351,7 +1356,7 @@ export default function Profile() {
           )}
         </div>  
       </div>
-    </div>
+    </motion.div>
   )
 }
 

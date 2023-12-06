@@ -4,6 +4,7 @@ import './globals.css'
 import { AuthContextProvider } from '@/context/authContext'
 import { Toaster } from 'sonner';
 import ReactQueryProvider from '@/components/providers/ReactQeuryProvider';
+import ConfettiProvider from '@/components/providers/ConfettiProvider';
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -41,6 +42,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <AuthContextProvider>
           <ReactQueryProvider>
+            <ConfettiProvider/>
             <Toaster/>
             {children}
           </ReactQueryProvider>

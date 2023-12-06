@@ -10,17 +10,17 @@ const indivisualRoutes = [
   {
     icon: LayoutDashboard,
     label: "Dashboard",
-    href: "/indivisual/dashboard"
+    href: "/individual/dashboard"
   },
   {
     icon: FileEdit,
     label: "profile",
-    href: "/indivisual/profile"
+    href: "/individual/profile"
   },
   {
     icon: MessageSquare,
     label: "consultation",
-    href: "/indivisual/consultation"
+    href: "/individual/consultation"
   },
 ];
 
@@ -56,7 +56,7 @@ export default function Sidebar() {
 
   const pathName = usePathname();
 
-  const isIndivisualUser = pathName?.includes('indivisual')
+  const isIndivisualUser = pathName?.includes('individual')
   const isCoorporateUser = pathName?.startsWith('coorporate')
   const isAdminUser = pathName?.startsWith('admin')
 
@@ -75,7 +75,7 @@ export default function Sidebar() {
   // grayscale hover:grayscale-0  
   return (
     <div className='h-full w-[300px] border-r overflow-y-auto bg-white shadow-lg'>
-      <div className='sidebar_header_container text-sky-700 p-6 flex items-center justify-center gap-5 cursor-pointer'>
+      <div className='sidebar_header_container text-sky-700 p-6 flex items-center justify-center gap-1 cursor-pointer'>
         <div className='w-10 h-10'>
           <img
             alt="indivisual dash image"

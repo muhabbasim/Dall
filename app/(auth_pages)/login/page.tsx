@@ -56,7 +56,7 @@ export default function Login() {
       
       await login(values)
       toast.success('Logged in successfully')
-      router.push('/indivisual/dashboard')
+      router.push('/individual/dashboard')
 
     } catch (error) {
       if (error instanceof AxiosError) {

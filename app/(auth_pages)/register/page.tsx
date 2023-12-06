@@ -58,7 +58,7 @@ export default function Register() {
       {toggle === 1 ? (
           
           <div className='flex h-full flex-col justify-between gap-10 py-20 px-10 '>
-            <h1 className='text-3xl text-white font-bold'>Welcom to Dall <span className='text--500'>indivisual</span> </h1>
+            <h1 className='text-3xl text-white font-bold'>Welcom to Dall <span className='text--500'>individual</span> </h1>
             <p className='text-white text-xl'>Where measurement of capabilities is the foundation of success!</p>
           </div>
         ) : (

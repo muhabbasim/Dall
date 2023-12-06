@@ -71,7 +71,7 @@ export default function QuesitonsPartThree({ handleOptionSelected, selectedOptio
               </h1>
             </div>
             <div className='w-full text-sm bg-gray-100 p-3 border rounded-sm'>
-              <h1>{question.question}</h1>
+              <h1>{question.question} <span className='text-rose-700'>*</span></h1>
             </div>
 
             <ul className='options grid grid-cols-1 md:grid-cols-2 gap-2 pt-4'>
@@ -93,7 +93,7 @@ export default function QuesitonsPartThree({ handleOptionSelected, selectedOptio
                           {option.option}
                         </p>
                       </div>
-                      <div className={cn(`bg-teal-600 flex items-end  p-1 border rounded-sm opacity-0 ${ selectedOptions[question.id] === option.id && 'opacity-100'}`)}>
+                      <div className={cn(`bg-teal-600 flex items-end  p-1 border rounded-sm opacity-0 ${selectedOptions[question.id] === option.id && 'opacity-100'}`)}>
                         <Check className='text-white'/>
                       </div>
                     </div>
