@@ -90,7 +90,7 @@ export default function page() {
                   <h1 className='w-[70%] text-center'>The following results are the majors and professions that are compatible with your academic and professional abilities and inclinations</h1>
                 </div>
 
-                <div className='w-full flex flex-wrap justify-between gap-6'>
+                <div className='w-full flex flex-wrap justify-center py-10 gap-10'>
                   <StatusChart
                     isSub={false}
                     Icon={Warehouse}

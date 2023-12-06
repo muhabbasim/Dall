@@ -47,9 +47,9 @@ export default function IndivisualExams() {
 
   const { steps, step, currentStepIndex, isLastStep, next } = useMultistepForm([
     <QuesitonsPartOne handleOptionSelected={handleOptionSelected} selectedOptions={selectedOptions} setSelectedAll={setSelectedAll}/>,
-    <QuesitonsPartTow handleOptionSelected={handleOptionSelected} selectedOptions={selectedOptions} setSelectedAll={setSelectedAll}/>,
-    <QuesitonsPartThree handleOptionSelected={handleOptionSelected} selectedOptions={selectedOptions} setSelectedAll={setSelectedAll}/>,
-    <QuesitonsPartFour handleOptionSelected={handleOptionSelected} selectedOptions={selectedOptions} setSelectedAll={setSelectedAll}/>
+    // <QuesitonsPartTow handleOptionSelected={handleOptionSelected} selectedOptions={selectedOptions} setSelectedAll={setSelectedAll}/>,
+    // <QuesitonsPartThree handleOptionSelected={handleOptionSelected} selectedOptions={selectedOptions} setSelectedAll={setSelectedAll}/>,
+    // <QuesitonsPartFour handleOptionSelected={handleOptionSelected} selectedOptions={selectedOptions} setSelectedAll={setSelectedAll}/>
   ]);
 
 
@@ -58,7 +58,7 @@ export default function IndivisualExams() {
   const { isLoading, isError, isSuccess } = useQuery({
     queryKey: ['exam_questions'],
     queryFn: async () => 
-    await api.get(`/individual/questions`).then((res) => {
+    await api.get(`/individual/questions/1`).then((res) => {
       return res.data;
     })
   })
@@ -75,7 +75,7 @@ export default function IndivisualExams() {
     // if (isLastStep) {
     //   next()
     // }
-    console.log(arraySelectedOptions)
+    console.log(selectedOptions)
     setSelectedOptions('')
     setSelectedAll(false)
     window.scrollTo(0, 0);

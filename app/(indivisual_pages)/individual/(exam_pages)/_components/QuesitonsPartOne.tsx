@@ -33,38 +33,38 @@ interface OptionsProps {
 
 export default function QuesitonsPartOne({ handleOptionSelected, selectedOptions, setSelectedAll }) {
 
-  const { data: ExamQuestions } = useQuery({
+  const { data: ExamQuestions, isLoading } = useQuery({
     queryKey: ['exam_questions'],
     queryFn: async () => 
-    await api.get(`/individual/questions`).then((res) => {
+    await api.get(`/individual/questions/2`).then((res) => {
       return res.data;
     })
   })
 
-  console.log(ExamQuestions)
 
-  const individualExams = ExamQuestions?.find((item) => item.id === 2).questions
-  const chapter1 = individualExams?.slice(0, 12);
+  // console.log(ExamQuestions)
+  // const individualExams = ExamQuestions?.find((item) => item.id === 2).questions
+  // const chapter1 = individualExams?.slice(0, 12);
 
-  // validate all questions has a selected answer
-  const allQuestionsAnswered = chapter1.every((question) =>
-    selectedOptions.hasOwnProperty(question.id)
-  );
+  // // validate all questions has a selected answer
+  // const allQuestionsAnswered = chapter1.every((question) =>
+  //   selectedOptions.hasOwnProperty(question.id)
+  // );
 
-  useEffect(() => {
-    // update selectedAll state
-    if (allQuestionsAnswered) {
-      setSelectedAll(true);
-    }
+  // useEffect(() => {
+  //   // update selectedAll state
+  //   if (allQuestionsAnswered) {
+  //     setSelectedAll(true);
+  //   }
     
-  },[selectedOptions])
+  // },[selectedOptions])
 
 
 
   return (
     <div>
       <h1 className='text-right  text-teal-800 text-lg'>Quesitons Part One</h1>
-      {chapter1.map((question: QuestionProps) => {
+      {ExamQuestions?.questions.map((question: QuestionProps) => {
         return (
           <div key={question.id} className='question'>
             <div className=' Questioin_title flex gap-2 mb-4'>

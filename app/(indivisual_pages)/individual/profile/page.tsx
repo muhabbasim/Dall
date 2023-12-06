@@ -124,6 +124,8 @@ type CityProps = {
   isActive: number;
 }
 
+
+
 type EducationLevelsProps = {
   id: number;
   arabic_name:string;
@@ -205,6 +207,15 @@ export default function Profile() {
     })
   })
 
+  const { data: ExamQuestions } = useQuery({
+    queryKey: ['exam_questions'],
+    queryFn: async () => 
+    await api.get(`/individual/questions/1`).then((res) => {
+      return res.data;
+    })
+  })
+
+  console.log(ExamQuestions)
 
   const countries: CountryProps[] = formData?.countries || [];
   const education_institutes: EducationInstitutesProps[] = formData?.education_institutes || [];
