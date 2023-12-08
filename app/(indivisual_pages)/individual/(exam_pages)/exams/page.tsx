@@ -45,23 +45,24 @@ export default function IndivisualExams() {
   };
 
 
-  const { steps, step, currentStepIndex, isLastStep, next } = useMultistepForm([
-    <QuesitonsPartOne handleOptionSelected={handleOptionSelected} selectedOptions={selectedOptions} setSelectedAll={setSelectedAll}/>,
-    // <QuesitonsPartTow handleOptionSelected={handleOptionSelected} selectedOptions={selectedOptions} setSelectedAll={setSelectedAll}/>,
-    // <QuesitonsPartThree handleOptionSelected={handleOptionSelected} selectedOptions={selectedOptions} setSelectedAll={setSelectedAll}/>,
-    // <QuesitonsPartFour handleOptionSelected={handleOptionSelected} selectedOptions={selectedOptions} setSelectedAll={setSelectedAll}/>
-  ]);
-
-
-
   // questions data fetching
-  const { isLoading, isError, isSuccess } = useQuery({
+  const {data: questions, isLoading, isError, isSuccess } = useQuery({
     queryKey: ['exam_questions'],
     queryFn: async () => 
     await api.get(`/individual/questions/1`).then((res) => {
       return res.data;
     })
   })
+
+
+
+  const { steps, step, currentStepIndex, isLastStep, next } = useMultistepForm([
+    <QuesitonsPartOne data={questions} handleOptionSelected={handleOptionSelected} selectedOptions={selectedOptions} setSelectedAll={setSelectedAll}/>,
+    // <QuesitonsPartTow handleOptionSelected={handleOptionSelected} selectedOptions={selectedOptions} setSelectedAll={setSelectedAll}/>,
+    // <QuesitonsPartThree handleOptionSelected={handleOptionSelected} selectedOptions={selectedOptions} setSelectedAll={setSelectedAll}/>,
+    // <QuesitonsPartFour handleOptionSelected={handleOptionSelected} selectedOptions={selectedOptions} setSelectedAll={setSelectedAll}/>
+  ]);
+
 
 
   const handleSubmit = (e: FormEvent) => {

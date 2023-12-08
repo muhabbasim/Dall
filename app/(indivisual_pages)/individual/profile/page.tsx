@@ -1,8 +1,8 @@
 'use client'
 import { Separator } from '@/components/ui/separator'
-import { Ban, CalendarIcon, Check, ChevronsUpDown, Loader2, Pencil } from 'lucide-react'
+import { Ban, CalendarIcon, Check, ChevronsUpDown, Divide, Loader2, Pencil } from 'lucide-react'
 import {motion} from 'framer-motion'
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import Link from "next/link";
 import { Button } from "@/components/ui/button"
 import {
@@ -21,6 +21,14 @@ import {
   CommandInput,
   CommandItem,
 } from "@/components/ui/command"
+
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
 import {
   Popover,
@@ -60,9 +68,10 @@ const formSchema = z.object({
   occupation: z.number({required_error: "Please select an occupation."}),
   experience_years: z.number({required_error: "Please select years of experience."}),
   major: z.number().min(1, { message: "please select major"}),
+  // skills: z.array(z.number()).min(1, 'Skills is required'),
   skills: z.number().min(1, 'Skills is required'),
-  password: z.string().min(1, 'Password is required').min(8, 'Password is required'),
-  password_confirmation: z.string().min(8, 'Password must be the same as the password'),
+  password: z.string(),
+  password_confirmation: z.string(),
 })
 
 interface userDataProps {
@@ -159,7 +168,7 @@ type SkillsProps = {
   arabic_name:string;
   english_name: string;
   isActive: number;
-}
+} 
 
 type MajorsProps = {
   id: number;
@@ -175,21 +184,36 @@ type GendersProps = {
   isActive: number;
 }
 
+interface MultiSelectProps {
+  selected: number[];
+  onChange: React.Dispatch<React.SetStateAction<number[]>>;
+}
+
+
 
 import { 
  useUserData, 
 } from '@/components/data/dataFether';
 import { AuthContext } from '@/context/authContext'
 import { timeStamp } from 'console'
+import { Label } from '@/components/ui/label'
+import { Badge } from '@/components/ui/badge'
 
 
 export default function Profile() {
-
   const queryClient = useQueryClient()
-  // user data  
+
+  const [ selectedSkills, setSelectedSkills ] = useState<number[]>([])
+  const handleSkillsOption = (item: number) => {
+
+    setSelectedSkills(selectedSkills.includes(item)
+    ? selectedSkills.filter((options) => options !== item)
+    : [...selectedSkills, item])
+  }
+  
+
   const { data: userData, isLoading: userIsLoading, isError  } = useUserData();
   const { currentUser } = useContext(AuthContext);
-
   // form data
   const { data: formData } = useQuery({
     queryKey: ['formData'],
@@ -198,7 +222,6 @@ export default function Profile() {
       return res.data as FormDataProps;
     })
   })
-
   const { data: cities } = useQuery({
     queryKey: ['cities'],
     queryFn: async () => 
@@ -206,16 +229,6 @@ export default function Profile() {
       return res.data as FormDataProps;
     })
   })
-
-  const { data: ExamQuestions } = useQuery({
-    queryKey: ['exam_questions'],
-    queryFn: async () => 
-    await api.get(`/individual/questions/1`).then((res) => {
-      return res.data;
-    })
-  })
-
-  console.log(ExamQuestions)
 
   const countries: CountryProps[] = formData?.countries || [];
   const education_institutes: EducationInstitutesProps[] = formData?.education_institutes || [];
@@ -234,7 +247,7 @@ export default function Profile() {
       second_name: currentUser && currentUser?.user.second_name || '',
       last_name: currentUser && currentUser?.user.last_name,
       email: currentUser && currentUser?.user.email,
-      phone: '',
+      phone: currentUser && currentUser?.user.phone || '',
       
       birth_country: 0,
       birth_city: 0,
@@ -248,14 +261,12 @@ export default function Profile() {
       education_level: 0,
       major: 0,
       experience_years: 0,
-
+      skills: 0,
       password: "",
       password_confirmation: "",
     },
   })
-
   const { isSubmitting } = form.formState;
-
 
   const { mutate: hanelUpdate, isPending } = useMutation<void, Error, userDataProps>({
     mutationFn: async (values) => {
@@ -271,22 +282,22 @@ export default function Profile() {
     }
   })
 
-
-
   const submitForm = async (values: z.infer<typeof formSchema>) => {
 
-    const { birth_date, skills } = values
-    const formated_birth_date = format(birth_date, 'yyyy-mm-dd').replace(/"/g, '');
-    const skillsArray = Object.entries(skills)
-    // const formated_birth_date = format(birth_date, 'yyyy-mm-dd')
-    // const birth_date_timestamp = new Date(formated_birth_date).getTime()
-
-    console.log(skills)
-
+    const { birth_date, skills, ...otherValues } = values;
+    // date format to timestamp
+    const date = format(birth_date, 'yyyy-mm-dd');
+    console.log({otherValues, skills: selectedSkills ,birth_date: "2023-10-01"})
+    
     try {
       // hanelUpdate(values)
-      api.put(`/individual/information/update`, { ...values, birth_date: formated_birth_date, skills: skillsArray })
-      
+      const res = await api.put(`/individual/information/update`, {
+        ...otherValues,
+        skills: selectedSkills,
+        birth_date: date,
+      });
+      console.log(res);
+      toast.success('Information updated successfully')
     } catch (error) {
       toast.error('Something went wrong, please try again!')
       console.log(error)
@@ -612,7 +623,9 @@ export default function Profile() {
                                   <Calendar
                                     mode="single"
                                     selected={field.value}
-                                    onSelect={field.onChange}
+                                    onSelect={
+                                      field.onChange
+                                    }
                                     disabled={(date) =>
                                       date > new Date() || date < new Date("1900-01-01")
                                     }
@@ -1194,7 +1207,6 @@ export default function Profile() {
                                             onSelect={() => {
                                               form.setValue("occupation", item.id)
                                             }}
-                                            // onChange={() => handleChange(country.id)}
 
                                           >
                                             <Check
@@ -1222,7 +1234,7 @@ export default function Profile() {
 
                       <div className='flex flex-col md:flex-row flex-wrap w-full gap-5'>
                         <div className='w-full flex-1'>
-                          <FormField
+                        <FormField
                             control={form.control}
                             name="skills"
                             render={({ field }) => (
@@ -1239,42 +1251,50 @@ export default function Profile() {
                                           !field.value && "text-muted-foreground"
                                         )}
                                       >
-                                        {field.value
-                                        ? (Array.isArray(skills) ?
-                                          skills.find(item => item.id === field.value)?.english_name
-                                          : "")
-                                        : "Select skills"}
+                                        <div className='flex h-full w-full gap-2 items-center'>
+                                          { skills ?
+                                            Array.isArray(skills) &&
+                                            skills.map((skill) => selectedSkills.includes(skill.id) && (
+                                              <Badge 
+                                                key={skill.id}
+                                                variant="secondary"
+                                                className="mr-1 mb-1"
+                                              >
+                                                {skill.english_name}
+                                              </Badge>
+                                            ) ) 
+                                          
+                                          : 'Selected skills'}
+                                        </div>
                                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                                       </Button>
                                     </FormControl>
                                   </PopoverTrigger>
                                   <PopoverContent className="w-full p-0">
                                     <Command>
-                                      <CommandInput placeholder="Search skills..." />
-                                      <CommandEmpty>No skills found.</CommandEmpty>
+                                      <CommandInput placeholder="Search Skills..." />
+                                      <CommandEmpty>No skill found.</CommandEmpty>
                                       <CommandGroup>
                                       { Array.isArray(skills) &&
-                                          skills.map((item) => (
-                                          <CommandItem
-                                            value={item.english_name}
-                                            key={item.id}
-                                            onSelect={() => {
-                                              form.setValue("skills", item.id)
-                                            }}
-                                            // onChange={() => handleChange(country.id)}
-
-                                          >
-                                            <Check
-                                              className={cn(
-                                                "mr-2 h-4 w-4",
-                                                item.id === field.value
-                                                  ? "opacity-100"
-                                                  : "opacity-0"
-                                              )}
+                                        skills.map((skill) => (
+                                        <CommandItem
+                                          value={skill.english_name}
+                                          key={skill.id}
+                                          onSelect={() => {
+                                            handleSkillsOption(skill.id);
+                                            form.setValue("skills", skill.id)
+                                          }}
+                                        >
+                                          <Check
+                                            className={cn(
+                                              "mr-2 h-4 w-4",
+                                                selectedSkills.includes(skill.id) ?
+                                                "opacity-100" : "opacity-0")
+                                              }
                                             />
-                                            {item.english_name}
-                                          </CommandItem>
-                                        ))}
+                                          {skill.english_name}
+                                        </CommandItem>
+                                      ))}
                                       </CommandGroup>
                                     </Command>
                                   </PopoverContent>
@@ -1372,4 +1392,71 @@ export default function Profile() {
     </motion.div>
   )
 }
+
+
+{/* <div className='flex flex-col md:flex-row flex-wrap w-full gap-5'>
+    <div className='w-full flex-1'>
+      <FormField
+        control={form.control}
+        name="skills"
+        render={({ field }) => (
+          <FormItem className="flex flex-col">
+            <FormLabel className='py-1'>Skills</FormLabel>
+            <Popover>
+              <PopoverTrigger asChild>
+                <FormControl>
+                  <Button
+                    variant="outline"
+                    role="combobox"
+                    className={cn(
+                      "w-full justify-between",
+                      !field.value && "text-muted-foreground"
+                    )}
+                  >
+                    {field.value
+                    ? (Array.isArray(skills) ?
+                      skills.find(item => item.id === field.value)?.english_name
+                      : "")
+                    : "Select skills"}
+                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                  </Button>
+                </FormControl>
+              </PopoverTrigger>
+              <PopoverContent className="w-full p-0">
+                <Command>
+                  <CommandInput placeholder="Search skills..." />
+                  <CommandEmpty>No skills found.</CommandEmpty>
+                  <CommandGroup>
+                  { Array.isArray(skills) &&
+                      skills.map((item) => (
+                      <CommandItem
+                        value={item.english_name}
+                        key={item.id}
+                        onSelect={() => {
+                          form.setValue("skills", item.id)
+                        }}
+                        // onChange={() => handleChange(country.id)}
+
+                      >
+                        <Check
+                          className={cn(
+                            "mr-2 h-4 w-4",
+                            item.id === field.value
+                              ? "opacity-100"
+                              : "opacity-0"
+                          )}
+                        />
+                        {item.english_name}
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                </Command>
+              </PopoverContent>
+            </Popover>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+    </div>
+  </div>  */}
 

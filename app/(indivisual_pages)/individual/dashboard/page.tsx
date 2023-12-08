@@ -1,39 +1,84 @@
 'use client'
 import './indivisualDashboard.css';
-import React from 'react'
-import PersonalCard from '../../_components/peronal_card/PersonalCard'
+import React, { useContext, useEffect, useState } from 'react'
 import { Separator } from '@/components/ui/separator'
-import DataTable from '../consultation/consultation_data_table/DataTable'
-import { Expand, GraduationCap, TvIcon } from 'lucide-react';
+import { AlertTriangle, Expand, GraduationCap, ShieldAlert, TvIcon } from 'lucide-react';
 import DashDataTable from './dashbord_data_table/DashDataTable';
 import { columns } from './dashbord_data_table/DashColumns';
 import { motion } from 'framer-motion'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { AuthContext } from '@/context/authContext';
+import { useQuery } from '@tanstack/react-query';
+import api from '@/context/apiRequest';
 
 export type Payment = {
   id: string
-  amount: number
-  status: Boolean
-  email: string
+  status: string
+  isCompleted: Boolean
+  isStarted: Boolean
+  created_at: string
 }
 
-const data: Payment[] = [
-  {
-    id: "m5gr84i9",
-    amount: 316,
-    status: true,
-    email: "ken99@yahoo.com",
-  },
-  {
-    id: "3u1reuv4",
-    amount: 242,
-    status: false,
-    email: "Abe45@gmail.com",
-  },
+export type Exam = {
+  id: string
+  status: string
+  isCompleted: Boolean
+  isStarted: Boolean
+  created_at: string
+}
 
+const data = [
+  {
+    id: "1",
+    isCompleted: false,
+    isStarted: false,
+    status: "paid",
+    created_at: "2032-12-1",
+  },
+  {
+    id: "2",
+    isCompleted: true,
+    isStarted: true,
+    status: "Waiting for payment",
+    created_at: "2032-12-1",
+  },
+ 
+  {
+    id: "3",
+    isCompleted: false,
+    isStarted: false,
+    status: "failed",
+    created_at: "2032-12-1",
+  },
+  {
+    created_at: "2023-06-27",
+    id: 4,
+    isCompleted: false,
+    isStarted: false,
+    status: "waiting-for-payment"
+  }
+ 
 ]
 
 export default function page() {
+
+  const [ tableData, setTableData ] = useState([]);
+
+  const { data: perviousExam } = useQuery({
+    queryKey: ['pervious_exams'],
+    queryFn: async () => 
+    await api.get(`/individual/user-prev-exams`).then((res) => {
+      return res.data?.data;
+    })
+  })
+
+  const { currentUser } = useContext(AuthContext);
+  const isVerified = currentUser?.user.is_verified
+  const [ verification, setVerification ] = useState(false); 
+
+  useEffect(() => {
+    setTableData(perviousExam)
+  }, [perviousExam])
+
   return (
     <motion.div 
       initial={{ y: 50, opacity: 0 }}
@@ -75,7 +120,6 @@ export default function page() {
             </div>
            
           </div>
-   
           <div
           
             className='indivisual_status cursor-pointer text-white bg-white w-full h-26 border rounded-lg flex items-center justify-around gap-5  shadow-lg'
@@ -122,9 +166,17 @@ export default function page() {
             <h1 className=' font-bold text-slate-600'>Pervious Exams</h1>
           </div>
           <Separator className='w-full px-10 h-[1px]'/>
+          {verification && (
+            <div className='bg-yellow-300 flex justify-center items-center'>
+              <AlertTriangle className='text-gray-700'/>
+              <h1 className='p-3'>
+                Completing profile information is requeired for starting an exam! 
+              </h1>
+            </div>
+          )}
 
           <div className='p-20'>
-            <DashDataTable columns={columns} data={data}/>
+            <DashDataTable isVerified={isVerified} setVerification={setVerification} columns={columns} data={tableData || []}/>
           </div>
 
         </div>  
