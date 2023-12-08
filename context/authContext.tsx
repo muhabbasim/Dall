@@ -38,9 +38,35 @@ interface userDataProps {
   password_confirmation: string;
 }
 
+type InputProps = {
+  id: number;
+}
+
 interface User {
-  user: userDataProps;
-  token: any;
+  first_name: string | undefined;
+  second_name: string;
+  last_name: string;
+  email: string;
+  phone: string | undefined;
+  
+  birth_country: number & InputProps;
+  birth_city: number & InputProps;
+  birth_date: string;
+  residence_country: number & InputProps;
+  residence_city: number & InputProps;
+  gender: number & InputProps;
+  nationality: number & InputProps;
+  
+  education_institute: number & InputProps;
+  education_level: number & InputProps;
+  major: number & InputProps;
+  experience_years: number & InputProps;
+  occupation: number & InputProps;
+  skills: number;
+  is_verified: boolean;
+
+  password: string;
+  password_confirmation: string;
 }
 
 interface AuthContextProps {

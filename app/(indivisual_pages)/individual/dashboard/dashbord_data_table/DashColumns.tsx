@@ -21,11 +21,11 @@ import { Checkbox } from "@radix-ui/react-checkbox";
 
 
 export type Exam = {
-  id: string
+  id: number;
   status: string
   isCompleted: Boolean
   isStarted: Boolean
-  created_at: string
+  created_at: Date;
 }
 
 const handleReult = () => {

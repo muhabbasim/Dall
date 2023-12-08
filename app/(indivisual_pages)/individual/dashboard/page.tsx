@@ -10,54 +10,7 @@ import { AuthContext } from '@/context/authContext';
 import { useQuery } from '@tanstack/react-query';
 import api from '@/context/apiRequest';
 
-export type Payment = {
-  id: string
-  status: string
-  isCompleted: Boolean
-  isStarted: Boolean
-  created_at: string
-}
 
-export type Exam = {
-  id: string
-  status: string
-  isCompleted: Boolean
-  isStarted: Boolean
-  created_at: string
-}
-
-const data = [
-  {
-    id: "1",
-    isCompleted: false,
-    isStarted: false,
-    status: "paid",
-    created_at: "2032-12-1",
-  },
-  {
-    id: "2",
-    isCompleted: true,
-    isStarted: true,
-    status: "Waiting for payment",
-    created_at: "2032-12-1",
-  },
- 
-  {
-    id: "3",
-    isCompleted: false,
-    isStarted: false,
-    status: "failed",
-    created_at: "2032-12-1",
-  },
-  {
-    created_at: "2023-06-27",
-    id: 4,
-    isCompleted: false,
-    isStarted: false,
-    status: "waiting-for-payment"
-  }
- 
-]
 
 export default function page() {
 
@@ -72,7 +25,7 @@ export default function page() {
   })
 
   const { currentUser } = useContext(AuthContext);
-  const isVerified = currentUser?.user.is_verified
+  const isVerified = currentUser?.is_verified
   const [ verification, setVerification ] = useState(false); 
 
   useEffect(() => {

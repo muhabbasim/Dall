@@ -31,7 +31,7 @@ import api from '@/context/apiRequest'
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
-  isVerified: boolean
+  isVerified: boolean | undefined
   setVerification: any
 }
 import {

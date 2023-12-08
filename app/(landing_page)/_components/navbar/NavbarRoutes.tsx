@@ -12,9 +12,27 @@ import { useRouter } from "next/navigation";
 
 
 type userProps = {
-  first_name: string,
-  email: string,
-  last_name: string,
+  first_name: string | undefined;
+  second_name: string;
+  last_name: string;
+  email: string;
+  phone: number | string;
+  
+  birth_country: number;
+  birth_city: number;
+  birth_date: string;
+  residence_country: number;
+  residence_city: number;
+  genders: number;
+  nationality: number;
+  
+  education_institute: number;
+  education_level: number;
+  major: number;
+  experience_years: number;
+  occupation: number;
+  skills: number;
+  is_verified: boolean;
 }
 
 export default function NavbarRoutes() {
@@ -52,6 +70,7 @@ export default function NavbarRoutes() {
   ]
 
   const { logout, currentUser } = useContext(AuthContext)
+
   const router = useRouter()
   const handleLogout = async (e) => {
     e.preventDefault()
@@ -66,9 +85,9 @@ export default function NavbarRoutes() {
     }
   }
 
-  const [ user, setUser ] = useState<userProps>()
+  const [ user, setUser ] = useState<userProps | null>()
   useEffect(() => {
-    setUser(currentUser?.user)
+    setUser(currentUser)
     
   },[currentUser])
 

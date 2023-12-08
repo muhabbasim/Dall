@@ -1,33 +1,41 @@
 'use client'
 import { Separator } from '@/components/ui/separator'
-import React from 'react'
-import DataTable from './consultation_data_table/DataTable'
-import { columns } from './consultation_data_table/Columns'
-import {motion} from 'framer-motion'
+import React, { useEffect, useState } from 'react'
 
-export type Payment = {
+import {motion} from 'framer-motion'
+import DashDataTable from './consultation_data_table/ConsultaionDataTable'
+import { columns } from './consultation_data_table/ConsultationColumns'
+import { useQuery } from '@tanstack/react-query'
+import api from '@/context/apiRequest'
+
+export type Exam = {
   id: string
-  amount: number
-  status: Boolean
-  email: string
+  status: string
+  isCompleted: Boolean
+  isStarted: Boolean
+  created_at: string
 }
 
-const data: Payment[] = [
-  {
-    id: "m5gr84i9",
-    amount: 316,
-    status: true,
-    email: "ken99@yahoo.com",
-  },
-  {
-    id: "3u1reuv4",
-    amount: 242,
-    status: false,
-    email: "Abe45@gmail.com",
-  },
 
-]
 export default function page() {
+
+  const [ tableData, setTableData ] = useState([]);
+
+  const { data: perviousConsultation} = useQuery({
+    queryKey: ['pervious_consultation'],
+    queryFn: async () => 
+    await api.get(`/individual/consultations`).then((res) => {
+      return res.data?.data;
+    })
+  })
+
+
+  useEffect(() => {
+    setTableData(perviousConsultation)
+  }, [perviousConsultation])
+
+
+  
   return (
     <motion.div 
       initial={{ y: 50, opacity: 0 }}
@@ -47,7 +55,7 @@ export default function page() {
           <Separator className='w-full px-10 h-[1px]'/>
 
           <div className='p-20'>
-            <DataTable columns={columns} data={data}/>
+            <DashDataTable columns={columns} data={tableData || []}/>
           </div>
 
         </div>  

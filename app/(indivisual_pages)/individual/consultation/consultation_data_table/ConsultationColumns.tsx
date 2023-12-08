@@ -15,25 +15,62 @@ import {
 
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-
-// interface UserData {
-//   id: string;
-//   exams: string;
-//   status: string;
-//   registration_date: string;
-//   proscedure: string;
-// }
+import { useRouter } from "next/navigation";
+import { Checkbox } from "@radix-ui/react-checkbox";
 
 
-export type Payment = {
-  id: string
-  amount: number
-  status: Boolean
-  email: string
+
+export type Exam = {
+  id: number;
+  individual_id: number;
+  contact_type: string;
+  consultation_type_id: number;
+  week_day_id: number;
+  consultation_time_id: number;
+  status: string
+  created_at: Date;
 }
 
+const handleReult = () => {
+  console.log('result')
+}
 
-export const columns: ColumnDef<Payment>[] = [
+const handleExam = (isStarted: boolean, status: string, router: any) => {
+  
+  if (isStarted) {
+    console.log('Continue')
+    return;
+  }
+  if (!isStarted) {
+    router.push('/individual/exams')
+    console.log('Start')
+    return;
+  }
+}
+
+export const columns: ColumnDef<Exam>[] = [
+  {
+    id: "select",
+    header: ({ table }) => (
+      <Checkbox
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() && "indeterminate")
+        }
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label="Select all"
+      />
+    ),
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label="Select row"
+      />
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  },
   {
     accessorKey: "id",
     header: ({ column }) => {
@@ -42,33 +79,10 @@ export const columns: ColumnDef<Payment>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Consultation type
+          Exam type
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       )
-    }
-  },
-  {
-    accessorKey: "amount",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Price
-          {/* <ArrowUpDown className="ml-2 h-4 w-4" /> */}
-        </Button>
-      )
-    },
-    cell: ({ row }) => {
-      const price = parseFloat(row.getValue("amount") || "0");
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD"
-      }).format(price);
-
-      return <div>{formatted}</div>
     }
   },
   {
@@ -79,7 +93,7 @@ export const columns: ColumnDef<Payment>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Day
+          status
           {/* <ArrowUpDown className="ml-2 h-4 w-4" /> */}
         </Button>
       )
@@ -89,80 +103,64 @@ export const columns: ColumnDef<Payment>[] = [
 
       return (
         <Badge className={cn(
-          "bg-slate-500",
-          isSucess && "bg-sky-700"
+          "bg-slate-500 ",
+          isSucess === 'paid' && "bg-sky-700",
+          isSucess === 'failed' && "bg-rose-900",
         )}>
-          {isSucess ? "Fully paid" : "Draft"}
+          <>
+            {isSucess}
+          </>
         </Badge>
       )
     }
   },
   {
-    accessorKey: "isPublished",
+    accessorKey: "created_at",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Time
-          {/* <ArrowUpDown className="ml-2 h-4 w-4" /> */}
+          Created At
         </Button>
       )
     },
     cell: ({ row }) => {
-      const isPublished = row.getValue("isPublished") || false;
+      const created_at = row.getValue("created_at") || false;
 
       return (
         <>
-        
+        {created_at}
         </>
       )
     }
   },
   {
-    accessorKey: "new1",
+    accessorKey: "contact_type",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Date
-          {/* <ArrowUpDown className="ml-2 h-4 w-4" /> */}
+          Contact type
         </Button>
       )
     },
     cell: ({ row }) => {
-      const isPublished = row.getValue("isPublished") || false;
+      const contact_type = row.getValue("contact_type");
 
       return (
-        <>
-        
-        </>
-      )
-    }
-  },
-  {
-    accessorKey: "new",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        <Badge 
+          onClick={handleReult}
+          className={cn(
+            "bg-sky-700 cursor-pointer"
+          )}
         >
-          Application date
-          {/* <ArrowUpDown className="ml-2 h-4 w-4" /> */}
-        </Button>
-      )
-    },
-    cell: ({ row }) => {
-      const isPublished = row.getValue("isPublished") || false;
-
-      return (
-        <>
-        
-        </>
+          <>
+            {contact_type}
+          </>
+        </Badge>
       )
     }
   },

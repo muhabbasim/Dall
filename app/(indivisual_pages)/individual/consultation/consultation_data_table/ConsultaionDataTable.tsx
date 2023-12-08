@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import {
   ColumnDef,
@@ -23,18 +23,30 @@ import {
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import Link from "next/link"
-import { PlusCircle } from 'lucide-react'
+import { ChevronDown, Loader2, PlusCircle } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { useQuery } from '@tanstack/react-query'
+import api from '@/context/apiRequest'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
-}
 
-export default function DataTable<TData, TValue>({
+}
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+
+export default function DashDataTable<TData, TValue>({
   columns, 
   data,
 }: DataTableProps<TData, TValue> ) {
+
+  const router = useRouter();
+  const [ tableData, setTableData ] = useState([]);
 
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
@@ -55,20 +67,71 @@ export default function DataTable<TData, TValue>({
   })
 
 
-  return (
-    <div>
-      <div className="flex items-center justify-between gap-4 pb-10">
-        <Input
-          placeholder="Filter courses..."
-          value={(table.getColumn("id")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("id")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
+  const { data: perviousExam } = useQuery({
+    queryKey: ['pervious_exams'],
+    queryFn: async () => 
+    await api.get(`/individual/user-prev-exams`).then((res) => {
+      return res.data?.data;
+    })
+  })
 
-        <Link href={``}>
+
+  useEffect(() => {
+    setTableData(perviousExam)
+  }, [perviousExam])
+
+
+
+  const handleNewExam = () => {
+    router.push('/individual/new_consultation');
+    return;
+  }
+
+  return (
+    
+    <div>
+      <div className=" w-full flex justify-between gap-4 pb-10">
+        <div className=' w-full flex gap-4'>
+          <Input
+            placeholder="Filter courses..."
+            value={(table.getColumn("id")?.getFilterValue() as string) ?? ""}
+            onChange={(event) =>
+              table.getColumn("id")?.setFilterValue(event.target.value)
+            }
+            className="max-w-sm"
+          />
+
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" className="ml-auto">
+                Columns <ChevronDown className="ml-2 h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              {table
+                .getAllColumns()
+                .filter((column) => column.getCanHide())
+                .map((column) => {
+                  return (
+                    <DropdownMenuCheckboxItem
+                      key={column.id}
+                      className="capitalize"
+                      checked={column.getIsVisible()}
+                      onCheckedChange={(value) =>
+                        column.toggleVisibility(!!value)
+                      }
+                    >
+                      {column.id}
+                    </DropdownMenuCheckboxItem>
+                  )
+                })}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+
+        <div className='w-full flex justify-end'>
           <Button variant="default"
+            onClick={handleNewExam}
             className="md:min-w-[150px]"
           >
             <PlusCircle className="h-4 w-4"/>
@@ -76,8 +139,10 @@ export default function DataTable<TData, TValue>({
               New consultation
             </p>
           </Button>
-        </Link>
+        </div>
+
       </div>
+
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -115,7 +180,16 @@ export default function DataTable<TData, TValue>({
             ) : (
               <TableRow>
                 <TableCell colSpan={columns.length} className="h-24 text-center">
-                  No results.
+                {tableData?.length === 0 ? 
+                ( <span>No consultation</span>
+                ) : (
+                  <div className=' w-full flex items-center justify-center'>
+                    <div className='flex items-center justify-center gap-2'>
+                      <Loader2 className="mr-2 h-10 w-10 text-cyan-700 animate-spin" />
+                      <h1>Loading data...</h1>
+                    </div>
+                  </div>
+                )}
                 </TableCell>
               </TableRow>
             )}

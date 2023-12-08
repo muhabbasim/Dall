@@ -193,19 +193,19 @@ export default function Profile() {
     queryKey: ['cities'],
     queryFn: async () => 
     await api.get(`/get/country-cities/1`).then((res) => {
-      return res.data as FormDataProps;
+      return res.data as userDataProps;
     })
   })
 
 
   // currentuser skills array
-  const currenUserSkills = Array.isArray(currentUser?.user?.skills)
-    ? currentUser?.user.skills.map((skill) => skill.id)
+  const currenUserSkills = Array.isArray(currentUser?.skills)
+    ? currentUser?.skills.map((skill) => skill.id)
     : []
   ;
 
   // date saver
-  const [ datePicker, setDatePicker ] = useState<Date | undefined | string>(currentUser?.user.birth_date);
+  const [ datePicker, setDatePicker ] = useState<Date | undefined | string>(currentUser?.birth_date);
 
   // selected skills array function
   const [ selectedSkills, setSelectedSkills ] = useState<number[]>(currenUserSkills||[]); 
@@ -230,25 +230,25 @@ export default function Profile() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      first_name: currentUser && currentUser?.user.first_name || undefined,
-      second_name: currentUser && currentUser?.user.second_name || undefined,
-      last_name: currentUser && currentUser?.user.last_name || undefined,
-      email: currentUser && currentUser?.user.email || undefined,
-      phone: currentUser && currentUser?.user.phone || undefined,
+      first_name: currentUser && currentUser?.first_name || undefined,
+      second_name: currentUser && currentUser?.second_name || undefined,
+      last_name: currentUser && currentUser?.last_name || undefined,
+      email: currentUser && currentUser?.email || undefined,
+      phone: currentUser && currentUser?.phone || undefined,
       
-      birth_country: currentUser && currentUser?.user.birth_country.id || undefined,
-      birth_city: currentUser && currentUser?.user.birth_city.id || undefined,
-      // birth_date: currentUser && currentUser?.user.birth_date || undefined,
-      residence_country: currentUser && currentUser?.user.residence_country.id || undefined,
-      residence_city: currentUser && currentUser?.user.residence_city.id || undefined,
-      gender: currentUser && currentUser?.user.gender.id || undefined,
+      birth_country: currentUser && currentUser?.birth_country.id || undefined,
+      birth_city: currentUser && currentUser?.birth_city.id || undefined,
+      // birth_date: currentUser && currentUser?.birth_date || undefined,
+      residence_country: currentUser && currentUser?.residence_country.id || undefined,
+      residence_city: currentUser && currentUser?.residence_city.id || undefined,
+      gender: currentUser && currentUser?.gender.id || undefined,
       
-      nationality: currentUser && currentUser?.user.nationality.id || undefined,
-      education_institute: currentUser && currentUser?.user.education_institute.id || undefined,
-      education_level: currentUser && currentUser?.user.education_level.id || undefined,
-      major: currentUser && currentUser?.user.major.id || undefined,
-      experience_years: currentUser && currentUser?.user.experience_years.id || undefined,
-      occupation: currentUser && currentUser?.user.occupation.id || undefined,
+      nationality: currentUser && currentUser?.nationality.id || undefined,
+      education_institute: currentUser && currentUser?.education_institute.id || undefined,
+      education_level: currentUser && currentUser?.education_level.id || undefined,
+      major: currentUser && currentUser?.major.id || undefined,
+      experience_years: currentUser && currentUser?.experience_years.id || undefined,
+      occupation: currentUser && currentUser?.occupation.id || undefined,
       skills: currenUserSkills || undefined,
       password: "",
       password_confirmation: "",
@@ -272,12 +272,11 @@ export default function Profile() {
       });
       console.log(res);
       toast.success('Information updated successfully')
+
     } catch (error) {
       toast.error('Something went wrong, please try again!')
       console.log(error)
-    } finally {
-
-    }
+    } 
   } 
 
   return (
@@ -317,8 +316,8 @@ export default function Profile() {
                       {userIsLoading ? 
                       'Loading...' : (
                       <div className='text-center'>
-                        <h2>{currentUser?.user.first_name}, <span className='font-bold'>{currentUser?.user.last_name}</span></h2>
-                        <h3 className='text-gray-400 text-sm'>{currentUser?.user.email}</h3>
+                        <h2>{currentUser?.first_name}, <span className='font-bold'>{currentUser?.last_name}</span></h2>
+                        <h3 className='text-gray-400 text-sm'>{currentUser?.email}</h3>
                       </div>
                     )}
                   </div>

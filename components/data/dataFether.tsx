@@ -24,24 +24,6 @@ interface UserDataProps {
   password_confirmation: string;
 }
 
-
-// interface FormDataProps {
-//   countries: [];
-//   departments: [];
-//   education_levels: [];
-//   education_institutes: [];
-//   specializations: [];
-//   occupations: [];
-//   experience_year: [];
-//   skills: [];
-//   majors: [];
-//   hobbies: [];
-//   jobs: [];
-//   genders: [];
-//   diplomas: [];
-// }
-
-
 // User data
 export const useUserData = () => {
   return useQuery({
