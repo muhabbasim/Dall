@@ -13,7 +13,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
-
 import {
   Command,
   CommandEmpty,
@@ -21,21 +20,14 @@ import {
   CommandInput,
   CommandItem,
 } from "@/components/ui/command"
-
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
-
+import { useUserData } from '@/components/data/dataFether';
+import { AuthContext } from '@/context/authContext'
+import { Badge } from '@/components/ui/badge'
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-
 import { Input } from "@/components/ui/input"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -47,54 +39,27 @@ import api from '@/context/apiRequest';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-
-const formSchema = z.object({
-  first_name: z.string().min(1, 'Fistname is required'),
-  second_name: z.string().min(1, 'Secondname is required'),
-  last_name: z.string().min(1, 'Lastname is required'),
-  email: z.string().email('Invalid Email'),
-  phone: z.string().min(10, 'Phone number is required').max(10, 'Phone number should be at least 10 digits'),
-  
-  birth_country: z.number().min(1, { message: "pirth day is required."}),
-  birth_city: z.number().min(1, { message: "pirth city is required."}),
-  birth_date: z.date({required_error: "A date of birth is required."}),
-  residence_country: z.number().min(1, { message: "residence country is required"}),
-  residence_city: z.number().min(1, { message: "residence city is required"}),
-  gender: z.number({required_error: "Please select a gender."}),
-  
-  education_institute: z.number({required_error: "Please select education institution."}),
-  nationality: z.number({required_error: "Please select a nationality."}),
-  education_level: z.number({required_error: "Please select education level."}),
-  occupation: z.number({required_error: "Please select an occupation."}),
-  experience_years: z.number({required_error: "Please select years of experience."}),
-  major: z.number().min(1, { message: "please select major"}),
-  // skills: z.array(z.number()).min(1, 'Skills is required'),
-  skills: z.number().min(1, 'Skills is required'),
-  password: z.string(),
-  password_confirmation: z.string(),
-})
-
 interface userDataProps {
-  first_name: string;
+  first_name: string | undefined;
   second_name: string;
   last_name: string;
   email: string;
   phone: number | string;
   
-  birth_country: Number;
-  birth_city: Number;
-  birth_date: Date,
-  residence_country: Number;
-  residence_city: Number;
-  genders: Number;
-  nationality: Number;
+  birth_country: number;
+  birth_city: number;
+  birth_date: string;
+  residence_country: number;
+  residence_city: number;
+  genders: number;
+  nationality: number;
   
-  education_institute: Number;
-  education_level: Number;
-  major: Number;
-  experience_years: Number;
-  occupation: Number;
-  skills: Number;
+  education_institute: number;
+  education_level: number;
+  major: number;
+  experience_years: number;
+  occupation: number;
+  skills: number;
 
   password: string;
   password_confirmation: string;
@@ -132,8 +97,6 @@ type CityProps = {
   code: string;
   isActive: number;
 }
-
-
 
 type EducationLevelsProps = {
   id: number;
@@ -184,37 +147,41 @@ type GendersProps = {
   isActive: number;
 }
 
-interface MultiSelectProps {
-  selected: number[];
-  onChange: React.Dispatch<React.SetStateAction<number[]>>;
-}
 
-
-
-import { 
- useUserData, 
-} from '@/components/data/dataFether';
-import { AuthContext } from '@/context/authContext'
-import { timeStamp } from 'console'
-import { Label } from '@/components/ui/label'
-import { Badge } from '@/components/ui/badge'
+const formSchema = z.object({
+  first_name: z.string().min(1, 'Fistname is required'),
+  second_name: z.string().min(1, 'Secondname is required'),
+  last_name: z.string().min(1, 'Lastname is required'),
+  email: z.string().email('Invalid Email'),
+  phone: z.string().min(10, 'Phone number should be at least 10 digits'),
+  
+  birth_country: z.number().min(1, { message: "pirth day is required."}),
+  birth_city: z.number().min(1, { message: "pirth city is required."}),
+  birth_date: z.any({required_error: "A date of birth is required."}),
+  residence_country: z.number().min(1, { message: "residence country is required"}),
+  residence_city: z.number().min(1, { message: "residence city is required"}),
+  gender: z.number({required_error: "Please select a gender."}),
+  
+  education_institute: z.number({required_error: "Please select education institution."}),
+  nationality: z.number({required_error: "Please select a nationality."}),
+  education_level: z.number({required_error: "Please select education level."}),
+  occupation: z.number({required_error: "Please select an occupation."}),
+  experience_years: z.number({required_error: "Please select years of experience."}),
+  major: z.number().min(1, { message: "please select major"}),
+  skills: z.array(z.number()).min(1, 'Skills is required'),
+  // skills: z.number().min(1, 'Skills is required'),
+  password: z.string(),
+  password_confirmation: z.string(),
+})
 
 
 export default function Profile() {
+
   const queryClient = useQueryClient()
-
-  const [ selectedSkills, setSelectedSkills ] = useState<number[]>([])
-  const handleSkillsOption = (item: number) => {
-
-    setSelectedSkills(selectedSkills.includes(item)
-    ? selectedSkills.filter((options) => options !== item)
-    : [...selectedSkills, item])
-  }
-  
-
-  const { data: userData, isLoading: userIsLoading, isError  } = useUserData();
   const { currentUser } = useContext(AuthContext);
-  // form data
+
+  // form data fetching
+  const { data: userData, isLoading: userIsLoading, isError  } = useUserData();
   const { data: formData } = useQuery({
     queryKey: ['formData'],
     queryFn: async () => 
@@ -230,6 +197,26 @@ export default function Profile() {
     })
   })
 
+
+  // currentuser skills array
+  const currenUserSkills = Array.isArray(currentUser?.user?.skills)
+    ? currentUser?.user.skills.map((skill) => skill.id)
+    : []
+  ;
+
+  // date saver
+  const [ datePicker, setDatePicker ] = useState<Date | undefined | string>(currentUser?.user.birth_date);
+
+  // selected skills array function
+  const [ selectedSkills, setSelectedSkills ] = useState<number[]>(currenUserSkills||[]); 
+  const handleSkillsOption = (item: number) => {
+
+    setSelectedSkills(selectedSkills.includes(item)
+    ? selectedSkills.filter((options) => options !== item)
+    : [...selectedSkills, item])
+  }
+
+  // form data distruction
   const countries: CountryProps[] = formData?.countries || [];
   const education_institutes: EducationInstitutesProps[] = formData?.education_institutes || [];
   const education_levels: EducationLevelsProps[] = formData?.education_levels || [];
@@ -243,64 +230,53 @@ export default function Profile() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      first_name: currentUser && currentUser?.user.first_name,
-      second_name: currentUser && currentUser?.user.second_name || '',
-      last_name: currentUser && currentUser?.user.last_name,
-      email: currentUser && currentUser?.user.email,
-      phone: currentUser && currentUser?.user.phone || '',
+      first_name: currentUser && currentUser?.user.first_name || undefined,
+      second_name: currentUser && currentUser?.user.second_name || undefined,
+      last_name: currentUser && currentUser?.user.last_name || undefined,
+      email: currentUser && currentUser?.user.email || undefined,
+      phone: currentUser && currentUser?.user.phone || undefined,
       
-      birth_country: 0,
-      birth_city: 0,
-      birth_date: new Date,
-      residence_country: 0,
-      residence_city: 0,
-      gender: 0,
+      birth_country: currentUser && currentUser?.user.birth_country.id || undefined,
+      birth_city: currentUser && currentUser?.user.birth_city.id || undefined,
+      // birth_date: currentUser && currentUser?.user.birth_date || undefined,
+      residence_country: currentUser && currentUser?.user.residence_country.id || undefined,
+      residence_city: currentUser && currentUser?.user.residence_city.id || undefined,
+      gender: currentUser && currentUser?.user.gender.id || undefined,
       
-      nationality: 0,
-      education_institute: 0,
-      education_level: 0,
-      major: 0,
-      experience_years: 0,
-      skills: 0,
+      nationality: currentUser && currentUser?.user.nationality.id || undefined,
+      education_institute: currentUser && currentUser?.user.education_institute.id || undefined,
+      education_level: currentUser && currentUser?.user.education_level.id || undefined,
+      major: currentUser && currentUser?.user.major.id || undefined,
+      experience_years: currentUser && currentUser?.user.experience_years.id || undefined,
+      occupation: currentUser && currentUser?.user.occupation.id || undefined,
+      skills: currenUserSkills || undefined,
       password: "",
       password_confirmation: "",
     },
   })
   const { isSubmitting } = form.formState;
 
-  const { mutate: hanelUpdate, isPending } = useMutation<void, Error, userDataProps>({
-    mutationFn: async (values) => {
-      return await api.put(`/individual/information/update`, values)
-    },
-    onSuccess: () => {
-      toast.success('Data updated successfully')
-      queryClient.invalidateQueries({ queryKey: ['userData'] })
-    },
-    onError: () => {
-      toast.error('Something went wrong, please try again!')
 
-    }
-  })
-
+  // user data update function
   const submitForm = async (values: z.infer<typeof formSchema>) => {
 
     const { birth_date, skills, ...otherValues } = values;
-    // date format to timestamp
-    const date = format(birth_date, 'yyyy-mm-dd');
-    console.log({otherValues, skills: selectedSkills ,birth_date: "2023-10-01"})
+    console.log({otherValues, skills: selectedSkills ,birth_date, datePicker})
     
     try {
       // hanelUpdate(values)
       const res = await api.put(`/individual/information/update`, {
         ...otherValues,
         skills: selectedSkills,
-        birth_date: date,
+        birth_date: datePicker,
       });
       console.log(res);
       toast.success('Information updated successfully')
     } catch (error) {
       toast.error('Something went wrong, please try again!')
       console.log(error)
+    } finally {
+
     }
   } 
 
@@ -450,7 +426,7 @@ export default function Profile() {
                               <FormLabel>Phone Number</FormLabel>
                                 <FormControl>
                                   <Input
-                                  // type='number'
+                                    type='number'
                                     // disabled={isSubmitting}
                                     placeholder="e.g 054 483 3333"
                                     {...field}
@@ -610,8 +586,10 @@ export default function Profile() {
                                         !field.value && "text-muted-foreground"
                                       )}
                                     >
-                                      {field.value ? (
-                                        format(field.value, "yyyy-MM-dd")
+                                      {datePicker ? (
+                                        <>
+                                          {datePicker}
+                                        </>
                                       ) : (
                                         <span>Pick a date</span>
                                       )}
@@ -623,9 +601,13 @@ export default function Profile() {
                                   <Calendar
                                     mode="single"
                                     selected={field.value}
-                                    onSelect={
-                                      field.onChange
-                                    }
+                                    onSelect={(date) => {
+                                      if (date instanceof Date) {
+                                        const formattedDate = format(date, "yyyy-MM-dd");
+                                        field.onChange(formattedDate);
+                                        setDatePicker(formattedDate);
+                                      }
+                                    }}
                                     disabled={(date) =>
                                       date > new Date() || date < new Date("1900-01-01")
                                     }
@@ -1282,7 +1264,7 @@ export default function Profile() {
                                           key={skill.id}
                                           onSelect={() => {
                                             handleSkillsOption(skill.id);
-                                            form.setValue("skills", skill.id)
+                                            form.setValue("skills", [...selectedSkills, skill.id])
                                           }}
                                         >
                                           <Check
@@ -1394,69 +1376,18 @@ export default function Profile() {
 }
 
 
-{/* <div className='flex flex-col md:flex-row flex-wrap w-full gap-5'>
-    <div className='w-full flex-1'>
-      <FormField
-        control={form.control}
-        name="skills"
-        render={({ field }) => (
-          <FormItem className="flex flex-col">
-            <FormLabel className='py-1'>Skills</FormLabel>
-            <Popover>
-              <PopoverTrigger asChild>
-                <FormControl>
-                  <Button
-                    variant="outline"
-                    role="combobox"
-                    className={cn(
-                      "w-full justify-between",
-                      !field.value && "text-muted-foreground"
-                    )}
-                  >
-                    {field.value
-                    ? (Array.isArray(skills) ?
-                      skills.find(item => item.id === field.value)?.english_name
-                      : "")
-                    : "Select skills"}
-                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                  </Button>
-                </FormControl>
-              </PopoverTrigger>
-              <PopoverContent className="w-full p-0">
-                <Command>
-                  <CommandInput placeholder="Search skills..." />
-                  <CommandEmpty>No skills found.</CommandEmpty>
-                  <CommandGroup>
-                  { Array.isArray(skills) &&
-                      skills.map((item) => (
-                      <CommandItem
-                        value={item.english_name}
-                        key={item.id}
-                        onSelect={() => {
-                          form.setValue("skills", item.id)
-                        }}
-                        // onChange={() => handleChange(country.id)}
 
-                      >
-                        <Check
-                          className={cn(
-                            "mr-2 h-4 w-4",
-                            item.id === field.value
-                              ? "opacity-100"
-                              : "opacity-0"
-                          )}
-                        />
-                        {item.english_name}
-                      </CommandItem>
-                    ))}
-                  </CommandGroup>
-                </Command>
-              </PopoverContent>
-            </Popover>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-    </div>
-  </div>  */}
+// const { mutate: hanelUpdate, isPending } = useMutation<void, Error, userDataProps>({
 
+//   mutationFn: async (values) => {
+//     return await api.put(`/individual/information/update`, values)
+//   },
+//   onSuccess: () => {
+//     toast.success('Data updated successfully')
+//     queryClient.invalidateQueries({ queryKey: ['userData'] })
+//   },
+//   onError: () => {
+//     toast.error('Something went wrong, please try again!')
+
+//   }
+// })

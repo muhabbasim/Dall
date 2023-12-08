@@ -7,8 +7,39 @@ interface Props {
   children: React.ReactNode;
 }
 
+type userInfoProps = {
+  id: number;
+  birth_date: string;
+}
+
+interface userDataProps {
+  first_name: string;
+  second_name: string;
+  last_name: string;
+  email: string;
+  phone: string;
+  
+  birth_country: userInfoProps;
+  birth_city: userInfoProps;
+  birth_date: Date,
+  residence_country: userInfoProps;
+  residence_city: userInfoProps;
+  gender: userInfoProps;
+  nationality: userInfoProps;
+  
+  education_institute: userInfoProps;
+  education_level: userInfoProps;
+  major: userInfoProps;
+  experience_years: userInfoProps;
+  occupation: userInfoProps;
+  skills: number;
+
+  password: string;
+  password_confirmation: string;
+}
+
 interface User {
-  user: any;
+  user: userDataProps;
   token: any;
 }
 
@@ -70,7 +101,7 @@ export const AuthContextProvider = ({ children }: Props ) => {
     const res = await axios.post('https://dall.app/api/individual/register', formData)
     
     console.log(res.data)
-    setCurrentUser(res.data)
+    setCurrentUser(res.data.user);
     setToken(res.data.access_token)
 
   }
@@ -79,7 +110,7 @@ export const AuthContextProvider = ({ children }: Props ) => {
     const res = await axios.post('https://dall.app/api/company/register', formData)
     
     console.log(res)
-    setCurrentUser(res.data)
+    setCurrentUser(res.data.user);
     setToken(res.data.access_token)
 
   }
@@ -89,7 +120,7 @@ export const AuthContextProvider = ({ children }: Props ) => {
     const res = await axios.post('https://dall.app/api/login', formData)
 
     console.log(res.data)
-    setCurrentUser(res.data)
+    setCurrentUser(res.data.user);
     setToken(res.data.access_token)
   }
 
