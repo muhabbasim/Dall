@@ -1,9 +1,10 @@
 "use client"
 import '../style.css'
 import { ReactNode } from "react"
-import Header from "../../../components/_components/header/Header"
-import PersonalCard from '../../../components/_components/peronal_card/PersonalCard'
+
 import { motion } from 'framer-motion'
+import Header from './_components/co_header/Header'
+import PersonalCard from './_components/co_peronal_card/PersonalCard'
 
 
 export default function layout({ children } : {

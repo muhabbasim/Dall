@@ -2,6 +2,7 @@
 import { createContext, useState, useEffect } from 'react'
 import axios from 'axios';
 import api from './apiRequest';
+import { useRouter } from 'next/navigation';
 
 interface Props {
   children: React.ReactNode;
@@ -43,6 +44,8 @@ type InputProps = {
 }
 
 interface User {
+
+  //single user
   first_name: string | undefined;
   second_name: string;
   last_name: string;
@@ -54,7 +57,7 @@ interface User {
   birth_date: string;
   residence_country: number & InputProps;
   residence_city: number & InputProps;
-  gender: number & InputProps;
+  genders: number & InputProps;
   nationality: number & InputProps;
   
   education_institute: number & InputProps;
@@ -65,8 +68,17 @@ interface User {
   skills: number;
   is_verified: boolean;
 
+  // cooperations user
+  name: string | undefined;
+  staff: number;
+  address: string;
   password: string;
   password_confirmation: string;
+  departments: number;
+  country: number & InputProps;
+  city: number & InputProps;
+  role: string;
+
 }
 
 interface AuthContextProps {
@@ -92,7 +104,7 @@ export const AuthContext = createContext<AuthContextProps>(defaultContext);
 
 export const AuthContextProvider = ({ children }: Props ) => {
 
-
+   const router = useRouter();
   // save user to the localStorage
   const [currentUser, setCurrentUser] = useState<User | null>(() => {
     if (typeof window !== 'undefined') {
@@ -148,6 +160,14 @@ export const AuthContextProvider = ({ children }: Props ) => {
     console.log(res.data)
     setCurrentUser(res.data.user);
     setToken(res.data.access_token)
+
+    if( res.data?.user.role === "company") {
+      router.push('/cooperation/dashboard')
+    } else if (res.data?.user.role === 'admin') {
+      router.push('/admin/dashboard')
+    } else {
+      router.push('/individual/dashboard')
+    }
   }
 
   const logout = async () => {

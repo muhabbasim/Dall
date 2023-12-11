@@ -1,8 +1,9 @@
 'use client'
 import { Separator } from '@/components/ui/separator'
-import { Ban, CalendarIcon, Check, ChevronsUpDown, Loader2, Pencil } from 'lucide-react'
+import { Ban, CalendarIcon, Check, ChevronsUpDown, Divide, Loader2, Pencil } from 'lucide-react'
 import {motion} from 'framer-motion'
 import React, { useContext, useState } from 'react'
+import Link from "next/link";
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -35,7 +36,7 @@ import { cn } from '@/lib/utils';
 import { Calendar } from '@/components/ui/calendar';
 import { format, isValid } from "date-fns"
 import api from '@/context/apiRequest';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
 interface userDataProps {
@@ -467,7 +468,7 @@ export default function Profile() {
                                   </PopoverTrigger>
                                   <PopoverContent className="w-full p-0">
                                     <Command>
-                                      <CommandInput placeholder="Search country..." />
+                                      <CommandInput placeholder="Search language..." />
                                       <CommandEmpty>No country found.</CommandEmpty>
                                       <CommandGroup>
                                       { Array.isArray(countries) &&
@@ -524,14 +525,14 @@ export default function Profile() {
                                           ? (Array.isArray(cities) ?
                                             cities.find(city => city.id === field.value)?.name
                                             : "")
-                                          : "Select city"}
+                                          : "Select country"}
                                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                                       </Button>
                                     </FormControl>
                                   </PopoverTrigger>
                                   <PopoverContent className="w-full p-0">
                                     <Command>
-                                      <CommandInput placeholder="Search city..." />
+                                      <CommandInput placeholder="Search language..." />
                                       <CommandEmpty>No city found.</CommandEmpty>
                                       <CommandGroup>
                                       { Array.isArray(cities) &&

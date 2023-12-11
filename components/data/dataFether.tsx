@@ -24,6 +24,18 @@ interface UserDataProps {
   password_confirmation: string;
 }
 
+interface CooperationDataProps {
+  name: string;
+  email: string;
+  phone: number;
+  country: number;
+  city: number;
+  departments: number;
+  staff: number;
+  password: string;
+  role: string;
+}
+
 // User data
 export const useUserData = () => {
   return useQuery({
@@ -31,6 +43,16 @@ export const useUserData = () => {
     queryFn: async () => {
       const res = await api.get(`/individual/user-data`);
       return res.data?.data as UserDataProps;
+    },
+  });
+};
+
+export const useCompanyData = () => {
+  return useQuery({
+    queryKey: ['cooperationData'],
+    queryFn: async () => {
+      const res = await api.get(`/company/show`);
+      return res.data?.data as CooperationDataProps;
     },
   });
 };

@@ -1,9 +1,9 @@
 "use client"
-import Navbar from '@/components/_components/navbar/Navbar'
-import Sidebar from '@/components/_components/sidebar/Sidebar'
-import { AuthContext } from '@/context/authContext'
+
 import { useRouter } from 'next/navigation'
-import React, { ReactNode, useContext } from 'react'
+import React, { ReactNode } from 'react'
+import Navbar from './administration/_components/co_navbar/Navbar'
+import Sidebar from './administration/_components/co_sidebar/Sidebar'
 
 
 
@@ -12,15 +12,7 @@ import React, { ReactNode, useContext } from 'react'
 export default function layout({ children } : {
   children: ReactNode
 }) {
-  
-  const router = useRouter();
-  const { currentUser } = useContext(AuthContext);
 
-  if ( currentUser && currentUser?.role === 'company' || 'admin' ) {
-    router.push('/')
-    return;
-  }
-  
   return (
     <div className='h-full flex'>
       <div className='h-[70px] md:pl-72 fixed inset-y-0 w-full z-50'>

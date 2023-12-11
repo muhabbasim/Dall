@@ -42,9 +42,13 @@ const formSchema = z.object({
 
 export default function IndivisualForm() {
   
-  const { register } = useContext(AuthContext);
+  const { register, currentUser } = useContext(AuthContext);
   const router = useRouter();
-
+  
+  if ( currentUser ) {
+    router.push('/')
+    return;
+  }
   const [ err, setErr ] = useState('')
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -72,11 +76,9 @@ export default function IndivisualForm() {
       }
 
       await register(values)
-      // const res = await newRequest.post('https://dall.app/api/individual/register', values)
-      // console.log(res);
+
       toast.success('Account creaated successfully')
       router.push('/')
-
       
     } catch (error) {
       if (error instanceof AxiosError) {

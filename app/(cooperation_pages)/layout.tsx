@@ -13,10 +13,11 @@ export default function layout({ children } : {
   children: ReactNode
 }) {
   
+    
   const router = useRouter();
   const { currentUser } = useContext(AuthContext);
 
-  if ( currentUser && currentUser?.role === 'company' || 'admin' ) {
+  if ( currentUser && currentUser?.role !== 'company' ) {
     router.push('/')
     return;
   }

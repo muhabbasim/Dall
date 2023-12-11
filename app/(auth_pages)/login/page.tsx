@@ -20,7 +20,7 @@ import * as z from "zod"
 import { AuthContext } from '@/context/authContext';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 
 
 const formSchema = z.object({
@@ -34,9 +34,9 @@ const formSchema = z.object({
 
 
 export default function Login() {
-
-  const { login } = useContext(AuthContext)
-  const router = useRouter();
+  
+  const { login } = useContext(AuthContext);
+  
   const [ err, setErr ] = useState('')
   
   const form = useForm<z.infer<typeof formSchema>>({
@@ -48,15 +48,16 @@ export default function Login() {
   })
   const { isSubmitting, isValid } = form.formState;
 
-  const userToken = typeof window !== 'undefined' ? localStorage.getItem('dallUserToken') : null;
+  // const userToken = typeof window !== 'undefined' ? localStorage.getItem('dallUserToken') : null;
 
   const submitForm = async (values: z.infer<typeof formSchema>) => {
 
     try {
       
-      await login(values)
+      const res = await login(values)
       toast.success('Logged in successfully')
-      router.push('/individual/dashboard')
+      
+      // router.push('/individual/dashboard')
 
     } catch (error) {
       if (error instanceof AxiosError) {

@@ -1,6 +1,6 @@
 import React from 'react'
 import './sidebar.css'
-import { FileEdit, LayoutDashboard, MessageSquare } from 'lucide-react';
+import { BarChartHorizontalBig, Box, FileEdit, LayoutDashboard, MessageSquare, Users } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import SidebarItem from '../sidebarItem/SidebarItem';
 import { Separator } from '../../ui/separator';
@@ -26,14 +26,24 @@ const indivisualRoutes = [
 
 const CooperationRoutes = [
   {
-    icon: "",
-    label: "Courses",
-    href: "/teacher/courses"
+    icon: LayoutDashboard,
+    label: "Dashboard",
+    href: "/cooperation/dashboard"
   },
   {
-    icon: "",
-    label: "Analytics",
-    href: "/teacher/analytics"
+    icon: Box,
+    label: "Services",
+    href: "/cooperation/services"
+  },
+  {
+    icon: FileEdit,
+    label: "profile",
+    href: "/cooperation/profile"
+  },
+  {
+    icon: Users,
+    label: "employees",
+    href: "/cooperation/employees"
   },
 ]
 
@@ -57,14 +67,14 @@ export default function Sidebar() {
   const pathName = usePathname();
 
   const isIndivisualUser = pathName?.includes('individual')
-  const isCoorporateUser = pathName?.startsWith('coorporate')
+  const isCooperationUser = pathName?.includes('cooperation')
   const isAdminUser = pathName?.startsWith('admin')
 
   let routes;
 
   if(isIndivisualUser) {
     routes = indivisualRoutes;
-  } else if (isCoorporateUser) {
+  } else if (isCooperationUser) {
     routes = CooperationRoutes;
   } else if (isAdminUser) {
     routes = AdminRoutes;

@@ -33,6 +33,9 @@ type userProps = {
   occupation: number;
   skills: number;
   is_verified: boolean;
+
+  role: string;
+  name:string;
 }
 
 export default function NavbarRoutes() {
@@ -71,7 +74,19 @@ export default function NavbarRoutes() {
 
   const { logout, currentUser } = useContext(AuthContext)
 
-  const router = useRouter()
+  const router = useRouter();
+
+  const handleRoute = () => {
+    
+    if( currentUser?.role === "company") {
+      router.push('/cooperation/dashboard')
+    } else if (currentUser?.role === 'admin') {
+      router.push('/admin/dashboard')
+    } else {
+      router.push('/individual/dashboard')
+    }
+  }
+
   const handleLogout = async (e) => {
     e.preventDefault()
 
@@ -115,7 +130,12 @@ export default function NavbarRoutes() {
        
         {user ? (
           <div className="hidden md:flex gap-6 items-center justify-center">
-            <Link href={'/individual/dashboard'} className=" text-white hover:text-slate-400">{user.first_name}</Link>
+            <button 
+              onClick={handleRoute}
+              className=" text-white hover:text-slate-400"
+            >
+              {user.first_name || user.name}
+            </button>
             <Button 
               variant={'outline'}
               onClick={handleLogout}

@@ -118,7 +118,7 @@ export default function IndivisualExams() {
                     <Dialog>
                       <DialogTrigger asChild>
                       <Button 
-                        // disabled={!selectedAll}
+                        disabled={!selectedAll}
                         type='button'
                         className='w-60'
                       >

@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation'
 import React, { useContext } from 'react'
 import './navbarRoutes.css'
-import { Separator } from '../../ui/separator';
+import { Separator } from '../../../../../components/ui/separator';
 import { cn } from '@/lib/utils';
 import { AuthContext } from '@/context/authContext';
 
