@@ -1,6 +1,7 @@
-import React from 'react'
-import { Area, AreaChart, Bar, BarChart, CartesianGrid, Legend, Tooltip, XAxis, YAxis } from 'recharts'
+'use client'
 
+import React from 'react'
+import { Area, AreaChart, CartesianGrid, Tooltip, XAxis, YAxis } from 'recharts'
 
 
 const data = [
@@ -47,6 +48,7 @@ const data = [
     "amt": 2100
   }
 ]
+
 export default function EmployeesTopService() {
   return (
     <div className=' w-full h-full flex items-center justify-center'>

@@ -1,10 +1,17 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import './sidebar.css'
-import { BarChartHorizontalBig, Box, FileEdit, LayoutDashboard, MessageSquare, Users } from 'lucide-react';
-import { usePathname } from 'next/navigation';
+import { BarChartHorizontalBig, Box, FileEdit, LayoutDashboard, LogOut, MessageSquare, Users } from 'lucide-react';
+import { usePathname, useRouter } from 'next/navigation';
 import SidebarItem from '../sidebarItem/SidebarItem';
 import { Separator } from '../../ui/separator';
 import Link from 'next/link';
+import { AuthContext } from '@/context/authContext';
+
+type RouterProps = {
+  icon: any;
+    label: string;
+    href: string;
+}
 
 const indivisualRoutes = [
   {
@@ -64,6 +71,9 @@ const AdminRoutes = [
 
 export default function Sidebar() {
 
+  const { logout } = useContext(AuthContext);
+  const router = useRouter();
+
   const pathName = usePathname();
 
   const isIndivisualUser = pathName?.includes('individual')
@@ -82,7 +92,16 @@ export default function Sidebar() {
     routes = [];
   }
 
-  // grayscale hover:grayscale-0  
+  const handleLogout = async () => {
+    try {
+      await logout();
+      router.push('/')
+      router.refresh();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <div className='h-full w-[300px] border-r overflow-y-auto bg-white shadow-lg'>
       <div className='sidebar_header_container text-sky-700 p-6 flex items-center justify-center gap-1 cursor-pointer'>
@@ -97,7 +116,7 @@ export default function Sidebar() {
       </div>
 
       
-      <div className='flex flex-col  space-y-10'>
+      <div className='flex relative h-[95vh] flex-col  space-y-10'>
         <div className=' flex flex-col gap-5 items-center mt-10'>
           {/* <div className=' w-20 h-20 rounded-full overflow-hidden'>
             <img 
@@ -116,7 +135,7 @@ export default function Sidebar() {
         </div>
 
         <div className='flex flex-col gap-2 justify-center px-5'>
-          { routes.map((route) => (
+          { routes.map((route: RouterProps) => (
             <SidebarItem
               key={route.href}
               icon={route.icon}
@@ -125,8 +144,12 @@ export default function Sidebar() {
             />
           ))}
         </div>
-        <div>
-
+        <div className=' absolute bottom-20 w-full px-10 '>
+          <Separator orientation='horizontal' color='black' className=' opacity-50 mb-2'/>
+          <div className='flex gap-2 p-4 items-center w-full cursor-pointer text-slate-500 hover:bg-slate-300/20 hover:text-sky-700 '>
+            <LogOut className="mr-2 h-4 w-4 text-rose-900" />
+            <button onClick={handleLogout}>Exit</button>
+          </div>
         </div>
       </div>
 

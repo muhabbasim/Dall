@@ -1,7 +1,6 @@
 'use client'
 import './indivisualDashboard.css';
-import React, { useContext, useEffect, useState } from 'react'
-import { Separator } from '@/components/ui/separator'
+import React, { useContext } from 'react'
 import { Expand, GraduationCap, Group, PackageCheck, TvIcon } from 'lucide-react';
 
 import { motion } from 'framer-motion'
@@ -9,7 +8,6 @@ import { AuthContext } from '@/context/authContext';
 
 import { useRouter } from 'next/navigation';
 import { EmployeesTable } from './_components/employees_table/employeesTable';
-import { NeoPie } from './_components/neo_pie/NeoPie';
 import { cn } from '@/lib/utils';
 import Employees_services from './_components/employee_services/Employees_services';
 import EmployeesTopService from './_components/employee_services2/EmployeesTopServices';
@@ -125,7 +123,7 @@ export default function page() {
             <div className='grid grid-cols-3 gap-6'>
               <div className='grid grid-cols-2 gap-4 col-span-2'>
                 <div className='border rounded-lg p-2'>
-                  <Employees_services/>
+                  <Employees_services/> 
                 </div>
 
                 <div className='border rounded-lg p-2 '>

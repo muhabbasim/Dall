@@ -1,15 +1,25 @@
 'use client'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Separator } from '@/components/ui/separator'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/navigation';
-
-
+import { useQuery } from '@tanstack/react-query'
+import api from '@/context/apiRequest'
+import ServicesDataTable from './services_data_table/ServicesDataTable'
+import { columns } from './services_data_table/ServicesColumns'
 
 export default function page() {
 
   
-  const router = useRouter();
+  const { data: perviousServices, isLoading, isError } = useQuery({
+    queryKey: ['pervious_services'],
+    queryFn: async () => 
+    await api.get(`/company/list`).then((res) => {
+      return res.data?.data;
+    })
+  })
+
+
 
   return (
     <motion.div 
@@ -22,14 +32,14 @@ export default function page() {
       className='w-full h-full flex gap-8 justify-between'
     >
       <div className='w-full space-y-6'>
-        <div className='min-h-[400px] border rounded-lg bg-white'>
+        <div className='min-h-[700px] border rounded-lg bg-white'>
           <div className=' w-full text-center p-5'>
-            <h1 className=' font-bold text-slate-600'> Our services</h1>
+            <h1 className=' font-bold text-slate-600'>Subscribed services</h1>
           </div>
           <Separator className='w-full px-10 h-[1px]'/>
 
           <div className='p-20'>
-
+            <ServicesDataTable isLoading={isLoading} isError={isError} columns={columns} data={perviousServices || []}/>
           </div>
         </div>  
       </div>
