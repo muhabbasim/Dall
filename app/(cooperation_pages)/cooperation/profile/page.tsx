@@ -63,7 +63,6 @@ const formSchema = z.object({
   phone: z.string(),
   company_password: z.string(),
   company_password_confirmation: z.string(),
-
 })
 
 

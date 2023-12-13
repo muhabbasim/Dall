@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button'
-import { LayoutDashboard, PlusCircle } from 'lucide-react'
+import { Layers3, LayoutDashboard, LayoutGrid, PlusCircle } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
@@ -46,23 +46,20 @@ export default function Header() {
       </div>
 
       <div className=' flex  gap-5'>
-        {/* { isDashboard && (
-          <Link href={'/indivisual/exam_intro'}>
-            <Button variant={'default'} className=' rounded-full p-5 flex items-center'>
-              <PlusCircle className='mr-2'/>
-                New exam
-            </Button>
-          </Link>
-        )} */}
-        <Link href={'/individual/dashboard'}>
-          <Button variant={'secondary'} className='rounded-full p-5 flex items-center'>
-            {/* <LayoutDashboard className='mr-2'/> */}
+        <Link href={'/cooperation/services/dall_services'}>
+          <Button variant={'secondary'} className=' p-5 border flex items-center'>
+            <Layers3 strokeWidth={1} className='mr-2 text-cyan-500'/>
+            Dall services
+          </Button>
+        </Link>
+
+        <Link href={'/'}>
+          <Button variant={'secondary'} className=' p-5 border flex items-center'>
+            <LayoutGrid strokeWidth={1} className='mr-2 text-cyan-500'/>
             Home page
           </Button>
         </Link>
-      
       </div>  
-      
     </div>
   )
 }

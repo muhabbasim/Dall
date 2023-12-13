@@ -8,9 +8,11 @@ import ServiceDetails from '../_components/ServiceDetails'
 
 
 type ServiceProps = {
+  id: number;
   icon: LucideIcon;
   label: string;
   desc: string;
+  fullDesc: string;
   img: string;
   href: string;
 }
@@ -19,24 +21,30 @@ export default function page() {
 
   const services = [
     {
+      id: 1,
       icon: PackageCheck,
-      label: "Organization Restructure",
+      label: "Organization Restructuring Service",
       desc: "Navigate change successfully with our Organization Restructure service.",
-      href: "/cooperation/services/services_form",
+      fullDesc: "An evaluation that provides detailed reports for employees within the company, focusing on their capabilities and compatibility within departments and across various sections of the organization. This service calculates an overall compatibility rate among employees and presents a final report to all employees, suggesting the best positions that align with their abilities and contribute to maximizing their productivity.",
+      href: "/cooperation/services/services_form/reconstruction",
       img: 'https://images.unsplash.com/photo-1435575653489-b0873ec954e2?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
     },
     {
+      id: 2,
       icon: Layers3,
-      label: "Employee comparison",
+      label: "Employee Comparison Service",
       desc: 'Enhance your workforce efficiency with our Employee Comparison service.',
-      href: "/cooperation/services/services_form",
+      fullDesc: "A measurement tool that assists the recruitment department in selecting one or more employees with similar qualifications for a specific position. The assessment is based on the best alignment through various tests, ensuring that the selected candidates not only possess the required qualifications but also exhibit the highest compatibility for the job.",
+      href: "/cooperation/services/services_form/comparision",
       img: "https://images.unsplash.com/photo-1549923746-c502d488b3ea?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     },
     {
+      id: 3,
       icon: Users,
-      label: "Search for employees",
+      label: "Employee Search Service",
       desc: "Simplify your recruitment process with our comprehensive Search for Employees service.",
-      href: "/cooperation/services/services_form",
+      fullDesc: "A technological tool based on the analysis of companies' data needs and recruitment requirements, linking them with measurement results in our databases or collaborating entities. This service utilizes advanced data analysis to streamline the search for qualified candidates, ensuring a seamless match between company requirements and candidate profiles.",
+      href: "/cooperation/services/services_form/employees_search",
       img: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=2084&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
     },
   ];
@@ -58,13 +66,13 @@ export default function page() {
           </div>
           <Separator className='w-full px-10 h-[1px]'/>
 
-          <div className='p-20 h-full flex justify-around items-center'>
+          <div className='py-20 px-10 h-full flex flex-wrap gap-10 justify-around items-center'>
 
             {services.map((service: ServiceProps, i) => (
-              <div key={i} className='service_card w-72 border px-6 py-10 rounded-lg shadow-md cursor-pointer transition-all'>
+              <div key={i} className='service_card w-72 min-h-[450px] border px-6 py-10 rounded-lg shadow-md cursor-pointer transition-all'>
                 <div className='space-y-6'>
                   <service.icon strokeWidth={1} className='service_icon w-20 h-20 text-cyan-500'/>
-                  <h1 className='service_title font-bold text-2xl  text-blue-900'>{service.label}</h1>
+                  <h1 className='service_title h-20 font-bold text-2xl text-blue-900'>{service.label}</h1>
                 </div>
                 <Separator className='w-full px-10 h-[1px] my-6'/>
                 <div className='space-y-6'>

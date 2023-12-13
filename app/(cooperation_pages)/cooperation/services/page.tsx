@@ -5,8 +5,8 @@ import { motion } from 'framer-motion'
 import { useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query'
 import api from '@/context/apiRequest'
-import ServicesDataTable from './services_data_table/ServicesDataTable'
-import { columns } from './services_data_table/ServicesColumns'
+import ServicesDataTable from './_components/services_data_table/ServicesDataTable'
+import { columns } from './_components/services_data_table/ServicesColumns'
 
 export default function page() {
 

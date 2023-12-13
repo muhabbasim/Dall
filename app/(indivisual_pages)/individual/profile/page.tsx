@@ -33,7 +33,7 @@ import { useForm } from "react-hook-form"
 import * as z from "zod"
 import { cn } from '@/lib/utils';
 import { Calendar } from '@/components/ui/calendar';
-import { format, isValid } from "date-fns"
+import { format } from "date-fns"
 import api from '@/context/apiRequest';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
@@ -240,7 +240,7 @@ export default function Profile() {
       // birth_date: currentUser && currentUser?.birth_date || undefined,
       residence_country: currentUser && currentUser?.residence_country.id || undefined,
       residence_city: currentUser && currentUser?.residence_city.id || undefined,
-      gender: currentUser && currentUser?.gender.id || undefined,
+      gender: currentUser && currentUser?.genders.id || undefined,
       
       nationality: currentUser && currentUser?.nationality.id || undefined,
       education_institute: currentUser && currentUser?.education_institute.id || undefined,
