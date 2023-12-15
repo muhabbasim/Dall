@@ -86,7 +86,7 @@ export default function NavbarRoutes() {
 
   return (
     <div className='flex w-full justify-between items-center'>
-      <div className="flex-row gap-10 flex ml-20">
+      <div className="hidden md:flex flex-row gap-10 ml-20">
         {DashNavItems.map((item, i) => (
           <Link 
             key={i}
@@ -99,7 +99,7 @@ export default function NavbarRoutes() {
       </div>
      
 
-      <div className='flex items-center justify-around gap-5'>
+      <div className='flex w-full items-center md:justify-around justify-end gap-5'>
         <div className=' px-5'>
           <Separator orientation='horizontal' color='black' className=' h-[50px] w-[1px] opacity-100'/>
         </div>

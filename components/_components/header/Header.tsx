@@ -45,7 +45,7 @@ export default function Header() {
         <h1 className='text-2xl font-bold text-slate-600'>{title}</h1>
       </div>
 
-      <div className=' flex  gap-5'>
+      <div className='flex gap-5'>
         <Link href={'/cooperation/services/dall_services'}>
           <Button variant={'secondary'} className=' p-5 border flex items-center'>
             <Layers3 strokeWidth={1} className='mr-2 text-cyan-500'/>
@@ -53,7 +53,7 @@ export default function Header() {
           </Button>
         </Link>
 
-        <Link href={'/'}>
+        <Link className='hidden md:inline' href={'/'}>
           <Button variant={'secondary'} className=' p-5 border flex items-center'>
             <LayoutGrid strokeWidth={1} className='mr-2 text-cyan-500'/>
             Home page

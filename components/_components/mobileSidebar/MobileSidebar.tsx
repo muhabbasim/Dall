@@ -6,6 +6,7 @@ import {
   SheetTrigger,
   SheetClose
 } from "@/components/ui/sheet"
+import Sidebar from '../sidebar/Sidebar'
 
 export default function MobileSidebar() {
   return (
@@ -16,7 +17,7 @@ export default function MobileSidebar() {
         </SheetTrigger>
         <SheetContent side="left" className='w-[300px] p-0'>
           <SheetClose>
-            {/* Add routes */}
+            <Sidebar/>
           </SheetClose>
         </SheetContent>
       </Sheet>

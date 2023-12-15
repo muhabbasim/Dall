@@ -80,7 +80,6 @@ export default function Profile() {
       return res.data?.data as userDataProps;
     })
   })
-  console.log(userData)
 
   const { data: countries } = useQuery({
     queryKey: ['countries'],
@@ -190,7 +189,7 @@ export default function Profile() {
               <div className='w-full flex flex-col items-center'>
 
                 <div className='image_container w-[400px] h-full p-8'>
-                  <div className='relative flex gap-5 items-center '>
+                  <div className='relative flex flex-col md:flex-row gap-5 items-center '>
                     <div className='sidebar_img_container w-28 h-28 rounded-full overflow-hidden'>
                       <img 
                         src="/assets/images/indivisual_img.avif" 
@@ -212,7 +211,7 @@ export default function Profile() {
                 </div>
               </div>
 
-              <div className='info_form px-20'>
+              <div className='info_form px-6 md:px-20'>
                 <div>
                   <Form {...form}>
                     <form

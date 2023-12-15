@@ -10,3 +10,13 @@
   background-image: linear-gradient(to top, #30cfd0 0%, #330867 100%);
 }
 
+
+@media only screen and (max-width: 1400px) {
+  
+  .responsive_child {
+    width: 100%;
+  }
+  .responsive_personalCard {
+    display: none;
+  }
+}

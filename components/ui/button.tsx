@@ -20,6 +20,8 @@ const buttonVariants = cva(
         link: "text-primary underline-offset-4 hover:underline",
         login:
           " bg-blue-500 text-destructive-foreground hover:bg-blue-300",
+        submit:
+          " bg-cyan-500 text-destructive-foreground hover:bg-cyan-700",
       },
       size: {
         default: "h-10 px-4 py-2",

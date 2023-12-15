@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from 'react'
 import { Separator } from '@/components/ui/separator'
 import { motion } from 'framer-motion'
-import { useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query'
 import api from '@/context/apiRequest'
 import ServicesDataTable from './_components/services_data_table/ServicesDataTable'
@@ -38,7 +37,7 @@ export default function page() {
           </div>
           <Separator className='w-full px-10 h-[1px]'/>
 
-          <div className='p-20'>
+          <div className='p-6 md:p-20'>
             <ServicesDataTable isLoading={isLoading} isError={isError} columns={columns} data={perviousServices || []}/>
           </div>
         </div>  

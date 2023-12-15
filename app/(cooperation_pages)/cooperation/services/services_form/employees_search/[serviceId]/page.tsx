@@ -73,7 +73,7 @@ export default function page({ params }: { params: { serviceId: number; }}) {
   const { data: experience_year } = useQuery({
     queryKey: ['experience_year'],
     queryFn: async () => 
-    await api.get(`/get/experience_year`).then((res) => {
+    await api.get(`get/experience-years`).then((res) => {
       return res.data;
     })
   })
@@ -82,7 +82,7 @@ export default function page({ params }: { params: { serviceId: number; }}) {
   const { data: education_levels } = useQuery({
     queryKey: ['education_levels'],
     queryFn: async () => 
-    await api.get(`/get/education_levels`).then((res) => {
+    await api.get(`/get/education-levels`).then((res) => {
       return res.data;
     })
   })
@@ -100,12 +100,13 @@ export default function page({ params }: { params: { serviceId: number; }}) {
   const { isSubmitting } = form.formState;
 
   // form submit function
+  
   const submitForm = async (values: z.infer<typeof formSchema>) => {
 
-    console.log(values);
+    console.log({service: serviceId , values })
 
     try {
-      const res = await api.put(`/company/services/store`, values);
+      const res = await api.post(`/company/services/store`, values);
 
       console.log(res);
       toast.success('Subscribed successfully')
@@ -119,6 +120,7 @@ export default function page({ params }: { params: { serviceId: number; }}) {
       console.log(error)
     } 
   } 
+
 
   return (
     <motion.div 
@@ -301,7 +303,7 @@ export default function page({ params }: { params: { serviceId: number; }}) {
                                       >
                                         {field.value
                                         ? (Array.isArray(experience_year) ?
-                                          experience_year.find(item => item.id === field.value)?.english_name
+                                          experience_year.find(item => item.id === field.value)?.name
                                           : "")
                                         : "Select experience"}
                                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -316,7 +318,7 @@ export default function page({ params }: { params: { serviceId: number; }}) {
                                       { Array.isArray(experience_year) &&
                                           experience_year.map((item) => (
                                           <CommandItem
-                                            value={item.english_name}
+                                            value={item.name}
                                             key={item.id}
                                             onSelect={() => {
                                               form.setValue("create_experience_year_id", item.id)
@@ -332,7 +334,7 @@ export default function page({ params }: { params: { serviceId: number; }}) {
                                                   : "opacity-0"
                                               )}
                                             />
-                                            {item.english_name}
+                                            {item.name}
                                           </CommandItem>
                                         ))}
                                       </CommandGroup>
@@ -364,7 +366,7 @@ export default function page({ params }: { params: { serviceId: number; }}) {
                                       >
                                         {field.value
                                         ? (Array.isArray(education_levels) ?
-                                          education_levels.find(item => item.id === field.value)?.english_name
+                                          education_levels.find(item => item.id === field.value)?.name
                                           : "")
                                         : "Select level..."}
                                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -379,7 +381,7 @@ export default function page({ params }: { params: { serviceId: number; }}) {
                                       { Array.isArray(education_levels) &&
                                         education_levels.map((item) => (
                                         <CommandItem
-                                          value={item.english_name}
+                                          value={item.name}
                                           key={item.id}
                                           onSelect={() => {
                                             form.setValue("create_education_id", item.id)
@@ -395,7 +397,7 @@ export default function page({ params }: { params: { serviceId: number; }}) {
                                                 : "opacity-0"
                                             )}
                                           />
-                                          {item.english_name}
+                                          {item.name}
                                         </CommandItem>
                                       ))}
                                       </CommandGroup>
@@ -415,9 +417,8 @@ export default function page({ params }: { params: { serviceId: number; }}) {
                       <div className="flex gap-x-2 items-end justify-end">
                         <Button
                           className=' w-32 my-6'
-                          variant={'login'}
+                          variant={'submit'}
                           type="submit"
-                          onClick={() => submitForm}
                           disabled={isSubmitting}
                         >
                           {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}

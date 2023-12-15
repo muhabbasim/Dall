@@ -75,7 +75,7 @@ export const columns: ColumnDef<Service>[] = [
     header: ({ column }) => {
       return (
         <div
-          className="items-start"
+          className="items-start w-28"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Start date
@@ -87,7 +87,7 @@ export const columns: ColumnDef<Service>[] = [
 
       return (
         <>
-        {start_date}
+          {start_date}
         </>
       )
     }
@@ -109,7 +109,7 @@ export const columns: ColumnDef<Service>[] = [
       return (
         <Badge 
           className={cn(
-            "bg-sky-700"
+            "bg-sky-700 w-20 flex items-center justify-center"
           )}
         >
           <>
@@ -124,10 +124,10 @@ export const columns: ColumnDef<Service>[] = [
     header: ({ column }) => {
       return (
         <div
-          className="items-start"
+          className="items-start w-40"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          status
+          Status
           {/* <ArrowUpDown className="ml-2 h-4 w-4" /> */}
         </div>
       )
@@ -137,7 +137,7 @@ export const columns: ColumnDef<Service>[] = [
 
       return (
         <Badge className={cn(
-          "bg-slate-500 ",
+          "bg-slate-500 flex items-center justify-center",
           isSucess === 'paid' && "bg-sky-700",
           isSucess === 'failed' && "bg-rose-900",
         )}>
@@ -152,7 +152,7 @@ export const columns: ColumnDef<Service>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
-      const { id } = row.original
+      const id = row.getValue("id");
 
       return (
         <DropdownMenu>
@@ -165,8 +165,8 @@ export const columns: ColumnDef<Service>[] = [
 
           <DropdownMenuContent> 
 
-            <Link className="" href={``}>
-              <DropdownMenuItem>
+            <Link className="" href={`/cooperation/services/service_details/${id}`}>
+              <DropdownMenuItem className="cursor-pointer">
                 Details
                 <Eye className="h-4 w-4 ml-2"/>
               </DropdownMenuItem>

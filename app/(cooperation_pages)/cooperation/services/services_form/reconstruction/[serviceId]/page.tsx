@@ -25,15 +25,13 @@ import * as z from "zod"
 import { cn } from '@/lib/utils';
 import { format, isValid } from "date-fns"
 import api from '@/context/apiRequest';
-import { useQuery } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { AxiosError } from 'axios'
 import { Calendar } from '@/components/ui/calendar';
 
 
 const formSchema = z.object({
-  service: z.number().min(1, 'service is required'),
-  service_seats: z.number().min(1, 'service seats is required'),
+  service_seats: z.string().min(1, 'service seats is required'),
   service_link_start_date: z.any({required_error: "Start date is required."}),
   service_link_expiration_date: z.any({required_error: "Expiration date is required."}),
 })
@@ -50,10 +48,9 @@ export default function page({ params }: { params: { serviceId: number; }}) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      service: undefined,
-      service_seats: undefined,
-      service_link_start_date: undefined,
-      service_link_expiration_date: undefined,
+      service_seats: '',
+      service_link_start_date: '',
+      service_link_expiration_date: '',
     },
   })
 
@@ -62,14 +59,13 @@ export default function page({ params }: { params: { serviceId: number; }}) {
   // form submit function
   const submitForm = async (values: z.infer<typeof formSchema>) => {
 
-    const {service, ...otherValues } = values;
-    console.log({service: 'Employee Comparison Service' ,service_id: serviceId, otherValues})
+    console.log({service_name: 'Organization reconstruction Service', service : serviceId, values})
 
 
     try {
-      const res = await api.put(`/company/services/store`, {
-        service_id: serviceId, 
-        otherValues
+      const res = await api.post(`/company/services/store`, {
+        service: serviceId, 
+        values
       });
 
       console.log(res);
@@ -256,9 +252,8 @@ export default function page({ params }: { params: { serviceId: number; }}) {
                       <div className="flex gap-x-2 items-end justify-end">
                         <Button
                           className=' w-32 my-6'
-                          variant={'login'}
+                          variant={'submit'}
                           type="submit"
-                          onClick={() => submitForm}
                           disabled={isSubmitting}
                         >
                           {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}

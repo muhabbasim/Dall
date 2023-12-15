@@ -5,6 +5,8 @@ import { Separator } from '@/components/ui/separator'
 import { motion } from 'framer-motion'
 import { ChevronRight, Layers3, LucideIcon, PackageCheck, Users } from 'lucide-react';
 import ServiceDetails from '../_components/ServiceDetails'
+import api from '@/context/apiRequest'
+import { useQuery } from '@tanstack/react-query'
 
 
 type ServiceProps = {
@@ -19,7 +21,16 @@ type ServiceProps = {
 
 export default function page() {
 
-  const services = [
+  const { data: dallServices } = useQuery({
+    queryKey: ['dall_services'],
+    queryFn: async () => 
+    await api.get(`/company/services`).then((res) => {
+      return res.data?.data;
+    })
+  })
+
+
+  const services = [ 
     {
       id: 1,
       icon: PackageCheck,
@@ -66,10 +77,10 @@ export default function page() {
           </div>
           <Separator className='w-full px-10 h-[1px]'/>
 
-          <div className='py-20 px-10 h-full flex flex-wrap gap-10 justify-around items-center'>
+          <div className='dall_services_container py-20 px-10 h-full '>
 
             {services.map((service: ServiceProps, i) => (
-              <div key={i} className='service_card w-72 min-h-[450px] border px-6 py-10 rounded-lg shadow-md cursor-pointer transition-all'>
+              <div key={i} className='service_card min-h-[450px] border px-6 py-10 rounded-lg shadow-md cursor-pointer transition-all'>
                 <div className='space-y-6'>
                   <service.icon strokeWidth={1} className='service_icon w-20 h-20 text-cyan-500'/>
                   <h1 className='service_title h-20 font-bold text-2xl text-blue-900'>{service.label}</h1>
