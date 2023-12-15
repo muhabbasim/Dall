@@ -99,7 +99,7 @@ export default function NavbarRoutes() {
       </div>
      
 
-      <div className='flex w-full items-center md:justify-around justify-end gap-5'>
+      <div className='flex w-full items-center md:justify-end justify-end gap-5'>
         <div className=' px-5'>
           <Separator orientation='horizontal' color='black' className=' h-[50px] w-[1px] opacity-100'/>
         </div>

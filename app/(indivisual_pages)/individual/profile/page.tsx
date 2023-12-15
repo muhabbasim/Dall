@@ -240,7 +240,7 @@ export default function Profile() {
       // birth_date: currentUser && currentUser?.birth_date || undefined,
       residence_country: currentUser && currentUser?.residence_country.id || undefined,
       residence_city: currentUser && currentUser?.residence_city.id || undefined,
-      gender: currentUser && currentUser?.genders.id || undefined,
+      gender: currentUser && currentUser?.genders?.id || undefined,
       
       nationality: currentUser && currentUser?.nationality.id || undefined,
       education_institute: currentUser && currentUser?.education_institute.id || undefined,

@@ -38,42 +38,40 @@ type userProps = {
   name:string;
 }
 
+const navbarItems = [
+
+  {
+    name: ' Visions',
+    id:"vision"
+  },
+  {
+    name: 'Services',
+    id:"services"
+  },
+  {
+    name: 'Projects',
+    id:"projects"
+  },
+  {
+    name: 'FQA',
+    id:"FAQ"
+  },
+  {
+    name: 'Testimonials',
+    id:"Testimonials"
+  },
+  {
+    name: 'Contact us',
+    id:"contact"
+  },
+
+]
+
 export default function NavbarRoutes() {
 
-  const navbarItems = [
-    // {
-    //   name: 'Home',
-    //   id:"home"
-    // },
-    {
-      name: ' Visions',
-      id:"vision"
-    },
-    {
-      name: 'Services',
-      id:"services"
-    },
-    {
-      name: 'Projects',
-      id:"projects"
-    },
-    {
-      name: 'FQA',
-      id:"FAQ"
-    },
-    {
-      name: 'Testimonials',
-      id:"Testimonials"
-    },
-    {
-      name: 'Contact us',
-      id:"contact"
-    },
-  
-  ]
 
+  const [ user, setUser ] = useState<userProps | null>()
   const { logout, currentUser } = useContext(AuthContext)
-
   const router = useRouter();
 
   const handleRoute = () => {
@@ -82,7 +80,7 @@ export default function NavbarRoutes() {
       router.push('/cooperation/dashboard')
     } else if (currentUser?.role === 'admin') {
       router.push('/admin/dashboard')
-    } else {
+    } else if( currentUser?.role === 'individual') {
       router.push('/individual/dashboard')
     }
   }
@@ -100,7 +98,6 @@ export default function NavbarRoutes() {
     }
   }
 
-  const [ user, setUser ] = useState<userProps | null>()
   useEffect(() => {
     setUser(currentUser)
     

@@ -44,7 +44,6 @@ export default function IndividualDashboard() {
       className='w-full h-full flex gap-8 justify-between'
     >
       <div className='w-full space-y-6'>
-        <IndividualStates/>
 
         <div className='min-h-[400px] border rounded-lg bg-white'>
           <div className=' w-full text-center p-5'>
@@ -60,7 +59,10 @@ export default function IndividualDashboard() {
             </div>
           )}
 
-          <div className='p-20'>
+          <div className='p-6 md:p-14'>
+            <div className='mb-14'>
+              <IndividualStates/>
+            </div>
             <DashDataTable isVerified={isVerified} setVerification={setVerification} columns={columns} data={tableData || []}/>
           </div>
 

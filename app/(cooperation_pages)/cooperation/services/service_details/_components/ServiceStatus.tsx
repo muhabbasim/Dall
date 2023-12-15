@@ -55,7 +55,7 @@ export default function Service_status({ service }: ServiceProps) {
           <div className=' space-y-2'>
             <div className='flex gap-3 items-center'>
               <h1 className='w-28'>Total Seats:</h1>
-              <h3 className='text-sm text-blue-400'>{service?.seats}</h3>
+              <h3 className='text-sm text-gray-400'>{service?.seats}</h3>
             </div>
             <div className='flex gap-3 items-center'>
               <h1 className='w-28'>Registrated:</h1>
@@ -73,11 +73,11 @@ export default function Service_status({ service }: ServiceProps) {
           <div className=' space-y-2'>
             <div className='flex gap-3 items-center'>
               <h1 className='w-36'>Registration date:</h1>
-              <h3 className='text-sm text-blue-400'>{service?.created_at}</h3>
+              <h3 className='text-sm text-gray-400'>{service?.created_at}</h3>
             </div>
             <div className='flex gap-3 items-center'>
               <h1 className='w-36'>Start date:</h1>
-              <h3 className='text-sm text-blue-400'>{service?.start}</h3>
+              <h3 className='text-sm text-gray-400'>{service?.start}</h3>
             </div>
             <div className='flex gap-3 items-center'>
               <h1 className='w-36'>Expiration date:</h1>

@@ -9,6 +9,8 @@ export default function Header() {
   const pathName = usePathname()
   const router = useRouter()
   // const [ title, setTitle ]  = useState('');
+  
+  const isCooperation = pathName?.includes('cooperation')
 
   const isDashboard = pathName?.includes('dashboard')
   const isPfofile = pathName?.includes('profile')
@@ -46,12 +48,14 @@ export default function Header() {
       </div>
 
       <div className='flex gap-5'>
-        <Link href={'/cooperation/services/dall_services'}>
-          <Button variant={'secondary'} className=' p-5 border flex items-center'>
-            <Layers3 strokeWidth={1} className='mr-2 text-cyan-500'/>
-            Dall services
-          </Button>
-        </Link>
+        {isCooperation && (
+          <Link href={'/cooperation/services/dall_services'}>
+            <Button variant={'secondary'} className=' p-5 border flex items-center'>
+              <Layers3 strokeWidth={1} className='mr-2 text-cyan-500'/>
+              Dall services
+            </Button>
+          </Link>
+        )}
 
         <Link className='hidden md:inline' href={'/'}>
           <Button variant={'secondary'} className=' p-5 border flex items-center'>

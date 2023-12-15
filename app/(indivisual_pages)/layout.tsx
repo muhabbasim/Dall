@@ -6,9 +6,6 @@ import { useRouter } from 'next/navigation'
 import React, { ReactNode, useContext } from 'react'
 
 
-
-
-
 export default function Layout({ children } : {
   children: ReactNode
 }) {
@@ -16,11 +13,11 @@ export default function Layout({ children } : {
   const router = useRouter();
   const { currentUser } = useContext(AuthContext);
 
-  if ( currentUser && currentUser?.role === 'company' || 'admin' ) {
+  if ( currentUser && currentUser?.role !== 'individual' ) {
     router.push('/')
     return;
   }
-  
+
   return (
     <div className='h-full flex'>
       <div className='h-[70px] md:pl-72 fixed inset-y-0 w-full z-50'>
