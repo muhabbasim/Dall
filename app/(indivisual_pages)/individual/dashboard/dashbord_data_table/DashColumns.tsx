@@ -1,21 +1,12 @@
 "use client"
 
-// import { Course } from "@prisma/client"
 import { ColumnDef } from "@tanstack/react-table"
-import { ArrowUpDown, MoreHorizontal, Pencil } from "lucide-react"
-import Link from "next/link";
+import { ArrowUpDown} from "lucide-react"
 import { Button } from "@/components/ui/button";
 
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
 
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import { useRouter } from "next/navigation";
 import { Checkbox } from "@radix-ui/react-checkbox";
 
 
@@ -32,20 +23,20 @@ const handleReult = () => {
   console.log('result')
 }
 
-const handleExam = (isStarted: boolean, status: string, router: any) => {
+const handleExam = (isStarted: boolean, status: string) => {
   
   if (isStarted) {
     console.log('Continue')
     return;
   }
   if (!isStarted) {
-    router.push('/individual/exams')
+    // router.push('/individual/exams')
     console.log('Start')
     return;
   }
 }
 
-export const Columns: ColumnDef<Exam>[] = [
+export const columns: ColumnDef<Exam>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -147,11 +138,11 @@ export const Columns: ColumnDef<Exam>[] = [
     cell: ({ row }) => {
       const isStarted: boolean = row.getValue("isStarted");
       const status: string = row.getValue("status");
-      const router = useRouter();
+      // const router = useRouter();
 
       return (
         <Badge 
-        onClick={() => handleExam(isStarted, status, router)}
+        onClick={() => handleExam(isStarted, status)}
           className={cn(
             "bg-slate-500 cursor-pointer",
             isStarted && "bg-sky-700",
@@ -193,33 +184,4 @@ export const Columns: ColumnDef<Exam>[] = [
     }
   },
 
-  
-  // {
-  //   id: "actions",
-  //   cell: ({ row }) => {
-  //     const { id } = row.original
-
-  //     return (
-  //       <DropdownMenu>
-  //         <DropdownMenuTrigger asChild>
-  //           <Button variant="ghost" className="h-4 w-4 p-0">
-  //             <span className="sr-only">Open menu</span> 
-  //             <MoreHorizontal className="h-4 w-4"/>
-  //           </Button>
-  //         </DropdownMenuTrigger>
-
-  //         <DropdownMenuContent>
-
-  //           <Link href={``}>
-  //             <DropdownMenuItem>
-  //               <Pencil className="h-4 w-4 mr-2"/>
-  //               Edit
-  //             </DropdownMenuItem>
-  //           </Link>
-           
-  //         </DropdownMenuContent>
-  //       </DropdownMenu>
-  //     )
-  //   }
-  // }
 ]

@@ -6,13 +6,9 @@ import { Ban, Loader2 } from 'lucide-react';
 import React, { FormEvent, useState } from 'react'
 import {motion} from 'framer-motion'
 
-import { cn } from '@/lib/utils';
 import { Separator } from '@/components/ui/separator';
 import { useMultistepForm } from '@/components/hooks/useMultistepForm';
 import QuesitonsPartOne from '../_components/QuesitonsPartOne';
-import QuesitonsPartTow from '../_components/QuesitonsPartTwo';
-import QuesitonsPartThree from '../_components/QuesitonsPartThree';
-import QuesitonsPartFour from '../_components/QuesitonsPartFour';
 
 import {
   Dialog,
@@ -55,12 +51,8 @@ export default function IndivisualExams() {
   })
 
 
-
-  const { steps, step, currentStepIndex, isLastStep, next } = useMultistepForm([
+  const { steps, step, currentStepIndex, isLastStep } = useMultistepForm([
     <QuesitonsPartOne data={questions} handleOptionSelected={handleOptionSelected} selectedOptions={selectedOptions} setSelectedAll={setSelectedAll}/>,
-    // <QuesitonsPartTow handleOptionSelected={handleOptionSelected} selectedOptions={selectedOptions} setSelectedAll={setSelectedAll}/>,
-    // <QuesitonsPartThree handleOptionSelected={handleOptionSelected} selectedOptions={selectedOptions} setSelectedAll={setSelectedAll}/>,
-    // <QuesitonsPartFour handleOptionSelected={handleOptionSelected} selectedOptions={selectedOptions} setSelectedAll={setSelectedAll}/>
   ]);
 
 
@@ -70,12 +62,8 @@ export default function IndivisualExams() {
     router.push('/individual/results')
     confetti.onOpen();
 
-    const arraySelectedOptions = Object.entries(selectedOptions)
+    // const arraySelectedOptions = Object.entries(selectedOptions)
 
-
-    // if (isLastStep) {
-    //   next()
-    // }
     console.log(selectedOptions)
     setSelectedOptions('')
     setSelectedAll(false)
@@ -122,7 +110,7 @@ export default function IndivisualExams() {
                         type='button'
                         className='w-60'
                       >
-                          { isLastStep ? "Finish" : "Next" }
+                        { isLastStep ? "Finish" : "Next" }
                       </Button>
                       </DialogTrigger>
                       <DialogContent className="sm:max-w-md">

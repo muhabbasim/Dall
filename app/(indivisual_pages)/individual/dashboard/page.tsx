@@ -8,7 +8,8 @@ import { motion } from 'framer-motion'
 import { AuthContext } from '@/context/authContext';
 import { useQuery } from '@tanstack/react-query';
 import api from '@/context/apiRequest';
-import { Columns } from './dashbord_data_table/DashColumns';
+import { columns } from './dashbord_data_table/DashColumns';
+import IndividualStates from './_components/IndividualStates';
 
 
 
@@ -43,76 +44,7 @@ export default function IndividualDashboard() {
       className='w-full h-full flex gap-8 justify-between'
     >
       <div className='w-full space-y-6'>
-        <motion.div 
-          initial={{ x: 50, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{
-            duration: .5,
-            delay: .5
-          }} 
-          className='h-[100px] flex gap-5 justify-between'
-        >
-          <div
-             
-            className='indivisual_status cursor-pointer text-white bg-white w-full h-26 border rounded-lg flex items-center justify-around gap-5  shasdow shadow-lg'
-          >
-
-            <div>
-              <h1 className='text-sm'>
-                Exams
-              </h1>
-              <h1 className='text-2xl font-bold'>
-                1
-              </h1>
-              <p className='text-sm text-gray-400'>
-                total number
-              </p>
-            </div>
-            <div className='h-full pt-4'>
-              <TvIcon className='h-6 w-6'/>
-            </div>
-           
-          </div>
-          <div
-          
-            className='indivisual_status cursor-pointer text-white bg-white w-full h-26 border rounded-lg flex items-center justify-around gap-5  shadow-lg'
-          >
-             <div>
-              <h1 className='text-sm'>
-                Consultation
-              </h1>
-              <h1 className='text-2xl font-bold'>
-                2
-              </h1>
-              <p className='text-sm text-gray-400'>
-                total number
-              </p>
-            </div>
-            <div className='h-full pt-4'>
-              <Expand className='h-6 w-6'/>
-            </div>
-         
-          </div>
-          <div 
-            
-            className='indivisual_status cursor-pointer text-white bg-white w-full h-26 border rounded-lg flex items-center justify-around gap-5  shadow-lg'
-          >
-            <div>
-              <h1 className='text-sm'>
-                Result
-              </h1>
-              <h1 className='text-2xl font-bold'>
-                73%
-              </h1>
-              <p className='text-sm text-gray-400'>
-                total results
-              </p>
-            </div>
-            <div className='h-full pt-4'>
-              <GraduationCap className='h-6 w-6'/>
-            </div>
-          </div>
-        </motion.div>
+        <IndividualStates/>
 
         <div className='min-h-[400px] border rounded-lg bg-white'>
           <div className=' w-full text-center p-5'>
@@ -129,7 +61,7 @@ export default function IndividualDashboard() {
           )}
 
           <div className='p-20'>
-            <DashDataTable isVerified={isVerified} setVerification={setVerification} columns={Columns} data={tableData || []}/>
+            <DashDataTable isVerified={isVerified} setVerification={setVerification} columns={columns} data={tableData || []}/>
           </div>
 
         </div>  

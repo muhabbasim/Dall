@@ -83,7 +83,7 @@ interface FormDataProps {
 type CountryProps = {
   id: number;
   arabic_name:string;
-  english_name: string;
+  name: string;
   phone_code: string;
   code: string;
   isActive: number;
@@ -100,49 +100,49 @@ type CityProps = {
 type EducationLevelsProps = {
   id: number;
   arabic_name:string;
-  english_name: string;
+  name: string;
   isActive: number;
 }
 
 type EducationInstitutesProps = {
   id: number;
   arabic_name:string;
-  english_name: string;
+  name: string;
   isActive: number;
 }
 
 type OccupationsProps = {
   id: number;
   arabic_name:string;
-  english_name: string;
+  name: string;
   isActive: number;
 }
 
 type ExperienceYearProps = {
   id: number;
   arabic_name:string;
-  english_name: string;
+  name: string;
   isActive: number;
 }
 
 type SkillsProps = {
   id: number;
   arabic_name:string;
-  english_name: string;
+  name: string;
   isActive: number;
 } 
 
 type MajorsProps = {
   id: number;
   arabic_name:string;
-  english_name: string;
+  name: string;
   isActive: number;
 }
 
 type GendersProps = {
   id: number;
   arabic_name:string;
-  english_name: string;
+  name: string;
   isActive: number;
 }
 
@@ -458,7 +458,7 @@ export default function Profile() {
                                       >
                                         {field.value
                                           ? (Array.isArray(countries) ?
-                                          countries.find(country => country.id === field.value)?.english_name
+                                          countries.find(country => country.id === field.value)?.name
                                             : "")
                                           : "Select country"}
                                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -473,7 +473,7 @@ export default function Profile() {
                                       { Array.isArray(countries) &&
                                           countries.map((country) => (
                                           <CommandItem
-                                            value={country.english_name}
+                                            value={country.name}
                                             key={country.id}
                                             onSelect={() => {
                                               form.setValue("birth_country", country.id)
@@ -489,7 +489,7 @@ export default function Profile() {
                                                   : "opacity-0"
                                               )}
                                             />
-                                            {country.english_name}
+                                            {country.name}
                                           </CommandItem>
                                         ))}
                                       </CommandGroup>
@@ -645,7 +645,7 @@ export default function Profile() {
                                       >
                                         {field.value
                                           ? (Array.isArray(countries) ?
-                                            countries.find(country => country.id === field.value)?.english_name
+                                            countries.find(country => country.id === field.value)?.name
                                             : "")
                                           : "Select country"}
                                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -660,7 +660,7 @@ export default function Profile() {
                                       { Array.isArray(countries) &&
                                         countries.map((country) => (
                                         <CommandItem
-                                          value={country.english_name}
+                                          value={country.name}
                                           key={country.id}
                                           onSelect={() => {
                                             form.setValue("residence_country", country.id)
@@ -676,7 +676,7 @@ export default function Profile() {
                                                 : "opacity-0"
                                             )}
                                           />
-                                          {country.english_name}
+                                          {country.name}
                                         </CommandItem>
                                       ))}
                                       </CommandGroup>
@@ -774,7 +774,7 @@ export default function Profile() {
                                       >
                                         {field.value
                                         ? (Array.isArray(countries) ?
-                                          countries.find(country => country.id === field.value)?.english_name
+                                          countries.find(country => country.id === field.value)?.name
                                           : "")
                                         : "Select country"}
                                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -789,7 +789,7 @@ export default function Profile() {
                                       { Array.isArray(countries) &&
                                         countries.map((country) => (
                                         <CommandItem
-                                          value={country.english_name}
+                                          value={country.name}
                                           key={country.id}
                                           onSelect={() => {
                                             form.setValue("nationality", country.id)
@@ -805,7 +805,7 @@ export default function Profile() {
                                                 : "opacity-0"
                                             )}
                                           />
-                                          {country.english_name}
+                                          {country.name}
                                         </CommandItem>
                                       ))}
                                       </CommandGroup>
@@ -838,7 +838,7 @@ export default function Profile() {
                                       >
                                         {field.value
                                         ? (Array.isArray(genders) ?
-                                          genders.find(item => item.id === field.value)?.english_name
+                                          genders.find(item => item.id === field.value)?.name
                                           : "")
                                         : "Select gender"}
                                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -853,7 +853,7 @@ export default function Profile() {
                                       { Array.isArray(genders) &&
                                         genders.map((item) => (
                                         <CommandItem
-                                          value={item.english_name}
+                                          value={item.name}
                                           key={item.id}
                                           onSelect={() => {
                                             form.setValue("gender", item.id)
@@ -869,7 +869,7 @@ export default function Profile() {
                                                 : "opacity-0"
                                             )}
                                           />
-                                          {item.english_name}
+                                          {item.name}
                                         </CommandItem>
                                       ))}
                                       </CommandGroup>
@@ -905,7 +905,7 @@ export default function Profile() {
                                       >
                                         {field.value
                                         ? (Array.isArray(education_institutes) ?
-                                          education_institutes.find(institution => institution.id === field.value)?.english_name
+                                          education_institutes.find(institution => institution.id === field.value)?.name
                                           : "")
                                         : "Select institution"}
                                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -920,7 +920,7 @@ export default function Profile() {
                                       { Array.isArray(education_institutes) &&
                                         education_institutes.map((institution) => (
                                         <CommandItem
-                                          value={institution.english_name}
+                                          value={institution.name}
                                           key={institution.id}
                                           onSelect={() => {
                                             form.setValue("education_institute", institution.id)
@@ -936,7 +936,7 @@ export default function Profile() {
                                                 : "opacity-0"
                                             )}
                                           />
-                                          {institution.english_name}
+                                          {institution.name}
                                         </CommandItem>
                                       ))}
                                       </CommandGroup>
@@ -969,7 +969,7 @@ export default function Profile() {
                                       >
                                         {field.value
                                         ? (Array.isArray(education_levels) ?
-                                          education_levels.find(item => item.id === field.value)?.english_name
+                                          education_levels.find(item => item.id === field.value)?.name
                                           : "")
                                         : "Select level..."}
                                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -984,7 +984,7 @@ export default function Profile() {
                                       { Array.isArray(education_levels) &&
                                         education_levels.map((item) => (
                                         <CommandItem
-                                          value={item.english_name}
+                                          value={item.name}
                                           key={item.id}
                                           onSelect={() => {
                                             form.setValue("education_level", item.id)
@@ -1000,7 +1000,7 @@ export default function Profile() {
                                                 : "opacity-0"
                                             )}
                                           />
-                                          {item.english_name}
+                                          {item.name}
                                         </CommandItem>
                                       ))}
                                       </CommandGroup>
@@ -1036,7 +1036,7 @@ export default function Profile() {
                                       >
                                         {field.value
                                         ? (Array.isArray(majors) ?
-                                          majors.find(item => item.id === field.value)?.english_name
+                                          majors.find(item => item.id === field.value)?.name
                                           : "")
                                         : "Select major"}
                                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -1051,7 +1051,7 @@ export default function Profile() {
                                         { Array.isArray(majors) &&
                                           majors.map((item) => (
                                           <CommandItem
-                                            value={item.english_name}
+                                            value={item.name}
                                             key={item.id}
                                             onSelect={() => {
                                               form.setValue("major", item.id)
@@ -1067,7 +1067,7 @@ export default function Profile() {
                                                   : "opacity-0"
                                               )}
                                             />
-                                            {item.english_name}
+                                            {item.name}
                                           </CommandItem>
                                         ))}
                                       </CommandGroup>
@@ -1103,7 +1103,7 @@ export default function Profile() {
                                       >
                                         {field.value
                                         ? (Array.isArray(experience_year) ?
-                                          experience_year.find(item => item.id === field.value)?.english_name
+                                          experience_year.find(item => item.id === field.value)?.name
                                           : "")
                                         : "Select experience"}
                                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -1118,7 +1118,7 @@ export default function Profile() {
                                       { Array.isArray(experience_year) &&
                                           experience_year.map((item) => (
                                           <CommandItem
-                                            value={item.english_name}
+                                            value={item.name}
                                             key={item.id}
                                             onSelect={() => {
                                               form.setValue("experience_years", item.id)
@@ -1134,7 +1134,7 @@ export default function Profile() {
                                                   : "opacity-0"
                                               )}
                                             />
-                                            {item.english_name}
+                                            {item.name}
                                           </CommandItem>
                                         ))}
                                       </CommandGroup>
@@ -1167,7 +1167,7 @@ export default function Profile() {
                                       >
                                         {field.value
                                         ? (Array.isArray(occupations) ?
-                                          occupations.find(item => item.id === field.value)?.english_name
+                                          occupations.find(item => item.id === field.value)?.name
                                           : "")
                                         : "Select an occupations"}
                                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -1182,7 +1182,7 @@ export default function Profile() {
                                       { Array.isArray(occupations) &&
                                           occupations.map((item) => (
                                           <CommandItem
-                                            value={item.english_name}
+                                            value={item.name}
                                             key={item.id}
                                             onSelect={() => {
                                               form.setValue("occupation", item.id)
@@ -1197,7 +1197,7 @@ export default function Profile() {
                                                   : "opacity-0"
                                               )}
                                             />
-                                            {item.english_name}
+                                            {item.name}
                                           </CommandItem>
                                         ))}
                                       </CommandGroup>
@@ -1240,7 +1240,7 @@ export default function Profile() {
                                                 variant="secondary"
                                                 className="mr-1 mb-1"
                                               >
-                                                {skill.english_name}
+                                                {skill.name}
                                               </Badge>
                                             ) ) 
                                           
@@ -1258,7 +1258,7 @@ export default function Profile() {
                                       { Array.isArray(skills) &&
                                         skills.map((skill) => (
                                         <CommandItem
-                                          value={skill.english_name}
+                                          value={skill.name}
                                           key={skill.id}
                                           onSelect={() => {
                                             handleSkillsOption(skill.id);
@@ -1272,7 +1272,7 @@ export default function Profile() {
                                                 "opacity-100" : "opacity-0")
                                               }
                                             />
-                                          {skill.english_name}
+                                          {skill.name}
                                         </CommandItem>
                                       ))}
                                       </CommandGroup>

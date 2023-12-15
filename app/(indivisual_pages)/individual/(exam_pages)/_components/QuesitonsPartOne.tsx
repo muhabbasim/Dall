@@ -33,21 +33,9 @@ interface OptionsProps {
 
 export default function QuesitonsPartOne({ handleOptionSelected, selectedOptions, setSelectedAll, data }) {
 
-  // const { data: ExamQuestions } = useQuery({
-  //   queryKey: ['exam_questions'],
-  //   queryFn: async () => 
-  //   await api.get(`/individual/questions/2`).then((res) => {
-  //     return res.data;
-  //   })
-  // })
-
   const questions = data.questions
 
-  // console.log(ExamQuestions)
-  // const individualExams = ExamQuestions?.find((item) => item.id === 2).questions
-  // const chapter1 = individualExams?.slice(0, 12);
-
-  // // validate all questions has a selected answer
+  // validate all questions has a selected answer
   const allQuestionsAnswered = questions.every((question) =>
     selectedOptions.hasOwnProperty(question.id)
   );
@@ -59,8 +47,6 @@ export default function QuesitonsPartOne({ handleOptionSelected, selectedOptions
     }
     
   },[selectedOptions])
-
-
 
   return (
     <div>

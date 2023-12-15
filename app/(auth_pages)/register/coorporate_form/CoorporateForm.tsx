@@ -70,6 +70,22 @@ export default function CoorporateForm() {
   const router = useRouter();
   const { CooperationRegister, currentUser } = useContext(AuthContext);
 
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      company_name: "",
+      company_country: undefined,
+      company_city: undefined,
+      company_address: "",
+      company_departments: undefined,
+      company_email: "",
+      company_staff: undefined,
+      company_phone: '',
+      company_password: '',
+      company_password_confirmation: '',
+    },
+  })
+  
   // get country
   const { data: countries } = useQuery({
     queryKey: ['countries'],
@@ -109,21 +125,6 @@ export default function CoorporateForm() {
   }
 
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      company_name: "",
-      company_country: undefined,
-      company_city: undefined,
-      company_address: "",
-      company_departments: undefined,
-      company_email: "",
-      company_staff: undefined,
-      company_phone: '',
-      company_password: '',
-      company_password_confirmation: '',
-    },
-  })
 
   const { isSubmitting, isValid } = form.formState;
 
