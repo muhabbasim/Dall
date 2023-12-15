@@ -9,7 +9,7 @@ import React, { ReactNode, useContext } from 'react'
 
 
 
-export default function layout({ children } : {
+export default function Layout({ children } : {
   children: ReactNode
 }) {
   

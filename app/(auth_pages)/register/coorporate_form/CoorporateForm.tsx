@@ -5,6 +5,8 @@ import React, { useContext, useEffect, useState } from 'react'
 import Link from "next/link";
 import '../register.css'
 import { Button } from "@/components/ui/button"
+import { useQuery } from '@tanstack/react-query';
+
 import {
   Form,
   FormControl,
@@ -39,7 +41,6 @@ import { cn } from '@/lib/utils';
 import { AuthContext } from '@/context/authContext';
 import { toast } from 'sonner';
 import  { AxiosError } from 'axios';
-import { useQuery } from '@tanstack/react-query';
 import api from '@/context/apiRequest';
 import { Badge } from '@/components/ui/badge';
 import { useRouter } from 'next/navigation';
@@ -63,15 +64,11 @@ const formSchema = z.object({
 
 export default function CoorporateForm() {
 
+  const [ err, setErr ] = useState(null);
+  const [ selectedDepartments, setSelectedDepartments ] = useState<number[]>([]); 
+
   const router = useRouter();
   const { CooperationRegister, currentUser } = useContext(AuthContext);
-
-  if( currentUser ) {
-    router.push('/')
-    return;
-  }
-
-  const [ err, setErr ] = useState(null);
 
   // get country
   const { data: countries } = useQuery({
@@ -99,15 +96,17 @@ export default function CoorporateForm() {
       return res.data;
     })
   })
-
-  const [ selectedDepartments, setSelectedDepartments ] = useState<number[]>([]); 
   
+  if( currentUser ) {
+    router.push('/')
+    return;
+  }
+
   const handleDepartmentsOption = (item: number) => {
     setSelectedDepartments(selectedDepartments.includes(item)
     ? selectedDepartments.filter((options) => options !== item)
     : [...selectedDepartments, item])
   }
-
 
 
   const form = useForm<z.infer<typeof formSchema>>({

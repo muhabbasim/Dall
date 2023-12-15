@@ -19,7 +19,7 @@ type ServiceProps = {
   href: string;
 }
 
-export default function page() {
+export default function DallServices() {
 
   const { data: dallServices } = useQuery({
     queryKey: ['dall_services'],

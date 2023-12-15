@@ -45,7 +45,7 @@ const handleExam = (isStarted: boolean, status: string, router: any) => {
   }
 }
 
-export const columns: ColumnDef<Exam>[] = [
+export const Columns: ColumnDef<Exam>[] = [
   {
     id: "select",
     header: ({ table }) => (

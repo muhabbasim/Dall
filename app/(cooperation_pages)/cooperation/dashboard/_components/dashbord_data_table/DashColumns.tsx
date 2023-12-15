@@ -15,7 +15,6 @@ import {
 
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import { useRouter } from "next/navigation";
 import { Checkbox } from "@radix-ui/react-checkbox";
 
 
@@ -32,14 +31,14 @@ const handleReult = () => {
   console.log('result')
 }
 
-const handleExam = (isStarted: boolean, status: string, router: any) => {
+const handleExam = (isStarted: boolean, status: string) => {
   
   if (isStarted) {
     console.log('Continue')
     return;
   }
   if (!isStarted) {
-    router.push('/individual/exams')
+    // router.push('/individual/exams')
     console.log('Start')
     return;
   }
@@ -147,11 +146,10 @@ export const columns: ColumnDef<Exam>[] = [
     cell: ({ row }) => {
       const isStarted: boolean = row.getValue("isStarted");
       const status: string = row.getValue("status");
-      const router = useRouter();
 
       return (
         <Badge 
-        onClick={() => handleExam(isStarted, status, router)}
+        onClick={() => handleExam(isStarted, status)}
           className={cn(
             "bg-slate-500 cursor-pointer",
             isStarted && "bg-sky-700",

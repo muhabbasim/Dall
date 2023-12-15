@@ -7,7 +7,7 @@ import api from '@/context/apiRequest'
 import ServicesDataTable from './_components/services_data_table/ServicesDataTable'
 import { columns } from './_components/services_data_table/ServicesColumns'
 
-export default function page() {
+export default function CooperationServices() {
 
   
   const { data: perviousServices, isLoading, isError } = useQuery({

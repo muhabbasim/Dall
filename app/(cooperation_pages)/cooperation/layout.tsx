@@ -6,7 +6,7 @@ import PersonalCard from '../../../components/_components/peronal_card/PersonalC
 import { motion } from 'framer-motion'
 
 
-export default function layout({ children } : {
+export default function Layout({ children } : {
   children: ReactNode
 }) {
   return (

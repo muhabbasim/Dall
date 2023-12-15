@@ -19,7 +19,6 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 import { toast } from 'sonner';
-import newRequest from '@/context/apiRequest';
 import { useRouter } from 'next/navigation';
 import { AuthContext } from '@/context/authContext';
 import { AxiosError } from 'axios' 
@@ -42,14 +41,10 @@ const formSchema = z.object({
 
 export default function IndivisualForm() {
   
+  const [ err, setErr ] = useState('')
   const { register, currentUser } = useContext(AuthContext);
   const router = useRouter();
-  
-  if ( currentUser ) {
-    router.push('/')
-    return;
-  }
-  const [ err, setErr ] = useState('')
+ 
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -62,6 +57,12 @@ export default function IndivisualForm() {
       email: "",
     },
   })
+
+  if ( currentUser ) {
+    router.push('/')
+    return;
+  }
+
 
   const { isSubmitting, isValid } = form.formState;
 
@@ -90,7 +91,8 @@ export default function IndivisualForm() {
     }
   }
 
-
+   
+ 
   return (
     <div className='register_inputs w-full h-full flex-1 md:p-16 p-5'>
       <h1 className='text-center pb-3 text-2xl text-rose-500 font-bold pt-10 md:pt-0'>Create an account</h1>

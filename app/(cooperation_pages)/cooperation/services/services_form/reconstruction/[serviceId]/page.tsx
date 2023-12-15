@@ -37,7 +37,7 @@ const formSchema = z.object({
 })
 
 
-export default function page({ params }: { params: { serviceId: number; }}) {
+export default function ReconstructionService({ params }: { params: { serviceId: number; }}) {
 
   const { serviceId } = params;
 

@@ -4,15 +4,15 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Separator } from '@/components/ui/separator'
 import { AlertTriangle, Expand, GraduationCap, ShieldAlert, TvIcon } from 'lucide-react';
 import DashDataTable from './dashbord_data_table/DashDataTable';
-import { columns } from './dashbord_data_table/DashColumns';
 import { motion } from 'framer-motion'
 import { AuthContext } from '@/context/authContext';
 import { useQuery } from '@tanstack/react-query';
 import api from '@/context/apiRequest';
+import { Columns } from './dashbord_data_table/DashColumns';
 
 
 
-export default function page() {
+export default function IndividualDashboard() {
 
   const [ tableData, setTableData ] = useState([]);
 
@@ -129,7 +129,7 @@ export default function page() {
           )}
 
           <div className='p-20'>
-            <DashDataTable isVerified={isVerified} setVerification={setVerification} columns={columns} data={tableData || []}/>
+            <DashDataTable isVerified={isVerified} setVerification={setVerification} columns={Columns} data={tableData || []}/>
           </div>
 
         </div>  

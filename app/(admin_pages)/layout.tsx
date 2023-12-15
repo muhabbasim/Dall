@@ -2,8 +2,7 @@
 
 import { useRouter } from 'next/navigation'
 import React, { ReactNode } from 'react'
-import Navbar from './administration/_components/co_navbar/Navbar'
-import Sidebar from './administration/_components/co_sidebar/Sidebar'
+
 
 
 
@@ -16,10 +15,10 @@ export default function layout({ children } : {
   return (
     <div className='h-full flex'>
       <div className='h-[70px] md:pl-72 fixed inset-y-0 w-full z-50'>
-        <Navbar/>
+        {/* <Navbar/> */}
       </div>
       <div className='hidden fixed md:flex h-full flex-col inset-y-0 z-50'>
-        <Sidebar/>
+        {/* <Sidebar/> */}
       </div>
       <main className='h-full pt-[70px] md:pl-[18rem] w-full '>
         {children}

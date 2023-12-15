@@ -37,7 +37,7 @@ const formSchema = z.object({
   service_link_expiration_date: z.any({required_error: "Expiration date is required."}),
 })
 
-export default function page({ params }: { params: { serviceId: number; }}) {
+export default function ComparisionService({ params }: { params: { serviceId: number; }}) {
 
   const { serviceId } = params;
 
