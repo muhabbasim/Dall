@@ -17,7 +17,7 @@ export type Exam = {
 }
 
 
-export default function page() {
+export default function IndividualConsultation() {
 
   const [ tableData, setTableData ] = useState([]);
 

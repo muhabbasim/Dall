@@ -58,7 +58,7 @@ const data = [
   },
 ];
 
-export default function page() {
+export default function IndividualResults() {
   return (
     <motion.div 
       initial={{ y: 50, opacity: 0 }}

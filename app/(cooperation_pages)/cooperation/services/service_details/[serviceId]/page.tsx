@@ -33,7 +33,7 @@ type ServiceDetailsProps = {
   url: string;
 }
 
-export default function page({ params }: { params: { serviceId: number }}) {
+export default function ServiceDetails({ params }: { params: { serviceId: number }}) {
   
   const serviceId = params.serviceId;
 

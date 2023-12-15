@@ -6,7 +6,7 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 
-export default function page() {
+export default function ExamServiceInroduction() {
   return (
     <motion.div
       initial={{ y: 50, opacity: 0 }}

@@ -11,7 +11,7 @@ import RecentServices from './_components/recent_services/RecentServices';
 
 
 
-export default function page() {
+export default function CooperationDashboard() {
 
   return (
     <motion.div 
