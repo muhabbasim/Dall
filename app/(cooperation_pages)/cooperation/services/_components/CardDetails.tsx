@@ -26,11 +26,11 @@ type Services = {
   service: ServiceProps
 }
 
-export default function ServiceDetails({ service } : Services) {
+export default function CardDetails({ service } : Services) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <div>More details</div>
+        <div className='cursor-pointer'>More details</div>
       </DialogTrigger>
       <DialogContent className="w-full">
         <div className='w-full'>

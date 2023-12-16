@@ -151,29 +151,40 @@ export const columns: ColumnDef<Service>[] = [
   
   {
     id: "actions",
+    header: ({ column }) => {
+      return (
+        <div
+        >
+          Action
+        </div>
+      )
+    },
     cell: ({ row }) => {
       const id = row.getValue("id");
 
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-4 w-4 p-0">
-              
-              <MoreHorizontal className="h-4 w-4"/>
-            </Button>
-          </DropdownMenuTrigger>
+        <div className="flex items-center justify-center">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-4 w-4 p-0">
+                
+                <MoreHorizontal className="h-4 w-4"/>
+              </Button>
+            </DropdownMenuTrigger>
 
-          <DropdownMenuContent> 
+            <DropdownMenuContent> 
 
-            <Link className="" href={`/cooperation/services/service_details/${id}`}>
-              <DropdownMenuItem className="cursor-pointer">
-                Details
-                <Eye className="h-4 w-4 ml-2"/>
-              </DropdownMenuItem>
-            </Link>
-           
-          </DropdownMenuContent>
-        </DropdownMenu>
+              <Link className="" href={`/cooperation/services/service_details/${id}`}>
+                <DropdownMenuItem className="cursor-pointer">
+                  Details
+                  <Eye className="h-4 w-4 ml-2"/>
+                </DropdownMenuItem>
+              </Link>
+            
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+
       )
     }
   }

@@ -33,6 +33,20 @@ const handleDetails = () => {
 
 export const columns: ColumnDef<individualsProps>[] = [
   {
+    accessorKey: "id",
+    header: ({ column }) => {
+      return (
+        <div
+          className="flex items-start cursor-pointer"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          #
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </div>
+      )
+    }
+  },
+  {
     accessorKey: "name",
     header: ({ column }) => {
       return (

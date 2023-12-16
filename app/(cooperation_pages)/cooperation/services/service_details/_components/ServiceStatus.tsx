@@ -2,7 +2,21 @@ import '../../service.css'
 import Image from 'next/image'
 import React, { useState } from 'react'
 import { toast } from 'sonner'
-
+import { Check, Copy } from "lucide-react"
+ 
+import { Button } from "@/components/ui/button"
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { Label } from '@/components/ui/label'
+import { Input } from '@/components/ui/input'
 
 type ServiceDetailsProps = {
   id: number;
@@ -89,23 +103,51 @@ export default function Service_status({ service }: ServiceProps) {
       </div>
 
       <div className='flex w-full border shadow-sm rounded-md my-6 px-4 py-2 justify-between items-center'>
-        <div className='flex items-center gap-4'>
-          <h1 className='text-rose-700'>Url:</h1>
-          <h1>{service?.url}</h1>
-        </div>
-        <div className='cursor-pointer text-cyan-700 flex justify-end w-14'
-          onClick={handleCopied}
-        >
-          <Image
-            src={ copied === service?.url 
-              ? '/assets/icons/tick.svg'
-              : '/assets/icons/copy.svg'
-            }
-            width={20}
-            height={20}
-            alt='copy image'
-          />
-        </div>
+
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button variant="ghost" className='w-full'>
+            <div className='flex items-center gap-4'>
+              <h1 className='text-rose-700'>Url:</h1>
+              <h1>{service?.url}</h1>
+            </div>
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-md">
+            <DialogHeader>
+              <DialogTitle>Share link</DialogTitle>
+              <DialogDescription>
+                Anyone who has this link will be able to register to the service.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="flex items-center space-x-2">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor="link" className="sr-only">
+                  Link
+                </Label>
+                <Input
+                  id="link"
+                  defaultValue={service?.url}
+                  readOnly
+                />
+              </div>
+              <Button onClick={handleCopied} size="sm" className="px-3">
+                <span className="sr-only">Copy</span>
+                { copied === service?.url 
+                  ? (<Check className="h-4 w-4" />)
+                  : (<Copy className="h-4 w-4" />)
+                }
+              </Button>
+            </div>
+            <DialogFooter className="sm:justify-start">
+              <DialogClose asChild>
+                <Button type="button" variant="secondary">
+                  Close
+                </Button>
+              </DialogClose>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   )
