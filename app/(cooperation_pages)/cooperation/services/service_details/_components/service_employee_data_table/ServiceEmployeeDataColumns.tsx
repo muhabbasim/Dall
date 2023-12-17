@@ -7,25 +7,14 @@ import {
   DialogContent as UserDialogContent,
   DialogTrigger as UserDialogTrigger,
 } from "@/app/(cooperation_pages)/cooperation/employees/_components/userDetailsDialog";
-import { Button } from "@/components/ui/button"
 import {
   Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import EmployeeDetails from "@/app/(cooperation_pages)/cooperation/employees/_components/EmployeeDetails";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { toast } from "sonner";
-import useConfirmUser from "@/components/data/dataFether";
-import { useRouter } from "next/navigation";
-
+import ServiceDialog from "../ServiceDialog";
 
 type individualsProps = {
   name: string;
@@ -35,9 +24,6 @@ type individualsProps = {
   verification: boolean;
   is_verified: boolean;
 }
-
-
-
 
 export const columns: ColumnDef<individualsProps>[] = [
   {
@@ -139,16 +125,6 @@ export const columns: ColumnDef<individualsProps>[] = [
       const verification = row.getValue("verification") || false;
       const id = row.getValue("id") || false;
 
-      const { confirmUser } = useConfirmUser();
-      const handleVerification = (userId: any) => {
-        try { 
-          confirmUser(userId);
-          toast.success('User confirmed')
-        } catch (error) {
-          console.log(error)
-        };
-      }
-      
       return (
         <Dialog>
           <DialogTrigger asChild>
@@ -166,43 +142,7 @@ export const columns: ColumnDef<individualsProps>[] = [
               {verification ? "Confirmed" : "Not confirmed"}
             </h1>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-md">
-            <DialogHeader>
-              <DialogTitle className="pb-2">User confirmation</DialogTitle>
-              <DialogDescription className="flex items-center gap-4">
-                {verification ? (
-                  <> 
-                    <Check className="w-4 h-4 text-teal-700"/>
-                    <span className="text-teal-700">This user is already verified</span>
-                  </>
-                ) : (
-                  <span className="">
-                    Confirming this user will grant him a seat for the dall exams
-                    Are you sure you want to confirm this user?
-                  </span>
-                )}
-              </DialogDescription>
-            </DialogHeader>
-            <div className="flex items-end justify-end ">
-              {verification ? (
-                <DialogFooter className="sm:justify-start">
-                  <DialogClose asChild>
-                    <Button type="button" variant="secondary">
-                      Close
-                    </Button>
-                  </DialogClose>
-                </DialogFooter>
-              ) : (
-                <DialogFooter className="sm:justify-start w-full">
-                  <DialogClose asChild>
-                    <Button onClick={() => handleVerification(id)} className="w-full mt-6" type="button" >
-                      Confirm
-                    </Button>
-                  </DialogClose>
-                </DialogFooter>
-              )}
-            </div>
-          </DialogContent>
+          <ServiceDialog verification={verification} id={id}/>
         </Dialog>
       )
     }
