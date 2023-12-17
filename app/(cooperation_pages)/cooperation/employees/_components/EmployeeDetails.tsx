@@ -5,7 +5,7 @@ import api from '@/context/apiRequest'
 import { useQuery } from '@tanstack/react-query'
 import { Ban, Building2, Camera, Check, Cross, Loader2, Mail, Phone, X } from 'lucide-react'
 import Image from 'next/image'
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
@@ -40,6 +40,8 @@ type UserDetailsProps = {
 export default function EmployeeDetails({ userId }) {
 
   const { currentUser } = useContext(AuthContext);
+  
+  const [ userData, setUserData ] = useState<UserDetailsProps>();
   const { data: user, isError, isLoading } = useQuery({
     queryKey: ['userDetails'],
     queryFn: async () => 
@@ -48,7 +50,10 @@ export default function EmployeeDetails({ userId }) {
     })
   })
   
-  // console.log(typeof(user?.verification))
+  const isVerified = userData?.verification;
+  useEffect(() => {
+    setUserData(user)
+  },[user]);
   
   return (
     <>
@@ -91,7 +96,7 @@ export default function EmployeeDetails({ userId }) {
                     </div>
                   </div>
                   <div className=''>
-                    <h3 className='font-bold'>{(user?.name)?.toUpperCase()}</h3>
+                    <h3 className='font-bold'>{(userData?.name)?.toUpperCase()}</h3>
                   </div>
                 </div>
               </div>
@@ -107,7 +112,7 @@ export default function EmployeeDetails({ userId }) {
                     <Input
                       className='w-full bg-transparent border-none '
                       readOnly
-                      defaultValue={user?.residence_country?.arabic_name}
+                      defaultValue={userData?.residence_country?.arabic_name}
                     />
                   </Button>
                 </div>
@@ -117,7 +122,7 @@ export default function EmployeeDetails({ userId }) {
                     <Input
                       className='w-full bg-transparent border-none '
                       readOnly
-                      defaultValue={user?.residence_city?.arabic_name}
+                      defaultValue={userData?.residence_city?.arabic_name}
                     />
                   </Button>
                 </div>
@@ -130,7 +135,7 @@ export default function EmployeeDetails({ userId }) {
                     <Input
                       className='w-full bg-transparent border-none '
                       readOnly
-                      defaultValue={user?.education_institute?.arabic_name}
+                      defaultValue={userData?.education_institute?.arabic_name}
                     />
                   </Button>
                 </div>
@@ -140,7 +145,7 @@ export default function EmployeeDetails({ userId }) {
                     <Input
                       className='w-full bg-transparent border-none '
                       readOnly
-                      defaultValue={user?.education_level?.arabic_name}
+                      defaultValue={userData?.education_level?.arabic_name}
                     />
                   </Button>
                 </div>
@@ -153,7 +158,7 @@ export default function EmployeeDetails({ userId }) {
                     <Input
                       className='w-full bg-transparent border-none '
                       readOnly
-                      defaultValue={user?.occupation?.arabic_name}
+                      defaultValue={userData?.occupation?.arabic_name}
                     />
                   </Button>
                 </div>
@@ -163,7 +168,7 @@ export default function EmployeeDetails({ userId }) {
                     <Input
                       className='w-full bg-transparent border-none '
                       readOnly
-                      defaultValue={user?.experience_years?.arabic_name}
+                      defaultValue={userData?.experience_years?.arabic_name}
                     />
                   </Button>
                 </div>
@@ -176,7 +181,7 @@ export default function EmployeeDetails({ userId }) {
                     <Input
                       className='w-full bg-transparent border-none '
                       readOnly
-                      defaultValue={user?.gender?.arabic_name}
+                      defaultValue={userData?.gender?.arabic_name}
                     />
                   </Button>
                 </div>
@@ -185,21 +190,16 @@ export default function EmployeeDetails({ userId }) {
               <div className=' flex flex-col gap-2'>
                 <h3 className= 'w-32 text-gray-400'>Verification </h3>
                 <Button variant='ghost' 
-                  className={cn(`borde text-teal-600 bg-slate-100/60`,
-                    !user?.verification && 'text-rose-900' 
+                  className={cn(`border text-teal-600 bg-slate-100/60 flex justify-start gap-2`,
+                    !userData?.verification && 'text-rose-900' 
                   )}
-                  
                 >
-                  {user?.verification ? (
+                  {userData?.verification ? (
                     <Check/>
                   ) : (
                     <X/>
                   )}
-                  <Input
-                    className='w-full bg-transparent border-none '
-                    readOnly
-                    defaultValue={user?.verification && user?.verification ? "Confirmed" : "Not confirmed"}
-                  />
+                  <h1 className=''>{isVerified ? "Confirmed" : "Not confirmed"}</h1>
                 </Button>
               </div>
             </div>
@@ -208,11 +208,11 @@ export default function EmployeeDetails({ userId }) {
             <div className='box1 hidden md:flex flex-col justify-center gap-6 bg-white shadow-md rounded-xl p-8'>
               <div className=' text-gray-400 flex items-center gap-4'>
                 <Mail className=''/>
-                <h3 className=''>{user?.email}</h3>
+                <h3 className=''>{userData?.email}</h3>
               </div>
               <div className=' text-gray-400 flex items-center gap-4'>
                 <Phone className=''/>
-                <h3 className=''>{user?.phone}</h3>
+                <h3 className=''>{userData?.phone}</h3>
                 <div className='w-6 h-6 bg-teal-600 rounded-full flex items-center justify-center'>
                   <Check className='text-white w-5 h-5'/>
                 </div>

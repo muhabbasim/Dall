@@ -4,11 +4,11 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import { useQuery } from '@tanstack/react-query'
 import api from '@/context/apiRequest'
-import { Ban, Link, Loader2 } from 'lucide-react'
+import { Ban, Loader2 } from 'lucide-react'
 import Service_status from '../_components/ServiceStatus'
 import ServiceEmployeeDataTable from '../_components/service_employee_data_table/ServiceEmployeeDataTable'
 import { columns } from '../_components/service_employee_data_table/ServiceEmployeeDataColumns'
-
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 type individualsProps = {
   name: string;
   email: string;
@@ -36,20 +36,26 @@ type ServiceDetailsProps = {
 export default function ServiceDetails({ params }: { params: { serviceId: number }}) {
   
   const serviceId = params.serviceId;
+  // const { data: serviceDetails, isError, isLoading } = useQuery({
+  //   queryKey: ['services_details'],
+  //   queryFn: async () => 
+  //   await api.get(`/company/services/4/show`).then((res) => {
+  //     return res.data?.data;
+  //   })
+  // })
 
   const { data: serviceDetails, isError, isLoading } = useQuery({
-    queryKey: ['service_details'],
+    queryKey: ['services_details'],
     queryFn: async () => 
-    await api.get(`/company/services/${serviceId}/show`).then((res) => {
+    await api.get(`/company/services/4/show`).then(res => {
       return res.data?.data;
     })
-  })
+  }) 
+
+  // console.log(serviceDetails)
 
   const registeredUsers: individualsProps[] = serviceDetails?.individuals
-  // console.log(serviceDetails)
   
-
-
   return (
     <motion.div 
       initial={{ y: 50, opacity: 0 }}
@@ -87,7 +93,12 @@ export default function ServiceDetails({ params }: { params: { serviceId: number
                 <Separator className='w-full px-10 h-[1px]'/>
 
                 <div  className='py-20'>
-                  <ServiceEmployeeDataTable isError={isError} isLoading={isLoading} columns={columns} data={registeredUsers ||[]}/>
+                  <ServiceEmployeeDataTable 
+                    isError={isError} 
+                    isLoading={isLoading} 
+                    columns={columns} 
+                    data={registeredUsers ||[]}
+                  />
                 </div>
               </div>
             )}

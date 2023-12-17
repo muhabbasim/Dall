@@ -1,5 +1,5 @@
 import api from "@/context/apiRequest";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 interface UserDataProps {
   first_name: string;
@@ -58,6 +58,45 @@ export const useCompanyData = () => {
 };
 
 
+
+// export const useConfirmUser = (value: number) => {
+
+//   const queryClient = useQueryClient()
+//   const mutation = useMutation({
+//     mutationFn: (gig) => {
+//       return api.post(`/company/individuals/${value}/update`)
+//     },
+//     onSuccess: () => {
+//       queryClient.invalidateQueries({ queryKey: ['services_details'] })
+//     }
+//   })
+  
+// }
   
 
+const useConfirmUser = () => {
+  const queryClient = useQueryClient();
+
+  const confirmUser = async (userId: number) => {
+    try {
+      const result = await mutation.mutateAsync(userId);
+      // You can handle the result if needed
+    } catch (error) {
+      // Handle error if needed
+    }
+  };
+
+  const mutation = useMutation({
+    mutationFn: (userId) => {
+      return api.post(`/company/individuals/${userId}/update`);
+    },
+    onSuccess: (data, variables) => {
+      queryClient.invalidateQueries({ queryKey: ['services_details'] });
+    }
+  });
+
+  return { confirmUser, mutation };
+};
+
+export default useConfirmUser;
 

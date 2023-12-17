@@ -2,12 +2,13 @@
 
 import { ColumnDef } from "@tanstack/react-table"
 import { ArrowUpDown, Eye } from "lucide-react"
+
 import { cn } from "@/lib/utils";
 import {
   Dialog,
   DialogContent,
   DialogTrigger,
-} from "../dialog"
+} from "../userDetailsDialog"
 import EmployeeDetails from "../EmployeeDetails";
 
 type individualsProps = {
@@ -18,6 +19,7 @@ type individualsProps = {
   verification: boolean;
   is_verified: boolean;
 }
+
 
 export const columns: ColumnDef<individualsProps>[] = [
   {
@@ -105,7 +107,7 @@ export const columns: ColumnDef<individualsProps>[] = [
   },
 
   {
-    accessorKey: "start_date",
+    id: "action",
     header: ({ column }) => {
       return (
         <div

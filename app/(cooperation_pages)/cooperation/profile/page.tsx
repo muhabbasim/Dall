@@ -1,9 +1,8 @@
 'use client'
 import { Separator } from '@/components/ui/separator'
-import { Ban, Check, ChevronsUpDown, Divide, Loader2, Pencil } from 'lucide-react'
+import { Ban, Camera, Check, ChevronsUpDown, Divide, Loader2, Pencil } from 'lucide-react'
 import {motion} from 'framer-motion'
 import React, { useContext, useState } from 'react'
-import Link from "next/link";
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -20,7 +19,6 @@ import {
   CommandInput,
   CommandItem,
 } from "@/components/ui/command"
-import { useUserData } from '@/components/data/dataFether';
 import { AuthContext } from '@/context/authContext'
 import { Badge } from '@/components/ui/badge'
 import {
@@ -33,11 +31,11 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 import { cn } from '@/lib/utils';
-import { format, isValid } from "date-fns"
 import api from '@/context/apiRequest';
 import { useQuery } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { AxiosError } from 'axios'
+import Image from 'next/image'
 
 
 
@@ -190,16 +188,21 @@ export default function Profile() {
 
                 <div className='image_container w-[400px] h-full p-8'>
                   <div className='relative flex flex-col md:flex-row gap-5 items-center '>
-                    <div className='sidebar_img_container w-28 h-28 rounded-full overflow-hidden'>
-                      <img 
-                        src="/assets/images/indivisual_img.avif" 
-                        alt="" 
-                        className='sidebar_img object-cover'
-                      />
+                  <div className='relative sidebar_img_container w-32 h-32 rounded-full overflow-hidden'>
+                    <Image
+                      src="/assets/images/indivisual_img.avif" 
+                      width={200}
+                      height={200}
+                      alt="personal image" 
+                      className='sidebar_img object-cover'
+                    />
+                    <div className='absolute z-100 top-0 left-0 shadow-xl bg-background/20 rounded-full w-32 h-32 flex items-center justify-center cursor-pointer transition-all'>
+                      <div className='text-white flex flex-col items-center justify-between gap-2'>
+                        <Camera className=''/>
+                        <h1 className='text-xs text-center'>Click to change the photo</h1>
+                      </div>
                     </div>
-                    <div className='absolute top-20 left-20 shadow-xl bg-white rounded-full w-8 h-8 flex items-center justify-center cursor-pointer hover:text-sky-600 transition-all'>
-                      <Pencil className='w-5 h-5'/>
-                    </div>
+                  </div>
                       {userIsLoading ? 
                       'Loading...' : (
                       <div className='text-center'>
