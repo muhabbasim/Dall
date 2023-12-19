@@ -2,8 +2,23 @@
 import React from 'react'
 import { AlertTriangle, Expand, GraduationCap, ShieldAlert, TvIcon } from 'lucide-react';
 import { motion } from 'framer-motion'
+import { useQuery } from '@tanstack/react-query';
+import api from '@/context/apiRequest';
 
-export default function IndividualStates() {
+export default function IndividualStates({ examsData }) {
+
+
+  const { data: consultation } = useQuery({
+    queryKey: ['pervious_consultation'],
+    queryFn: async () => 
+    await api.get(`/individual/consultations`).then((res) => {
+      return res.data?.data;
+    })
+  })
+
+  const examNumber = examsData?.length
+  const consultationNumber = consultation?.length
+
   return (
     <motion.div 
       initial={{ x: 50, opacity: 0 }}
@@ -24,7 +39,7 @@ export default function IndividualStates() {
             Exams
           </h1>
           <h1 className='text-2xl font-bold'>
-            1
+            { examNumber ? examNumber : "0"}
           </h1>
           <p className='text-sm text-gray-400'>
             total number
@@ -44,7 +59,7 @@ export default function IndividualStates() {
             Consultation
           </h1>
           <h1 className='text-2xl font-bold'>
-            2
+          { consultationNumber ? consultationNumber : "0"}
           </h1>
           <p className='text-sm text-gray-400'>
             total number

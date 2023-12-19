@@ -2,14 +2,16 @@ import api from "@/context/apiRequest";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 interface UserDataProps {
+  name: string;
   first_name: string;
   second_name: string;
   last_name: string;
   email: string;
+  image: string;
   phone: number;
   birth_country: number;
   birth_city: number;
-  birth_date: Date;
+  birth_date: string;
   residence_country: number;
   residence_city: number;
   genders: number;
@@ -22,18 +24,22 @@ interface UserDataProps {
   skills: number;
   password: string;
   password_confirmation: string;
+  created_at: string;
+  joined_at: string;
 }
 
 interface CooperationDataProps {
   name: string;
   email: string;
   phone: number;
+  image: string;
   country: number;
   city: number;
   departments: number;
   staff: number;
   password: string;
   role: string;
+  joined_at: string;
 }
 
 // User data

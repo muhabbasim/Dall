@@ -12,7 +12,7 @@ import { cn } from '@/lib/utils'
 
 type element = {
   id: number;
-  arabic_name: string;
+  name: string;
 }
 
 type UserDetailsProps = {
@@ -112,7 +112,7 @@ export default function EmployeeDetails({ userId }) {
                     <Input
                       className='w-full bg-transparent border-none '
                       readOnly
-                      defaultValue={userData?.residence_country?.arabic_name}
+                      defaultValue={userData?.residence_country?.name}
                     />
                   </Button>
                 </div>
@@ -122,7 +122,7 @@ export default function EmployeeDetails({ userId }) {
                     <Input
                       className='w-full bg-transparent border-none '
                       readOnly
-                      defaultValue={userData?.residence_city?.arabic_name}
+                      defaultValue={userData?.residence_city?.name}
                     />
                   </Button>
                 </div>
@@ -135,7 +135,7 @@ export default function EmployeeDetails({ userId }) {
                     <Input
                       className='w-full bg-transparent border-none '
                       readOnly
-                      defaultValue={userData?.education_institute?.arabic_name}
+                      defaultValue={userData?.education_institute?.name}
                     />
                   </Button>
                 </div>
@@ -145,7 +145,7 @@ export default function EmployeeDetails({ userId }) {
                     <Input
                       className='w-full bg-transparent border-none '
                       readOnly
-                      defaultValue={userData?.education_level?.arabic_name}
+                      defaultValue={userData?.education_level?.name}
                     />
                   </Button>
                 </div>
@@ -158,7 +158,7 @@ export default function EmployeeDetails({ userId }) {
                     <Input
                       className='w-full bg-transparent border-none '
                       readOnly
-                      defaultValue={userData?.occupation?.arabic_name}
+                      defaultValue={userData?.occupation?.name}
                     />
                   </Button>
                 </div>
@@ -168,7 +168,7 @@ export default function EmployeeDetails({ userId }) {
                     <Input
                       className='w-full bg-transparent border-none '
                       readOnly
-                      defaultValue={userData?.experience_years?.arabic_name}
+                      defaultValue={userData?.experience_years?.name}
                     />
                   </Button>
                 </div>
@@ -181,7 +181,7 @@ export default function EmployeeDetails({ userId }) {
                     <Input
                       className='w-full bg-transparent border-none '
                       readOnly
-                      defaultValue={userData?.gender?.arabic_name}
+                      defaultValue={userData?.gender?.name}
                     />
                   </Button>
                 </div>

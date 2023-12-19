@@ -19,8 +19,6 @@ export default function CooperationEmployeesPage() {
       })
   }) 
 
-  // console.log(companyEmployees)
-
   return (
     <motion.div 
       initial={{ y: 50, opacity: 0 }}

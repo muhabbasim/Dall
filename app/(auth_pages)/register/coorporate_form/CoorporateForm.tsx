@@ -36,7 +36,7 @@ import { Input } from "@/components/ui/input"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
-import { Check, ChevronsUpDown } from 'lucide-react';
+import { Check, ChevronsUpDown, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { AuthContext } from '@/context/authContext';
 import { toast } from 'sonner';
@@ -64,7 +64,7 @@ const formSchema = z.object({
 
 export default function CoorporateForm() {
 
-  const [ err, setErr ] = useState(null);
+  const [ err, setErr ] = useState('');
   const [ selectedDepartments, setSelectedDepartments ] = useState<number[]>([]); 
 
   const router = useRouter();
@@ -154,12 +154,17 @@ export default function CoorporateForm() {
     } catch (error) {
       if (error instanceof AxiosError) {
         setErr(error.response?.data.message)
-        toast.error(err)
       }
       console.log(error);
     }
     
   }
+
+  useEffect(() => {
+    setTimeout(() => {
+      setErr('')
+    }, 4000);
+  }, [err]) 
 
 
   return (
@@ -518,6 +523,12 @@ export default function CoorporateForm() {
               </div>
             </div>
 
+            {err && (
+              <div className='text-rose-700 flex items-center justify-center p-2'>
+                {err}
+              </div>
+            )}
+
             <div className="items-top flex space-x-4 pt-6">
               <Checkbox id="terms1" />
               <div className="grid gap-1.5 leading-none">
@@ -541,7 +552,8 @@ export default function CoorporateForm() {
                 onClick={() => submitForm}
                 disabled={isSubmitting}
               >
-                Register
+                {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                {isSubmitting ? "Processing..." : "Register"}    
               </Button>
             </div>
           </form>

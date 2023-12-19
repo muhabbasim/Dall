@@ -57,7 +57,7 @@ interface User {
   birth_date: string;
   residence_country: number & InputProps;
   residence_city: number & InputProps;
-  genders: number & InputProps;
+  gender: number & InputProps;
   nationality: number & InputProps;
   
   education_institute: number & InputProps;

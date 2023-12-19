@@ -105,13 +105,11 @@ export const columns: ColumnDef<individualsProps>[] = [
       )
     }
   },
-
   {
     id: "action",
     header: ({ column }) => {
       return (
         <div
-          className="w-20 flex justify-center"
         >
           Action
         </div>
@@ -122,11 +120,11 @@ export const columns: ColumnDef<individualsProps>[] = [
       return (
         <Dialog>
           <DialogTrigger asChild>
-            <div className="flex items-center justify-center cursor-pointer gap-3">
-              {/* <h1>
+            <div className="text-cyan-600 flex items-center cursor-pointer gap-2">
+              <h1>
                 Details
-              </h1> */}
-              <Eye className=" text-rose-800"/>
+              </h1>
+              <Eye className=""/>
             </div>
           </DialogTrigger>
           <DialogContent className="sm:max-w-md">

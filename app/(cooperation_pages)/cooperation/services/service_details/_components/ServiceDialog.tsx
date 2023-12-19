@@ -33,9 +33,10 @@ export default function ServiceDialog({ verification, id}) {
   const handleUserVerification = async (userId: number) => {
     try {
       const result = await mutation.mutateAsync(id);
+      console.log(result.data);
       toast.success('User Verified');
     } catch (error) {
-      // Handle error if needed
+      console.log(error)
     }
   };
 

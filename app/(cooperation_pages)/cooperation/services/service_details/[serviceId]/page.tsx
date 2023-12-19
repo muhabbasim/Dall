@@ -36,23 +36,14 @@ type ServiceDetailsProps = {
 export default function ServiceDetails({ params }: { params: { serviceId: number }}) {
   
   const serviceId = params.serviceId;
-  // const { data: serviceDetails, isError, isLoading } = useQuery({
-  //   queryKey: ['services_details'],
-  //   queryFn: async () => 
-  //   await api.get(`/company/services/4/show`).then((res) => {
-  //     return res.data?.data;
-  //   })
-  // })
 
   const { data: serviceDetails, isError, isLoading } = useQuery({
     queryKey: ['services_details'],
     queryFn: async () => 
-    await api.get(`/company/services/4/show`).then(res => {
+    await api.get(`/company/services/${serviceId}/show`).then(res => {
       return res.data?.data;
     })
   }) 
-
-  // console.log(serviceDetails)
 
   const registeredUsers: individualsProps[] = serviceDetails?.individuals
   

@@ -8,6 +8,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { Checkbox } from "@radix-ui/react-checkbox";
+import ExamCompletionDynamic from "../_components/ExamCompletionDynamic";
+import Link from "next/link";
 
 
 
@@ -17,23 +19,6 @@ export type Exam = {
   isCompleted: Boolean
   isStarted: Boolean
   created_at: Date;
-}
-
-const handleReult = () => {
-  console.log('result')
-}
-
-const handleExam = (isStarted: boolean, status: string) => {
-  
-  if (isStarted) {
-    console.log('Continue')
-    return;
-  }
-  if (!isStarted) {
-    // router.push('/individual/exams')
-    console.log('Start')
-    return;
-  }
 }
 
 export const columns: ColumnDef<Exam>[] = [
@@ -67,6 +52,20 @@ export const columns: ColumnDef<Exam>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
+          #
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    }
+  },
+  {
+    accessorKey: "type",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
           Exam type
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
@@ -91,7 +90,7 @@ export const columns: ColumnDef<Exam>[] = [
 
       return (
         <Badge className={cn(
-          "bg-slate-500 ",
+          "bg-slate-500 w-36 flex items-center justify-center",
           isSucess === 'paid' && "bg-sky-700",
           isSucess === 'failed' && "bg-rose-900",
         )}>
@@ -130,6 +129,7 @@ export const columns: ColumnDef<Exam>[] = [
       return (
         <Button
           variant="ghost"
+          className="flex items-start justify-start"
         >
           Completion
         </Button>
@@ -137,22 +137,13 @@ export const columns: ColumnDef<Exam>[] = [
     },
     cell: ({ row }) => {
       const isStarted: boolean = row.getValue("isStarted");
-      const status: string = row.getValue("status");
+      const status: 'paid' | 'waiting-for-payment' | 'failed' = row.getValue("status");
+      const examId: number = row.getValue("id");
+      const isCompleted: boolean = row.getValue("isCompleted");
       // const router = useRouter();
 
       return (
-        <Badge 
-        onClick={() => handleExam(isStarted, status)}
-          className={cn(
-            "bg-slate-500 cursor-pointer",
-            isStarted && "bg-sky-700",
-            status === 'waiting-for-payment' && 'opacity-0',
-            status === 'failed' && 'opacity-0'
-          )}
-        >
-          {status === 'paid' && !isStarted && "Start"}
-          {status === 'paid' && isStarted && "Continue"}
-        </Badge>
+        <ExamCompletionDynamic isStarted={isStarted} status={status} examId={examId} isCompleted={isCompleted}/>
       )
     }
   },
@@ -169,16 +160,18 @@ export const columns: ColumnDef<Exam>[] = [
     },
     cell: ({ row }) => {
       const isCompleted = row.getValue("isCompleted");
+      const examId: number = row.getValue("id");
 
       return (
         <Badge 
-          onClick={handleReult}
           className={cn(
             "bg-slate-500 cursor-pointer",
             isCompleted! ? "bg-sky-700" : 'opacity-0'
           )}
         >
-          {isCompleted ? "Result" : ""}
+          <Link href={`/individual/results/${examId}`}>
+            {isCompleted ? "Result" : ""}
+          </Link>
         </Badge>
       )
     }

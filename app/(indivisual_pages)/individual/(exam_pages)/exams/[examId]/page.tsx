@@ -1,14 +1,12 @@
 'use client'
 import { Button } from '@/components/ui/button';
 import api from '@/context/apiRequest';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Ban, Loader2 } from 'lucide-react';
 import React, { FormEvent, useState } from 'react'
 import {motion} from 'framer-motion'
 
 import { Separator } from '@/components/ui/separator';
-import { useMultistepForm } from '@/components/hooks/useMultistepForm';
-import QuesitonsPartOne from '../_components/QuesitonsPartOne';
 
 import {
   Dialog,
@@ -22,8 +20,18 @@ import {
 } from "@/components/ui/dialog"
 import { useRouter } from 'next/navigation';
 import { UseConfettiStore } from '@/components/hooks/use_confetti_store';
+import ExamQuesitons from '../../_components/ExamQuesitons';
+import { toast } from 'sonner';
 
-export default function IndivisualExams() {
+interface ExamProps {
+  current_exam: number;
+  total_exams: number;
+}
+
+
+export default function IndivisualExams({ params } : { params: { examId: number }}) {
+  
+  const { examId } = params;
   
   const router = useRouter()
   const confetti = UseConfettiStore();
@@ -36,38 +44,63 @@ export default function IndivisualExams() {
   const handleOptionSelected = (questionId: string, optionId: number) => {
     setSelectedOptions((prevSelectedOptions) => ({
       ...prevSelectedOptions, 
-      [questionId]: optionId,
+      [questionId]: optionId
     }));
   };
 
 
   // questions data fetching
-  const {data: questions, isLoading, isError, isSuccess } = useQuery({
+  const {data: exam, isLoading, isError, isSuccess } = useQuery({
     queryKey: ['exam_questions'],
     queryFn: async () => 
-    await api.get(`/individual/questions/1`).then((res) => {
-      return res.data;
+    await api.get(`/individual/questions/${examId}`).then((res) => {
+      return res.data as ExamProps;
     })
   })
 
+  // console.log(exam)
 
-  const { steps, step, currentStepIndex, isLastStep } = useMultistepForm([
-    <QuesitonsPartOne data={questions} handleOptionSelected={handleOptionSelected} selectedOptions={selectedOptions} setSelectedAll={setSelectedAll}/>,
-  ]);
+  // answer data manipulation to array
+  const arraySelectedOptions = Object.entries(selectedOptions);
+  const answers = arraySelectedOptions.map(([question, answer]) => (
+    { question: question, answer: answer } 
+  ))
+
+  // the last exam catch
+  const isLastExam = exam?.current_exam == exam?.total_exams
 
 
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: () => {
+      return api.post(`individual/exam/${examId}/answers/store`, { data: answers } );
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['exam_questions'] });
+    }
+  });
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    router.push('/individual/results')
-    confetti.onOpen();
 
-    // const arraySelectedOptions = Object.entries(selectedOptions)
+    try {
+      
+      const result = await mutation.mutateAsync();
+      console.log(result.data);
 
-    console.log(selectedOptions)
-    setSelectedOptions('')
-    setSelectedAll(false)
-    window.scrollTo(0, 0);
+      setSelectedOptions('')
+      setSelectedAll(false)
+      window.scrollTo(0, 0);
+      toast.success( isLastExam ? " Congratulations you finished the exams" : 'Exam submitted successfully');
+
+      if ( isLastExam ) {
+        router.push(`results/${examId}`)
+        confetti.onOpen();
+      }
+
+    } catch (error) {
+      console.log(error)
+    }
   }
 
 
@@ -86,22 +119,19 @@ export default function IndivisualExams() {
           <div className='w-full'>
             <div className='min-h-[700px] border rounded-lg bg-white '>
               <div className=' w-full p-5 flex justify-between'>
-                <div className='flex gap-4'>
+                <div className=' w-full flex justify-between gap-4'>
                   <h1 className='text-lg text-rose-700'>Exam questions</h1>
-                  <h1 className='text-lg text-gray-600'>steps {currentStepIndex + 1} / {steps.length}</h1>
-                </div>
-                <div className='flex gap-2'>
-                  <h1 className=' font-bold text-slate-600'>Estimated time left:</h1>
-                  <div>
-                    <h1 className='text-rose-700'>20:00</h1>
-                  </div>
+                  <h1 className='text-lg text-gray-600'>Steps {exam.current_exam} / {exam.total_exams}</h1>
                 </div>
               </div>
               <Separator className='w-full px-10 h-[1px]'/>
 
-              <div className='questions-container p-20'>
+              <div className='questions-container p-4 md:p-20'>
                 <form onSubmit={handleSubmit} className='flex flex-col gap-10'>
-                  {step}
+
+                  {/* exam questions  */}
+                  <ExamQuesitons  data={exam} handleOptionSelected={handleOptionSelected} selectedOptions={selectedOptions} setSelectedAll={setSelectedAll}/>
+                  
                   <div className='flex justify-end'>
                     <Dialog>
                       <DialogTrigger asChild>
@@ -110,7 +140,7 @@ export default function IndivisualExams() {
                         type='button'
                         className='w-60'
                       >
-                        { isLastStep ? "Finish" : "Next" }
+                        { isLastExam ? "Finish" : "Next" }
                       </Button>
                       </DialogTrigger>
                       <DialogContent className="sm:max-w-md">

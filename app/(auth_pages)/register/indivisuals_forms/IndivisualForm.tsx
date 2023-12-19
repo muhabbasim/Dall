@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Link from "next/link";
 import '../register.css'
 import { Button } from "@/components/ui/button"
@@ -22,6 +22,7 @@ import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { AuthContext } from '@/context/authContext';
 import { AxiosError } from 'axios' 
+import { Loader2 } from 'lucide-react';
 
 const formSchema = z.object({
   first_name: z.string().min(1, 'Fistname is required'),
@@ -84,15 +85,18 @@ export default function IndivisualForm() {
     } catch (error) {
       if (error instanceof AxiosError) {
         setErr(error.response?.data.message)
-        toast.error(err)
-
       }
       console.log(error);
     }
   }
 
    
- 
+  useEffect(() => {
+    setTimeout(() => {
+      setErr('')
+    }, 4000);
+  }, [err]) 
+
   return (
     <div className='register_inputs w-full h-full flex-1 md:p-16 p-5'>
       <h1 className='text-center pb-3 text-2xl text-rose-500 font-bold pt-10 md:pt-0'>Create an account</h1>
@@ -224,6 +228,14 @@ export default function IndivisualForm() {
               </div>
             </div>
 
+
+            {err && (
+              <div className='text-rose-700 flex items-center justify-center p-2'>
+                {err}
+              </div>
+            )}
+
+
             <div className="items-top flex space-x-4 pt-6">
               <Checkbox id="terms1" />
               <div className="grid gap-1.5 leading-none">
@@ -241,13 +253,13 @@ export default function IndivisualForm() {
 
             <div className="flex gap-x-2 items-end justify-end">
               <Button
-                className=' w-32 my-6'
+                className=' w-40 my-6'
                 variant={'login'}
                 type="submit"
                 onClick={() => submitForm}
-                // disabled={!isValid || isSubmitting}
               >
-                Register
+                {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                {isSubmitting ? "Processing..." : "Register"}    
               </Button>
             </div>
           </form>

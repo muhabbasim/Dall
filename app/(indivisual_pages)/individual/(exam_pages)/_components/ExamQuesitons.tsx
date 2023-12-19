@@ -29,26 +29,22 @@ interface OptionsProps {
   option: string;
   question_id: number;
   exam_option_id: number;
+  letter: string;
 }
 
-export default function QuesitonsPartThree({ handleOptionSelected, selectedOptions, setSelectedAll }) {
+export default function ExamQuesitons({ handleOptionSelected, selectedOptions, setSelectedAll, data}) {
 
 
-  const { data: ExamQuestions } = useQuery({
-    queryKey: ['exam_questions'],
-    queryFn: async () => 
-    await api.get(`/individual/questions`).then((res) => {
-      return res.data;
-    })
-  })
+  const questions = data.questions
+  const subQuestion = questions?.slice(1, 3);
 
-  const individualExams = ExamQuestions?.find((item) => item.id === 2).questions
-  const chapter3 = individualExams?.slice(24, 36);
-  
-    // validate all questions has a selected answer
-    const allQuestionsAnswered = chapter3.every((question) =>
+  // validate all questions has a selected answer
+  const allQuestionsAnswered = questions.every((question) =>
     selectedOptions.hasOwnProperty(question.id)
   );
+
+  // the last exam catch
+  const lastExam = data?.current_exam == data?.total_exams
 
   useEffect(() => {
     // update selectedAll state
@@ -58,23 +54,23 @@ export default function QuesitonsPartThree({ handleOptionSelected, selectedOptio
     
   },[selectedOptions])
 
+
   return (
     <div>
-      <h1 className='text-right  text-teal-800 text-lg'>Quesitons Part Three</h1>
-      {chapter3.map((question: QuestionProps) => {
+      {questions.map((question: QuestionProps) => {
         return (
           <div key={question.id} className='question'>
             <div className=' Questioin_title flex gap-2 mb-4'>
-              <Grip className='text-gray-400'/>
-              <h1 className='text-sm'>
-                Qusetion <span className='text-gray-500'>{question.id}</span>
+              <Grip className=' text-cyan-500'/>
+              <h1 className='text-sm text-gray-500'>
+                Qusetion <span className=''>{question.id}</span>
               </h1>
             </div>
             <div className='w-full text-sm bg-gray-100 p-3 border rounded-sm'>
               <h1>{question.question} <span className='text-rose-700'>*</span></h1>
             </div>
 
-            <ul className='options grid grid-cols-1 md:grid-cols-2 gap-2 pt-4'>
+            <ul className='options grid grid-cols-1 md:grid-cols-2 gap-6 pt-4'>
               {question.options.map((option: OptionsProps) => {
                 return (
                   <li key={option.id} className='option flex gap-2 items-center cursor-pointer'>
@@ -82,11 +78,11 @@ export default function QuesitonsPartThree({ handleOptionSelected, selectedOptio
                       <div>
                         <GripVertical className='text-gray-400'/>
                       </div>
-                      <h1 className='text-gray-600'>A</h1>
+                      <h1 className='text-gray-600'>{option.letter}</h1>
                     </div>
                     <div 
                       onClick={() => handleOptionSelected(question.id, option.id)}
-                      className='w-full flex justify-between gap-2 bg-gray-100/20 text-sm items-center text-gray-500 py-1 pl-5 pr-1 border rounded-sm hover:bg-gray-300 '
+                      className='w-full flex justify-between gap-2 bg-gray-100/40 text-sm items-center text-gray-500 py-1 pl-5 pr-1 border rounded-sm hover:bg-gray-200 '
                     >
                       <div>
                         <p>

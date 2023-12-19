@@ -1,8 +1,8 @@
 'use client'
 import { Separator } from '@/components/ui/separator'
-import { Ban, CalendarIcon, Check, ChevronsUpDown, Loader2, Pencil } from 'lucide-react'
+import { AlertTriangle, Ban, CalendarIcon, Check, ChevronsUpDown, Loader2, Pencil } from 'lucide-react'
 import {motion} from 'framer-motion'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -27,6 +27,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
+
 import { Input } from "@/components/ui/input"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -35,22 +36,27 @@ import { cn } from '@/lib/utils';
 import { Calendar } from '@/components/ui/calendar';
 import { format } from "date-fns"
 import api from '@/context/apiRequest';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { toast } from 'sonner';
+import ProfileImage from './_components/ProfileImage'
+import { ChangePasswordDialog } from './_components/ChangePasswordDialog'
+import { AxiosError } from 'axios'
 
 interface userDataProps {
   first_name: string | undefined;
   second_name: string;
   last_name: string;
+  name: string;
   email: string;
   phone: number | string;
+  image: string;
   
   birth_country: number;
   birth_city: number;
   birth_date: string;
   residence_country: number;
   residence_city: number;
-  genders: number;
+  gender: number;
   nationality: number;
   
   education_institute: number;
@@ -60,8 +66,6 @@ interface userDataProps {
   occupation: number;
   skills: number;
 
-  password: string;
-  password_confirmation: string;
 }
 
 interface FormDataProps {
@@ -82,68 +86,47 @@ interface FormDataProps {
 
 type CountryProps = {
   id: number;
-  arabic_name:string;
   name: string;
-  phone_code: string;
-  code: string;
-  isActive: number;
 }
 
 type CityProps = {
   id: number;
   name:string;
-  phone_code: string;
-  code: string;
-  isActive: number;
 }
 
 type EducationLevelsProps = {
   id: number;
-  arabic_name:string;
   name: string;
-  isActive: number;
 }
 
 type EducationInstitutesProps = {
   id: number;
-  arabic_name:string;
   name: string;
-  isActive: number;
 }
 
 type OccupationsProps = {
   id: number;
-  arabic_name:string;
   name: string;
-  isActive: number;
 }
 
 type ExperienceYearProps = {
   id: number;
-  arabic_name:string;
   name: string;
-  isActive: number;
 }
 
 type SkillsProps = {
   id: number;
-  arabic_name:string;
   name: string;
-  isActive: number;
 } 
 
 type MajorsProps = {
   id: number;
-  arabic_name:string;
   name: string;
-  isActive: number;
 }
 
 type GendersProps = {
   id: number;
-  arabic_name:string;
   name: string;
-  isActive: number;
 }
 
 
@@ -169,15 +152,14 @@ const formSchema = z.object({
   major: z.number().min(1, { message: "please select major"}),
   skills: z.array(z.number()).min(1, 'Skills is required'),
   // skills: z.number().min(1, 'Skills is required'),
-  password: z.string(),
-  password_confirmation: z.string(),
+
 })
 
 
 export default function Profile() {
 
-  const queryClient = useQueryClient()
   const { currentUser } = useContext(AuthContext);
+  const [ err, setErr ] = useState<string>()
 
   // form data fetching
   const { data: userData, isLoading: userIsLoading, isError  } = useUserData();
@@ -240,7 +222,7 @@ export default function Profile() {
       // birth_date: currentUser && currentUser?.birth_date || undefined,
       residence_country: currentUser && currentUser?.residence_country.id || undefined,
       residence_city: currentUser && currentUser?.residence_city.id || undefined,
-      gender: currentUser && currentUser?.genders?.id || undefined,
+      gender: currentUser && currentUser?.gender?.id || undefined,
       
       nationality: currentUser && currentUser?.nationality.id || undefined,
       education_institute: currentUser && currentUser?.education_institute.id || undefined,
@@ -249,12 +231,11 @@ export default function Profile() {
       experience_years: currentUser && currentUser?.experience_years.id || undefined,
       occupation: currentUser && currentUser?.occupation.id || undefined,
       skills: currenUserSkills || undefined,
-      password: "",
-      password_confirmation: "",
+  
     },
   })
+  
   const { isSubmitting } = form.formState;
-
 
   // user data update function
   const submitForm = async (values: z.infer<typeof formSchema>) => {
@@ -273,10 +254,19 @@ export default function Profile() {
       toast.success('Information updated successfully')
 
     } catch (error) {
+      if (error instanceof AxiosError) {
+        setErr(error.response?.data?.message || error.response?.data.error)
+      }
       toast.error('Something went wrong, please try again!')
       console.log(error)
     } 
   } 
+
+  useEffect(() => {
+    setTimeout(() => {
+      setErr('')
+    }, 4000);
+  }, [err]) 
 
   return (
     <motion.div 
@@ -299,31 +289,12 @@ export default function Profile() {
           {userData ? (
             <div className='personal_info'>
               <div className='w-full flex flex-col items-center'>
-
-                <div className='image_container w-[400px] h-full p-8'>
-                  <div className='relative flex gap-5 items-center '>
-                    <div className='sidebar_img_container w-28 h-28 rounded-full overflow-hidden'>
-                      <img 
-                        src="/assets/images/indivisual_img.avif" 
-                        alt="" 
-                        className='sidebar_img object-cover'
-                      />
-                    </div>
-                    <div className='absolute top-20 left-20 shadow-xl bg-white rounded-full w-8 h-8 flex items-center justify-center cursor-pointer hover:text-sky-600 transition-all'>
-                      <Pencil className='w-5 h-5'/>
-                    </div>
-                      {userIsLoading ? 
-                      'Loading...' : (
-                      <div className='text-center'>
-                        <h2>{currentUser?.first_name}, <span className='font-bold'>{currentUser?.last_name}</span></h2>
-                        <h3 className='text-gray-400 text-sm'>{currentUser?.email}</h3>
-                      </div>
-                    )}
-                  </div>
-                </div>
+                <ProfileImage user={userData}/>
               </div>
-
-              <div className='info_form px-20'>
+              <div className='info_form px-6 md:px-20 flex justify-end'>
+                <ChangePasswordDialog/>
+              </div>
+              <div className='info_form px-6 md:px-20'>
                 <div>
                   <Form {...form}>
                     <form
@@ -1286,65 +1257,31 @@ export default function Profile() {
                         </div>
                       </div>
 
+
                       <div className='w-full h-[1px] py-10'>
                         <Separator className='w-full h-[1px]'/>
                       </div>
 
-                      <div className='flex flex-col md:flex-row flex-wrap w-full gap-5'>
-                        
-                        <div className='w-full flex-1'>
-                          <FormField
-                            control={form.control}
-                            name="password"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>Password</FormLabel>
-                                <FormControl>
-                                  <Input
-                                  type='password'
-                                  autoComplete='no'
-                                  // disabled={isSubmitting}
-                                  placeholder="Enter your password'"
-                                  {...field}
-                                  />
-                                </FormControl>
-                                <FormMessage/> 
-                              </FormItem>
-                            )}
-                          />
+                      {err && (
+                        <div className='w-full text-black bg-yellow-300 flex gap-3 items-center justify-center my-6 py-2 '>
+                          <div>
+                            <AlertTriangle className='text-rose-700'/> 
+                          </div> 
+                          <h1 >{err}</h1>
                         </div>
-
-                        <div className='w-full flex-1'>
-                          <FormField
-                            control={form.control}
-                            name="password_confirmation"
-                            render={({ field }) => (
-                              <FormItem>
-                              <FormLabel>Confirm Password</FormLabel>
-                                <FormControl>
-                                  <Input
-                                    // disabled={isSubmitting}
-                                    placeholder="Confirm Password"
-                                    {...field}
-                                    />
-                                </FormControl>
-                                <FormMessage/> 
-                              </FormItem>
-                            )}
-                          />
-                        </div>
-                      </div>
+                      )}
 
                       <div className="flex gap-x-2 items-end justify-end">
+
                         <Button
-                          className=' w-32 my-6'
+                          className=' w-40 my-6'
                           variant={'login'}
                           type="submit"
                           onClick={() => submitForm}
                           disabled={isSubmitting}
                         >
                           {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                          {isSubmitting ? "Submitting" : "Save Change"}
+                          {isSubmitting ? "Processing.." : "Save Change"}
                         </Button>
                       </div>
                     </form>
@@ -1372,20 +1309,3 @@ export default function Profile() {
     </motion.div>
   )
 }
-
-
-
-// const { mutate: hanelUpdate, isPending } = useMutation<void, Error, userDataProps>({
-
-//   mutationFn: async (values) => {
-//     return await api.put(`/individual/information/update`, values)
-//   },
-//   onSuccess: () => {
-//     toast.success('Data updated successfully')
-//     queryClient.invalidateQueries({ queryKey: ['userData'] })
-//   },
-//   onError: () => {
-//     toast.error('Something went wrong, please try again!')
-
-//   }
-// })

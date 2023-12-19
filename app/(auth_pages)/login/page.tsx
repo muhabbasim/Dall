@@ -19,8 +19,8 @@ import { useForm } from "react-hook-form"
 import * as z from "zod"
 import { AuthContext } from '@/context/authContext';
 import { toast } from 'sonner';
-import { useRouter } from 'next/navigation';
 import { AxiosError } from 'axios';
+import { Loader2 } from 'lucide-react';
 
 
 const formSchema = z.object({
@@ -36,7 +36,6 @@ const formSchema = z.object({
 export default function Login() {
   
   const { login } = useContext(AuthContext);
-  
   const [ err, setErr ] = useState('')
   
   const form = useForm<z.infer<typeof formSchema>>({
@@ -62,11 +61,16 @@ export default function Login() {
     } catch (error) {
       if (error instanceof AxiosError) {
         setErr(error.response?.data?.message || error.response?.data.error)
-        toast.error(err)
       }
       console.log(error);
     }
   }
+
+  useEffect(() => {
+    setTimeout(() => {
+      setErr('')
+    }, 4000);
+  }, [err]) 
 
 
   return (
@@ -134,15 +138,22 @@ export default function Login() {
                     />
                   </div>
 
+                  { err && (
+                    <div className='text-rose-700 flex items-center justify-center p-2'>
+                      {err}
+                    </div>
+                  )}
+
                 <div className="flex gap-x-2 items-end justify-end">
                   <Button
-                    className=' w-32 my-6'
+                    className=' w-40 my-6'
                     variant={'login'}
                     type="submit"
                     onClick={() => submitForm}
                     disabled={isSubmitting}
                   >
-                    Login
+                    {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                    {isSubmitting ? "Processing..." : "Login"}    
                   </Button>
                 </div>
               </form>

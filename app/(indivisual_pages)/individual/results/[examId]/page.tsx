@@ -1,16 +1,16 @@
 'use client'
 import { Separator } from '@/components/ui/separator'
-import React, { PureComponent }  from 'react'
+import React from 'react'
 import {motion} from 'framer-motion'
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { FolderTree, Warehouse } from 'lucide-react';
-import StatusChart from './_components/Status';
-import { ProgressBar } from './_components/ProgressBar';
-import PieChart from './_components/PieChart';
-import RadialChart from './_components/RadialChart';
-import RadarCharts from './_components/RadarChart';
-import Link from 'next/link';
+import StatusChart from '../_components/Status';
+import { ProgressBar } from '../_components/ProgressBar';
+import PieChart from '../_components/PieChart';
+import RadialChart from '../_components/RadialChart';
+import RadarCharts from '../_components/RadarChart';
 import { Checkbox } from '@/components/ui/checkbox';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import api from '@/context/apiRequest';
 
 
 const data = [
@@ -58,7 +58,20 @@ const data = [
   },
 ];
 
-export default function IndividualResults() {
+export default function IndividualResults({ params } : { params: { examId: number } }) {
+
+  const { examId } = params;
+  
+  const { data } = useQuery({
+    queryKey: ['results'],
+    queryFn: async () => 
+    await api.get(`/individual/exam/${examId}/result`).then((res) => {
+      return res.data
+    })
+  })
+
+  
+
   return (
     <motion.div 
       initial={{ y: 50, opacity: 0 }}

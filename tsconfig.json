@@ -23,6 +23,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/(indivisual_pages)/individual/results/_components/RadarChart.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/(indivisual_pages)/individual/results/_components/RadarChart.tsx", "app/(indivisual_pages)/individual/profile/_components/ChangePasswordDialo"],
   "exclude": ["node_modules"]
 }

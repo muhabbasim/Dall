@@ -3,8 +3,8 @@ import { Separator } from '@/components/ui/separator'
 import React, { useEffect, useState } from 'react'
 
 import {motion} from 'framer-motion'
-import DashDataTable from './consultation_data_table/ConsultaionDataTable'
-import { columns } from './consultation_data_table/ConsultationColumns'
+import DashDataTable from './_components/consultation_data_table/ConsultaionDataTable'
+import { columns } from './_components/consultation_data_table/ConsultationColumns'
 import { useQuery } from '@tanstack/react-query'
 import api from '@/context/apiRequest'
 

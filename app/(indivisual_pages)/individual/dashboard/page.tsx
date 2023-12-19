@@ -61,7 +61,7 @@ export default function IndividualDashboard() {
 
           <div className='p-6 md:p-14'>
             <div className='mb-14'>
-              <IndividualStates/>
+              <IndividualStates examsData={perviousExam}/>
             </div>
             <DashDataTable isVerified={isVerified} setVerification={setVerification} columns={columns} data={tableData || []}/>
           </div>

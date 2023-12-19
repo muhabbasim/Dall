@@ -67,23 +67,10 @@ export default function DashDataTable<TData, TValue>({
   })
 
 
-  const { data: perviousExam } = useQuery({
-    queryKey: ['pervious_exams'],
-    queryFn: async () => 
-    await api.get(`/individual/user-prev-exams`).then((res) => {
-      return res.data?.data;
-    })
-  })
-
-
-  useEffect(() => {
-    setTableData(perviousExam)
-  }, [perviousExam])
-
 
 
   const handleNewExam = () => {
-    router.push('/individual/new_consultation');
+    router.push('/individual/consultation/new_consultation');
     return;
   }
 

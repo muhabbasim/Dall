@@ -1,8 +1,8 @@
 'use client'
 import { Separator } from '@/components/ui/separator'
-import { Ban, Camera, Check, ChevronsUpDown, Divide, Loader2, Pencil } from 'lucide-react'
+import { AlertTriangle, Ban, Camera, Check, ChevronsUpDown, Divide, Loader2, Pencil } from 'lucide-react'
 import {motion} from 'framer-motion'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -19,6 +19,7 @@ import {
   CommandInput,
   CommandItem,
 } from "@/components/ui/command"
+
 import { AuthContext } from '@/context/authContext'
 import { Badge } from '@/components/ui/badge'
 import {
@@ -35,19 +36,21 @@ import api from '@/context/apiRequest';
 import { useQuery } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { AxiosError } from 'axios'
-import Image from 'next/image'
+import ProfileImage from '@/app/(indivisual_pages)/individual/profile/_components/ProfileImage'
+import { ChangePasswordDialog } from '@/app/(indivisual_pages)/individual/profile/_components/ChangePasswordDialog'
 
 
 
 interface userDataProps {
-  name: string | undefined;
+  name: string;
   staff: number;
   address: string;
-  password: string;
-  password_confirmation: string;
-  departments: number;
-  country: number;
-  city: number;
+  image: string;
+  first_name: string | undefined;
+  second_name: string;
+  last_name: string;
+  email: string;
+  phone: number | string;
 }
 
 const formSchema = z.object({
@@ -67,8 +70,7 @@ const formSchema = z.object({
 export default function Profile() {
 
   const { currentUser } = useContext(AuthContext);
-
-  const [ err, setErr] = useState();
+  const [ err, setErr] = useState<string>();
 
   // get country
   const { data: userData, isLoading: userIsLoading, isError } = useQuery({
@@ -157,12 +159,19 @@ export default function Profile() {
     } catch (error) {
       if (error instanceof AxiosError) {
         setErr(error.response?.data?.message || error.response?.data.error)
-        toast.error(err)
       }
-      // toast.error('Something went wrong, please try again!')
+      toast.error('Something went wrong, please try again!')
       console.log(error)
     } 
   } 
+
+
+
+  useEffect(() => {
+    setTimeout(() => {
+      setErr('')
+    }, 4000);
+  }, [err]) 
 
   return (
     <motion.div 
@@ -185,35 +194,11 @@ export default function Profile() {
           {userData ? (
             <div className='personal_info'>
               <div className='w-full flex flex-col items-center'>
-
-                <div className='image_container w-[400px] h-full p-8'>
-                  <div className='relative flex flex-col md:flex-row gap-5 items-center '>
-                  <div className='relative sidebar_img_container w-32 h-32 rounded-full overflow-hidden'>
-                    <Image
-                      src="/assets/images/indivisual_img.avif" 
-                      width={200}
-                      height={200}
-                      alt="personal image" 
-                      className='sidebar_img object-cover'
-                    />
-                    <div className='absolute z-100 top-0 left-0 shadow-xl bg-background/20 rounded-full w-32 h-32 flex items-center justify-center cursor-pointer transition-all'>
-                      <div className='text-white flex flex-col items-center justify-between gap-2'>
-                        <Camera className=''/>
-                        <h1 className='text-xs text-center'>Click to change the photo</h1>
-                      </div>
-                    </div>
-                  </div>
-                      {userIsLoading ? 
-                      'Loading...' : (
-                      <div className='text-center'>
-                        <h2>{currentUser?.name}</h2>
-                        <h3 className='text-gray-400 text-sm'>{currentUser?.email}</h3>
-                      </div>
-                    )}
-                  </div>
-                </div>
+                <ProfileImage user={userData}/>
               </div>
-
+              <div className='info_form px-6 md:px-20 flex justify-end'>
+                <ChangePasswordDialog/>
+              </div>
               <div className='info_form px-6 md:px-20'>
                 <div>
                   <Form {...form}>
@@ -243,7 +228,6 @@ export default function Profile() {
                           />
                         </div>
                       </div>
-
 
                       <div className='flex flex-col md:flex-row flex-wrap w-full gap-5'>
                         <div className='w-full flex-1'>
@@ -417,11 +401,9 @@ export default function Profile() {
                         </div>
                       </div>
 
-
                       <div className='w-full h-[1px] py-10'>
                         <Separator className='w-full h-[1px]'/>
                       </div>
-
 
                       <div className='flex flex-col md:flex-row flex-wrap w-full gap-5'>
                         <div className='w-full flex-1'>
@@ -546,49 +528,17 @@ export default function Profile() {
                         <Separator className='w-full h-[1px]'/>
                       </div>
 
-                      <div className='flex flex-col md:flex-row flex-wrap w-full gap-5'>
-                        <div className='w-full flex-1'>
-                          <FormField
-                            control={form.control}
-                            name="company_password"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>Password</FormLabel>
-                                <FormControl>
-                                  <Input
-                                  type='password'
-                                  // disabled={isSubmitting}
-                                  placeholder="Enter password"
-                                  {...field}
-                                  />
-                                </FormControl>
-                                <FormMessage/> 
-                              </FormItem>
-                            )}
-                          />
+                      {err && (
+                        <div className='w-full text-black bg-yellow-300 flex gap-3 items-center justify-center my-6 py-2 '>
+                          <div>
+                            <AlertTriangle className='text-rose-700'/> 
+                          </div> 
+                          <h1 >{err}</h1>
                         </div>
-                        <div className='w-full flex-1'>
-                          <FormField
-                            control={form.control}
-                            name="company_password_confirmation"
-                            render={({ field }) => (
-                              <FormItem>
-                              <FormLabel>Confirm Password</FormLabel>
-                                <FormControl>
-                                  <Input
-                                    // disabled={isSubmitting}
-                                    placeholder="Comfirm password"
-                                    {...field}
-                                    />
-                                </FormControl>
-                                <FormMessage/> 
-                              </FormItem>
-                            )}
-                          />
-                        </div>
-                      </div>
+                      )}
 
-                      <div className="flex gap-x-2 items-end justify-end">
+                      <div className="flex gap-x-2 items-end justify-end pb-14">
+                        
                         <Button
                           className=' w-32 my-6'
                           variant={'login'}
