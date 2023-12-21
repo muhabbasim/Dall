@@ -1,54 +1,51 @@
-import React from "react";
-import { Radar, RadarChart, PolarGrid, Legend, PolarAngleAxis, PolarRadiusAxis } from 'recharts';
+import React, { useRef, useEffect } from 'react';
+import * as echarts from 'echarts';
 
-const data = [
-  {
-    subject: 'Math',
-    A: 120,
-    B: 110,
-    fullMark: 150,
-  },
-  {
-    subject: 'Chinese',
-    A: 98,
-    B: 130,
-    fullMark: 150,
-  },
-  {
-    subject: 'English',
-    A: 86,
-    B: 130,
-    fullMark: 150,
-  },
-  {
-    subject: 'Geography',
-    A: 99,
-    B: 100,
-    fullMark: 150,
-  },
-  {
-    subject: 'Physics',
-    A: 85,
-    B: 90,
-    fullMark: 150,
-  },
-  {
-    subject: 'History',
-    A: 65,
-    B: 85,
-    fullMark: 150,
-  },
-];
+const RadialChart = ({ data }) => {
+  const chartRef = useRef(null);
 
-export default function RadarCharts() {
-  return (
-    <RadarChart cx={260} cy={220} outerRadius={150} width={500} height={500} data={data}>
-      <PolarGrid />
-      <PolarAngleAxis dataKey="subject" />
-      <PolarRadiusAxis angle={30} domain={[0, 150]} />
-      <Radar name="Mike" dataKey="A" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
-      <Radar name="Lily" dataKey="B" stroke="#82ca9d" fill="#82ca9d" fillOpacity={0.6} />
-      <Legend />
-    </RadarChart>
-  );
-}
+  useEffect(() => {
+    const chartDom = chartRef.current;
+    const myChart = echarts.init(chartDom);
+
+    const option = {
+      tooltip: {
+        trigger: 'item'
+      },
+      legend: {
+        orient: 'horizontal',
+        bottom: 'bottom',
+        itemWidth: 3,
+      },
+      series: [
+        {
+          name: 'Access From',
+          type: 'pie',
+          // radius: '50%',
+          radius: [30, 100],
+          data: data,
+          itemStyle: {
+            borderRadius: 5
+          },
+          emphasis: {
+            itemStyle: {
+              shadowBlur: 10,
+              shadowOffsetX: 0,
+              shadowColor: 'rgba(0, 0, 0, 0.5)'
+            }
+          }
+        }
+      ]
+    };
+
+    myChart.setOption(option);
+
+    return () => {
+      myChart.dispose();
+    };
+  }, []); 
+
+  return <div ref={chartRef} style={{ width: "500px", height: '400px' }} />;
+};
+
+export default RadialChart;

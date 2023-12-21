@@ -1,83 +1,52 @@
-import React from "react";
-import { RadialBarChart, RadialBar, Legend } from "recharts";
+import React, { useRef, useEffect } from 'react';
+import * as echarts from 'echarts';
 
-const data = [
-  {
-    name: "18-24",
-    uv: 31.47,
-    pv: 2400,
-    fill: "#8884d8"
-  },
-  {
-    name: "25-29",
-    uv: 26.69,
-    pv: 4567,
-    fill: "#83a6ed"
-  },
-  {
-    name: "30-34",
-    uv: 15.69,
-    pv: 1398,
-    fill: "#8dd1e1"
-  },
-  {
-    name: "35-39",
-    uv: 8.22,
-    pv: 9800,
-    fill: "#82ca9d"
-  },
-  {
-    name: "40-49",
-    uv: 8.63,
-    pv: 3908,
-    fill: "#a4de6c"
-  },
-  {
-    name: "50+",
-    uv: 2.63,
-    pv: 4800,
-    fill: "#d0ed57"
-  },
-  {
-    name: "unknow",
-    uv: 6.67,
-    pv: 4800,
-    fill: "#ffc658"
-  }
-];
+const RadialChart = ({ data }) => {
+  const chartRef = useRef(null);
 
-const style = {
-  top: 0,
-  left: 350,
-  lineHeight: "24px"
+  useEffect(() => {
+    const chartDom = chartRef.current;
+    const myChart = echarts.init(chartDom);
+
+    const option = {
+      tooltip: {
+        trigger: 'item'
+      },
+      legend: {
+        orient: 'horizontal',
+        bottom: 'bottom',
+        itemWidth: 3,
+      },
+    
+      series: [
+        {
+          name: 'Access From',
+          type: 'pie',
+          // radius: '50%',
+          data: data,
+          radius: [30, 100],
+          itemStyle: {
+            borderRadius: 5
+          },
+          emphasis: {
+            itemStyle: {
+              shadowBlur: 10,
+              shadowOffsetX: 0,
+              shadowColor: 'rgba(0, 0, 0, 0.5)'
+            }
+          }
+        }
+      ]
+    };
+
+    myChart.setOption(option);
+
+    return () => {
+      myChart.dispose();
+    };
+  }, []); 
+
+  return <div ref={chartRef} style={{ width: "500px", height: '400px' }} />;
 };
 
-
-export default function RadialChart() {
-  return (
-    <RadialBarChart
-      width={400}
-      height={350}
-      cx={190}
-      cy={190}
-      innerRadius={20}
-      outerRadius={140}
-      barSize={12}
-      data={data}
-    >
-      <RadialBar
-        label={{ position: "insideStart", fill: "#fff" }}
-        background
-        dataKey="uv"
-      />
-      <Legend
-        iconSize={10}
-        width={120}
-        height={140}
-        layout="vertical"
-        verticalAlign="middle"
-        wrapperStyle={style}
-      />
-    </RadialBarChart>
-  );
-}
+export default RadialChart;

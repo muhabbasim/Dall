@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import api from '@/context/apiRequest';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Ban, Loader2 } from 'lucide-react';
-import React, { FormEvent, useState } from 'react'
+import React, { FormEvent, useEffect, useState } from 'react'
 import {motion} from 'framer-motion'
 
 import { Separator } from '@/components/ui/separator';
@@ -26,6 +26,7 @@ import { toast } from 'sonner';
 interface ExamProps {
   current_exam: number;
   total_exams: number;
+  isCompleted: boolean
 }
 
 
@@ -38,6 +39,8 @@ export default function IndivisualExams({ params } : { params: { examId: number 
 
   // state to track evry question has a selected answer
   const [selectedAll, setSelectedAll] = useState(false);
+  // betweeb exams rest pop up
+  const [toRestOption, setToRestOption] = useState(true);
 
   // state to track seleted answer to its question
   const [selectedOptions, setSelectedOptions] = useState<Record<number, string>>({});
@@ -62,14 +65,16 @@ export default function IndivisualExams({ params } : { params: { examId: number 
 
   // answer data manipulation to array
   const arraySelectedOptions = Object.entries(selectedOptions);
-  const answers = arraySelectedOptions.map(([question, answer]) => (
+  const answers = arraySelectedOptions?.map(([question, answer]) => (
     { question: question, answer: answer } 
   ))
 
   // the last exam catch
   const isLastExam = exam?.current_exam == exam?.total_exams
+  const isFinishedExams = exam?.isCompleted === true;
 
 
+  // api data post request
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: () => {
@@ -80,11 +85,11 @@ export default function IndivisualExams({ params } : { params: { examId: number 
     }
   });
 
+  // submittin function 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
     try {
-      
       const result = await mutation.mutateAsync();
       console.log(result.data);
 
@@ -102,6 +107,13 @@ export default function IndivisualExams({ params } : { params: { examId: number 
       console.log(error)
     }
   }
+
+  useEffect(() => {
+    if ( isFinishedExams ) {
+      router.push('/individual/dashboard');
+      return;
+    }
+  })
 
 
   return (
@@ -152,9 +164,10 @@ export default function IndivisualExams({ params } : { params: { examId: number 
                           </DialogDescription>
                         </DialogHeader>
                         <DialogFooter className="">
-                          <div onClick={handleSubmit} className='text-white border rounded-md p-2 text-sm w-28 flex items-end justify-center bg-gray-800'>
-                            <DialogClose className=''>
-                              Submit
+                          <div className='text-white border rounded-md p-2 text-sm w-28 flex items-end justify-center bg-gray-800'>
+                            <DialogClose onClick={handleSubmit} className=''>
+                              {mutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                              {mutation.isPending ? "Processing..." : "Submit"}   
                             </DialogClose>
                           </div>
                         </DialogFooter>

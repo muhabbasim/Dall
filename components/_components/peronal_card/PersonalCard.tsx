@@ -59,7 +59,7 @@ export default function PersonalCard() {
       </div>
 
       <div className='relative flex flex-col gap-5 items-center mt-10'>
-        <div className='sidebar_img_container w-36 h-36 rounded-full overflow-hidden'>
+        <div className='sidebar_img_container w-36 h-36 border border-gray-300 rounded-full overflow-hidden'>
         { userData?.image ? (<Image
             src={userData?.image} 
             width={200}

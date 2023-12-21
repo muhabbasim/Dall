@@ -1,23 +1,11 @@
 "use client"
 
-// import { Course } from "@prisma/client"
 import { ColumnDef } from "@tanstack/react-table"
-import { ArrowUpDown, MoreHorizontal, Pencil } from "lucide-react"
-import Link from "next/link";
+import { ArrowUpDown } from "lucide-react"
 import { Button } from "@/components/ui/button";
-
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import { useRouter } from "next/navigation";
 import { Checkbox } from "@radix-ui/react-checkbox";
-
 
 
 export type Exam = {
@@ -31,22 +19,6 @@ export type Exam = {
   created_at: Date;
 }
 
-const handleReult = () => {
-  console.log('result')
-}
-
-const handleExam = (isStarted: boolean, status: string, router: any) => {
-  
-  if (isStarted) {
-    console.log('Continue')
-    return;
-  }
-  if (!isStarted) {
-    router.push('/individual/exams')
-    console.log('Start')
-    return;
-  }
-}
 
 export const columns: ColumnDef<Exam>[] = [
   {
@@ -75,64 +47,13 @@ export const columns: ColumnDef<Exam>[] = [
     accessorKey: "id",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
+        <div
+          className='items-start flex' 
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Exam type
+          #
           <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      )
-    }
-  },
-  {
-    accessorKey: "status",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          status
-          {/* <ArrowUpDown className="ml-2 h-4 w-4" /> */}
-        </Button>
-      )
-    },
-    cell: ({ row }) => {
-      const isSucess = row.getValue("status") || false;
-
-      return (
-        <Badge className={cn(
-          "bg-slate-500 ",
-          isSucess === 'paid' && "bg-sky-700",
-          isSucess === 'failed' && "bg-rose-900",
-        )}>
-          <>
-            {isSucess}
-          </>
-        </Badge>
-      )
-    }
-  },
-  {
-    accessorKey: "created_at",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Created At
-        </Button>
-      )
-    },
-    cell: ({ row }) => {
-      const created_at = row.getValue("created_at") || false;
-
-      return (
-        <>
-        {created_at}
-        </>
+        </div>
       )
     }
   },
@@ -140,11 +61,11 @@ export const columns: ColumnDef<Exam>[] = [
     accessorKey: "contact_type",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
+        <div
+          className='items-start'
         >
           Contact type
-        </Button>
+        </div>
       )
     },
     cell: ({ row }) => {
@@ -152,7 +73,6 @@ export const columns: ColumnDef<Exam>[] = [
 
       return (
         <Badge 
-          onClick={handleReult}
           className={cn(
             "bg-sky-700 cursor-pointer"
           )}
@@ -165,31 +85,103 @@ export const columns: ColumnDef<Exam>[] = [
     }
   },
   {
-    id: "actions",
+    accessorKey: "cost",
+    header: ({ column }) => {
+      
+      return (
+        <div
+          className='items-start'
+        >
+          Cost
+          {/* <ArrowUpDown className="ml-2 h-4 w-4" /> */}
+        </div>
+      )
+    },
     cell: ({ row }) => {
-      const { id } = row.original
+      const price = row.getValue("cost") || false;
 
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-4 w-4 p-0">
-              <span className="sr-only">Open menu</span> 
-              <MoreHorizontal className="h-4 w-4"/>
-            </Button>
-          </DropdownMenuTrigger>
-
-          <DropdownMenuContent>
-
-            <Link href={``}>
-              <DropdownMenuItem>
-                <Pencil className="h-4 w-4 mr-2"/>
-                Edit
-              </DropdownMenuItem>
-            </Link>
-           
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <Badge className={cn(
+          "bg-slate-500 flex gap-2 items-center w-16",
+        )}>
+          <>
+            <h1>$</h1>
+            {price}
+          </>
+        </Badge>
       )
     }
-  }
+  },
+  {
+    accessorKey: "day",
+    header: ({ column }) => {
+      
+      return (
+        <div
+          className='items-start'
+        >
+          status
+        </div>
+      )
+    },
+    cell: ({ row }) => {
+      const day = row.getValue("day") || false;
+
+      return (
+        <h1 className={cn('')}>
+          <>
+            {day}
+          </>
+        </h1>
+      )
+    }
+  },
+  {
+    accessorKey: "time",
+    header: ({ column }) => {
+      
+      return (
+        <div
+          className='items-start'
+        >
+          status
+        </div>
+      )
+    },
+    cell: ({ row }) => {
+      const time = row.getValue("time") || false;
+
+      return (
+        <h1 className={cn(
+          "w-20 ")}>
+          <>
+            {time}
+          </>
+        </h1>
+      )
+    }
+  },
+  {
+    accessorKey: "created_at",
+    header: ({ column }) => {
+      return (
+        <div
+          className='items-start'
+        >
+          Created At
+        </div>
+      )
+    },
+    cell: ({ row }) => {
+      const created_at = row.getValue("created_at") || false;
+
+      return (
+        <>
+        {created_at}
+        </>
+      )
+    }
+  },
+
+
 ]

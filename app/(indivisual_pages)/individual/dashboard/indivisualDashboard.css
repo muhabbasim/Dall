@@ -2,3 +2,11 @@
   /* background-image: linear-gradient(to right, #243949 0%, #517fa4 100%); */
   background-image: linear-gradient(15deg, #13547a 0%, #80d0c7 100%);
 }
+
+.individual_dashboard_state_container {
+  max-width: 1200px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}

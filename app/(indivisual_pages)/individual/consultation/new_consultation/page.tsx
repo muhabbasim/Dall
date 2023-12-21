@@ -34,17 +34,34 @@ import { toast } from 'sonner';
 import { AxiosError } from 'axios'
 import { useRouter } from 'next/navigation'
 
-
 const formSchema = z.object({
   create_individual_consultations_consultation_type_id: z.number().min(1, 'Consultation type is required'),
   create_individual_consultations_week_day_id: z.number({required_error: "Consultation date is required."}),
   create_individual_consultations_consultation_time_id: z.number({required_error: "Consultation time is required."}),
 })
 
+type ConsultationTypeProps = {
+  id: number;
+  cost: number;
+  name: string;
+  created_at: number;
+}
+
+type ConsultationTimeProps = {
+  id: number;
+  time: string;
+}
+
+type ConsultationDayProps = {
+  id: number;
+  name: string;
+}
+
 export default function ComparisionService({ params }: { params: { serviceId: number; }}) {
 
   const { serviceId } = params;
   const [ err, setErr] = useState();
+  const [ consultationId, setconsultationId] = useState<number>();
 
   const router = useRouter();
 
@@ -56,7 +73,9 @@ export default function ComparisionService({ params }: { params: { serviceId: nu
       create_individual_consultations_consultation_time_id: undefined,
     },
   })
+  const { isSubmitting } = form.formState;
 
+  // data fetching
   const { data: consultationType } = useQuery({
     queryKey: ['get/consultation-type'],
     queryFn: async () => 
@@ -79,7 +98,9 @@ export default function ComparisionService({ params }: { params: { serviceId: nu
     })
   })
 
-  const { isSubmitting } = form.formState;
+
+  // consultation price catching 
+  const consultationCost = consultationType?.find((consultation: ConsultationTypeProps) => consultation.id === consultationId)?.cost;
 
   // form submit function
   const submitForm = async (values: z.infer<typeof formSchema>) => {
@@ -166,12 +187,13 @@ export default function ComparisionService({ params }: { params: { serviceId: nu
                                       <CommandEmpty>No consultations found.</CommandEmpty>
                                       <CommandGroup>
                                       { Array.isArray(consultationType) &&
-                                        consultationType.map((item) => (
+                                        consultationType.map((item: ConsultationTypeProps) => (
                                         <CommandItem
                                           value={item.name}
                                           key={item.id}
                                           onSelect={() => {
                                             form.setValue("create_individual_consultations_consultation_type_id", item.id)
+                                            setconsultationId(item.id)
                                           }}
                                         >
                                           <Check
@@ -228,7 +250,7 @@ export default function ComparisionService({ params }: { params: { serviceId: nu
                                       <CommandEmpty>No days found.</CommandEmpty>
                                       <CommandGroup>
                                       { Array.isArray(consultationDays) &&
-                                        consultationDays.map((item) => (
+                                        consultationDays.map((item: ConsultationDayProps) => (
                                         <CommandItem
                                           value={item.name}
                                           key={item.id}
@@ -294,7 +316,7 @@ export default function ComparisionService({ params }: { params: { serviceId: nu
                                       <CommandEmpty>No item found.</CommandEmpty>
                                       <CommandGroup>
                                       { Array.isArray(consoltation_time) &&
-                                        consoltation_time.map((item) => (
+                                        consoltation_time.map((item:ConsultationTimeProps) => (
                                         <CommandItem
                                           value={item.time}
                                           key={item.id}
@@ -324,6 +346,7 @@ export default function ComparisionService({ params }: { params: { serviceId: nu
                             )}
                           />
                         </div>
+                        
                       </div>
 
         
@@ -331,7 +354,24 @@ export default function ComparisionService({ params }: { params: { serviceId: nu
                         <Separator className='w-full h-[1px]'/>
                       </div>
 
-                      <div className="flex gap-x-2 items-end justify-end">
+                      <div className="flex gap-x-2 items-center justify-between">
+                        <div className='w-full flex gap-2 text-xl'>
+                          { consultationId && (
+                            <motion.div 
+                              initial={{ x: 20, opacity: 0 }}
+                              animate={{ x: 0, opacity: 1 }}
+                              transition={{
+                                duration: .3,
+                                delay: .1
+                              }} 
+                              className='w-full flex gap-2'
+                            >
+                              <h1 className='font-bold text-cyan-700'>Consultation cost:</h1>
+                              <h1 className='text-rose-800'>${consultationCost}</h1>
+                            </motion.div>
+                          )}
+                        </div>
+                        
                         <Button
                           className=' w-full md:w-40 my-6'
                           variant={'default'}

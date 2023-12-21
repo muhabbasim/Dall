@@ -88,7 +88,7 @@ export default function NavbarRoutes() {
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <div className='sidebar_img_container w-10 h-10 rounded-full overflow-hidden'>
+            <div className='sidebar_img_container w-10 h-10 rounded-full border border-gray-300  overflow-hidden'>
               { userData?.image ? (<Image
                 src={userData?.image} 
                 width={100}

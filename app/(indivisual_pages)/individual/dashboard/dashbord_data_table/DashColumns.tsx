@@ -48,13 +48,13 @@ export const columns: ColumnDef<Exam>[] = [
     accessorKey: "id",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
+        <div
+          className="flex items-start cursor-pointer"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           #
           <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        </div>
       )
     }
   },
@@ -62,13 +62,11 @@ export const columns: ColumnDef<Exam>[] = [
     accessorKey: "type",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        <div
+          className="items-start"
         >
-          Exam type
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+           Exam type
+        </div>
       )
     }
   },
@@ -76,13 +74,11 @@ export const columns: ColumnDef<Exam>[] = [
     accessorKey: "status",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        <div
+          className="items-start"
         >
           status
-          {/* <ArrowUpDown className="ml-2 h-4 w-4" /> */}
-        </Button>
+        </div>
       )
     },
     cell: ({ row }) => {
@@ -105,12 +101,11 @@ export const columns: ColumnDef<Exam>[] = [
     accessorKey: "created_at",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        <div
+        className="items-start"
         >
           Created At
-        </Button>
+        </div>
       )
     },
     cell: ({ row }) => {
@@ -127,12 +122,11 @@ export const columns: ColumnDef<Exam>[] = [
     accessorKey: "isStarted",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
-          className="flex items-start justify-start"
+        <div
+        className="items-start"
         >
           Completion
-        </Button>
+        </div>
       )
     },
     cell: ({ row }) => {
@@ -151,11 +145,11 @@ export const columns: ColumnDef<Exam>[] = [
     accessorKey: "isCompleted",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
+        <div
+          className="items-start"
         >
           Result
-        </Button>
+        </div>
       )
     },
     cell: ({ row }) => {
@@ -166,7 +160,7 @@ export const columns: ColumnDef<Exam>[] = [
         <Badge 
           className={cn(
             "bg-slate-500 cursor-pointer",
-            isCompleted! ? "bg-sky-700" : 'opacity-0'
+            isCompleted! ? "bg-sky-700" : 'hidden'
           )}
         >
           <Link href={`/individual/results/${examId}`}>
