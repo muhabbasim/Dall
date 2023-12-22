@@ -2,8 +2,9 @@
 import '../style.css'
 import { ReactNode } from "react"
 import Header from "../../../components/_components/header/Header"
-import PersonalCard from '../../../components/_components/peronal_card/PersonalCard'
+import PersonalCard from '../../(indivisual_pages)/individual/dashboard/_components/peronal_card/PersonalCard'
 import { motion } from 'framer-motion'
+import CorporatePersonalCard from './dashboard/_components/corporate_peronal_card/CorporatePersonalCard'
 
 
 export default function Layout({ children } : {
@@ -28,7 +29,7 @@ export default function Layout({ children } : {
             }}  
           >
             <div className='responsive_personalCard sticky top-0'>
-              <PersonalCard/>
+              <CorporatePersonalCard/>
             </div>
           </motion.div>
         </div>

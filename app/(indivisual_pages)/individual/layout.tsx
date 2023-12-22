@@ -2,7 +2,7 @@
 import '../style.css'
 import { ReactNode } from "react"
 import Header from "../../../components/_components/header/Header"
-import PersonalCard from '../../../components/_components/peronal_card/PersonalCard'
+import PersonalCard from './dashboard/_components/peronal_card/PersonalCard'
 import { motion } from 'framer-motion'
 
 

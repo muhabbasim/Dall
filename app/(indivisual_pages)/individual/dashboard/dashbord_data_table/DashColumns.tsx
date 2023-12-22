@@ -2,7 +2,6 @@
 
 import { ColumnDef } from "@tanstack/react-table"
 import { ArrowUpDown} from "lucide-react"
-import { Button } from "@/components/ui/button";
 
 
 import { Badge } from "@/components/ui/badge";
@@ -85,15 +84,17 @@ export const columns: ColumnDef<Exam>[] = [
       const isSucess = row.getValue("status") || false;
 
       return (
-        <Badge className={cn(
-          "bg-slate-500 w-36 flex items-center justify-center",
-          isSucess === 'paid' && "bg-sky-700",
-          isSucess === 'failed' && "bg-rose-900",
-        )}>
+        <div className="flex gap-2 justify-start items-center">
+          <div className={cn(
+            "bg-slate-500 w-2 h-2 flex rounded-full items-center justify-center",
+            isSucess === 'paid' && "bg-sky-700",
+            isSucess === 'failed' && "bg-rose-700",
+            )}
+          />
           <>
             {isSucess}
           </>
-        </Badge>
+        </div>
       )
     }
   },

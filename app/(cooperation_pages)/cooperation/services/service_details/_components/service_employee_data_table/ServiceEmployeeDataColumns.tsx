@@ -135,9 +135,13 @@ export const columns: ColumnDef<individualsProps>[] = [
               )}
             >
               {verification ? (
-                <Check className="w-4 h-4"/>
+                <div className="bg-teal-700 text-white rounded-full p-[2px]">
+                  <Check className="w-4 h-4"/>
+                </div>
               ) : (
-                <X className="w-4 h-4"/>
+                <div className="bg-rose-800 text-white rounded-full p-[2px]">
+                  <X className="w-4 h-4"/>
+                </div>
               )}
               {verification ? "Confirmed" : "Not confirmed"}
             </h1>
@@ -161,11 +165,12 @@ export const columns: ColumnDef<individualsProps>[] = [
     cell: ({ row }) => {
 
       return (
-        <Badge className={cn("bg-slate-500 ")}>
+        <div className={cn("flex gap-2 items-center cursor-pointer")}>
           <>
+            <div className=" bg-cyan-500 rounded-full w-2 h-2"/>
             Show
           </>
-        </Badge>
+        </div>
       )
     }
   },
@@ -187,7 +192,7 @@ export const columns: ColumnDef<individualsProps>[] = [
         <UserDialog>
           <UserDialogTrigger asChild>
             <div className="flex cursor-pointer gap-3">
-              <Eye className=" text-rose-800"/>
+              <Eye className=" text-teal-700"/>
             </div>
           </UserDialogTrigger>
           <UserDialogContent className="sm:max-w-md">

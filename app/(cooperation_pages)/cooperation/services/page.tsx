@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Separator } from '@/components/ui/separator'
 import { motion } from 'framer-motion'
 import { useQuery } from '@tanstack/react-query'
@@ -8,7 +8,6 @@ import ServicesDataTable from './_components/services_data_table/ServicesDataTab
 import { columns } from './_components/services_data_table/ServicesColumns'
 
 export default function CooperationServices() {
-
   
   const { data: perviousServices, isLoading, isError } = useQuery({
     queryKey: ['pervious_services'],

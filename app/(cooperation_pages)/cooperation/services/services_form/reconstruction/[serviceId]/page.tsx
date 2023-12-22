@@ -95,7 +95,7 @@ export default function ReconstructionService({ params }: { params: { serviceId:
 
         <div className=' w-full border rounded-lg bg-white '>
           <div className=' w-full text-center p-5'>
-            <h1 className=' font-bold text-slate-600'>Organization Restructuring Service</h1>
+            <h1 className=' font-bold text-slate-600'>Organization Reconstructuring Service</h1>
           </div>
           <Separator className='w-full px-10 h-[1px]'/>
 

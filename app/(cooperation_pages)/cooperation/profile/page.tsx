@@ -1,6 +1,6 @@
 'use client'
 import { Separator } from '@/components/ui/separator'
-import { AlertTriangle, Ban, Camera, Check, ChevronsUpDown, Divide, Loader2, Pencil } from 'lucide-react'
+import { AlertTriangle, Ban, Check, ChevronsUpDown, Loader2 } from 'lucide-react'
 import {motion} from 'framer-motion'
 import React, { useContext, useEffect, useState } from 'react'
 import { Button } from "@/components/ui/button"

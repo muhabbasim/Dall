@@ -107,15 +107,17 @@ export const columns: ColumnDef<Service>[] = [
       const seats = row.getValue("seats");
 
       return (
-        <Badge 
+        <div 
           className={cn(
-            "bg-sky-700 w-20 flex items-center justify-center"
+            "w-20 flex items-center gap-2"
           )}
         >
+          <div className="w-2 h-2 bg-cyan-400 rounded-full"/>
+
           <>
             {seats}
           </>
-        </Badge>
+        </div>
       )
     }
   },
@@ -125,10 +127,8 @@ export const columns: ColumnDef<Service>[] = [
       return (
         <div
           className="items-start w-40"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Status
-          {/* <ArrowUpDown className="ml-2 h-4 w-4" /> */}
         </div>
       )
     },
@@ -136,15 +136,18 @@ export const columns: ColumnDef<Service>[] = [
       const isSucess = row.getValue("status") || false;
 
       return (
-        <Badge className={cn(
-          "bg-slate-500 flex items-center justify-center",
+        <div className={cn(
+          " flex gap-2 items-center ")}>
+          <div className={cn(
+          "bg-slate-500 w-2 h-2 flex items-center justify-center rounded-full",
           isSucess === 'paid' && "bg-sky-700",
           isSucess === 'failed' && "bg-rose-900",
-        )}>
+        )}/>
+
           <>
             {isSucess}
           </>
-        </Badge>
+        </div>
       )
     }
   },

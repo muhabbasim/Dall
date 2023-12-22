@@ -37,7 +37,7 @@ export default function ProfileImage({ user }: userProps) {
   const [ imageFile, setImageFile ] = useState<any>();
   const [ imageValue, setImageValue ] = useState<any>();
   const [ submitting, setSubmitting ] = useState(false);
-  const [ err, setErr ] = useState<string>("afsgsdf")
+  const [ err, setErr ] = useState<string>("")
 
   // image processing
   const image = imageFile?.file
@@ -109,7 +109,7 @@ export default function ProfileImage({ user }: userProps) {
           <DialogHeader>
             <DialogTitle>Edit profile picutre</DialogTitle>
             <DialogDescription>
-              Make changes to your profile picture here. Click save when you're done.
+              Make changes to your profile picture here. Click save when youre done.
             </DialogDescription>
           </DialogHeader>
 

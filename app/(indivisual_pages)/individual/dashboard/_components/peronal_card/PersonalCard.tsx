@@ -1,8 +1,7 @@
 import { useUserData } from '@/components/data/dataFether';
-import { AuthContext } from '@/context/authContext'
 import { MoreVertical, Pencil } from 'lucide-react'
 import Image from 'next/image';
-import React, { useContext, useEffect, useState } from 'react'
+import React from 'react'
 
 type InputProps = {
   id: number;
@@ -48,9 +47,8 @@ interface User {
 
 export default function PersonalCard() {
 
-  const { currentUser } = useContext(AuthContext)
   const { data: userData } = useUserData();
-
+  
   return (
     <div className='w-[260px] h-[700px] bg-white rounded-lg border p-8'>
       <div className='flex justify-between items-center '>
@@ -78,7 +76,7 @@ export default function PersonalCard() {
         </div>
     
         <div className='text-center'>
-          <h2>{userData?.first_name || userData?.name} <span className='font-bold'>{userData?.second_name}</span></h2>
+          <h2>{userData?.first_name} <span className='font-bold'>{userData?.second_name}</span></h2>
           <h3 className='text-gray-400 text-sm'>{userData?.email}</h3>
           <h3 className='text-gray-400 text-sm'>{userData?.phone}</h3>
           <h3 className='text-gray-900 text-sm mt-5'>{userData?.joined_at}</h3>

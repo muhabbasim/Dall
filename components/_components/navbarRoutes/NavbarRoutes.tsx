@@ -25,6 +25,8 @@ import {
 } from "lucide-react"
 import Image from 'next/image';
 import { useUserData } from '@/components/data/dataFether';
+import CorporateNavImage from '@/app/(cooperation_pages)/cooperation/dashboard/_components/navbar_image/CorporateNavImage';
+import IndividualNavImage from '@/app/(indivisual_pages)/individual/dashboard/_components/navbar_image/IndividualNavImage';
 
 const DashNavItems = [
   {
@@ -43,9 +45,9 @@ const DashNavItems = [
 
 
 export default function NavbarRoutes() {
-  
   const { currentUser } = useContext(AuthContext);
   const { data: userData  } = useUserData();
+  // const { data: companyData } = useCompanyData();
 
   const { logout } = useContext(AuthContext);
   const router = useRouter();
@@ -88,32 +90,22 @@ export default function NavbarRoutes() {
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <div className='sidebar_img_container w-10 h-10 rounded-full border border-gray-300  overflow-hidden'>
-              { userData?.image ? (<Image
-                src={userData?.image} 
-                width={100}
-                height={100}
-                alt="" 
-                className='sidebar_img object-contain'
-              />) : (
-                (<Image
-                  src="/assets/images/default-user-img.jpeg" 
-                  width={100}
-                  height={100}
-                  alt="" 
-                  className='sidebar_img object-contain'
-                />)
+            <div>
+              {currentUser?.role === 'company' ? (
+                <CorporateNavImage/>
+                ) : (
+                <IndividualNavImage/>
               )}
             </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56">
-            <DropdownMenuLabel> Welcome {currentUser?.first_name || currentUser?.name }</DropdownMenuLabel>
+            <DropdownMenuLabel> Welcome {userData?.first_name || userData?.name }</DropdownMenuLabel>
             <DropdownMenuSeparator />
             
             <DropdownMenuGroup>
               <DropdownMenuItem>
                 <User className="mr-2 h-4 w-4" />
-                <Link href={'/individual/profile'}><span>Profile</span></Link>
+                <Link href={''}><span>Profile</span></Link>
                 <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
               </DropdownMenuItem>
               

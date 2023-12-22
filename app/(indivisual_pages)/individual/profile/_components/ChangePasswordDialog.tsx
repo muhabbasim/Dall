@@ -1,5 +1,3 @@
-import { Copy } from "lucide-react"
- 
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -11,8 +9,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+
 import ChangePassword from "./ChangePassword"
  
 export function ChangePasswordDialog() {
@@ -27,7 +24,7 @@ export function ChangePasswordDialog() {
         <DialogHeader>
           <DialogTitle>Edit password</DialogTitle>
           <DialogDescription>
-            Make changes to your passowrd here. Click save when you're done.
+            Make changes to your passowrd here. Click save when youre done.
           </DialogDescription>
         </DialogHeader>
         <div className="w-full">

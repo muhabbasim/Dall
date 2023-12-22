@@ -1,6 +1,6 @@
 'use client'
 import React from 'react'
-import { AlertTriangle, Expand, GraduationCap, ShieldAlert, TvIcon } from 'lucide-react';
+import { Expand, GraduationCap, TvIcon } from 'lucide-react';
 import { motion } from 'framer-motion'
 import { useQuery } from '@tanstack/react-query';
 import api from '@/context/apiRequest';
@@ -21,17 +21,10 @@ export default function IndividualStates({ examsData }) {
 
   return (
     <motion.div 
-      initial={{ x: 50, opacity: 0 }}
-      animate={{ x: 0, opacity: 1 }}
-      transition={{
-        duration: .5,
-        delay: .5
-      }} 
       className=' individual_dashboard_state_container  flex gap-5 justify-between'
     >
       <div
-          
-        className='indivisual_status  cursor-pointer text-white bg-white w-full py-3 border rounded-lg flex items-center justify-around gap-5  shasdow shadow-lg'
+        className='indivisual_status  cursor-pointer text-white bg-white w-full py-3 border rounded-lg flex items-center justify-around gap-5 shasdow shadow-lg'
       >
 
         <div>
@@ -51,7 +44,6 @@ export default function IndividualStates({ examsData }) {
         
       </div>
       <div
-      
         className='indivisual_status  cursor-pointer text-white bg-white w-full py-3 border rounded-lg flex items-center justify-around gap-5  shadow-lg'
       >
           <div>
@@ -71,7 +63,6 @@ export default function IndividualStates({ examsData }) {
       
       </div>
       <div 
-        
         className='indivisual_status  cursor-pointer text-white bg-white w-full py-3 border rounded-lg flex items-center justify-around gap-5  shadow-lg'
       >
         <div>

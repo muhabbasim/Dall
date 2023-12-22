@@ -26,20 +26,23 @@ export default function ExamCompletionDynamic({ status, isStarted, examId, isCom
   }
 
   return (
-    <Badge
+    <div
       onClick={handleExam}
-      className={cn(
-        "bg-slate-500 cursor-pointer",
-        isStarted && "bg-sky-700",
-        status === 'waiting-for-payment' && 'hidden',
-        status === 'failed' && 'hidden',
-        isStarted && isCompleted  && ' bg-cyan-600'
-      )}
-    >
+      className='flex gap-2 items-center cursor-pointer'
+      >
+      <div
+        className={cn(
+          "bg-slate-500 cursor-pointer rounded-full w-2 h-2",
+          isStarted && "bg-sky-700",
+          status === 'waiting-for-payment' && 'hidden',
+          status === 'failed' && 'hidden',
+          isStarted && isCompleted  && ' bg-cyan-500'
+        )}
+      />
       {status === 'paid' && !isStarted && "Start"}
       {status === 'paid' && isStarted && !isCompleted && "Continue"}
       {status === 'paid' && isStarted && isCompleted && "Completed"}
-    </Badge>
+    </div>
   )
 }
 

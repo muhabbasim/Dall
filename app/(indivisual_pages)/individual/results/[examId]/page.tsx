@@ -17,7 +17,6 @@ import loader2 from '../_components/loader2.json'
 import loader3 from '../_components/loader3.json'
 import process from '../_components/process.json'
 import Image from 'next/image';
-import * as echarts from 'echarts';
 
 
 type ResultSymbolProps = {

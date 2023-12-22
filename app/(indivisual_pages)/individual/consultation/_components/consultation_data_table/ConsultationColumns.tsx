@@ -72,15 +72,16 @@ export const columns: ColumnDef<Exam>[] = [
       const contact_type = row.getValue("contact_type");
 
       return (
-        <Badge 
+        <div 
           className={cn(
-            "bg-sky-700 cursor-pointer"
+            'flex items-center gap-2'
           )}
         >
+          <div className="bg-sky-700 cursor-pointer w-2 h-2 rounded-full"/>
           <>
             {contact_type}
           </>
-        </Badge>
+        </div>
       )
     }
   },
@@ -101,14 +102,16 @@ export const columns: ColumnDef<Exam>[] = [
       const price = row.getValue("cost") || false;
 
       return (
-        <Badge className={cn(
-          "bg-slate-500 flex gap-2 items-center w-16",
+        <div className={cn(
+          " flex gap-2 items-center w-16",
         )}>
+          <div className="bg-rose-700 cursor-pointer w-2 h-2 rounded-full"/>
+
           <>
             <h1>$</h1>
             {price}
           </>
-        </Badge>
+        </div>
       )
     }
   },

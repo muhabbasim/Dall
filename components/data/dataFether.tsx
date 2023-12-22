@@ -1,5 +1,12 @@
 import api from "@/context/apiRequest";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { AuthContext } from "@/context/authContext";
+import { useQuery } from "@tanstack/react-query";
+import { useContext } from "react";
+
+type ItemProps = {
+  id: number;
+  name: string;
+}
 
 interface UserDataProps {
   name: string;
@@ -8,19 +15,19 @@ interface UserDataProps {
   last_name: string;
   email: string;
   image: string;
-  phone: number;
-  birth_country: number;
-  birth_city: number;
+  phone: number | string;
+  birth_country: ItemProps;
+  birth_city: ItemProps;
   birth_date: string;
-  residence_country: number;
-  residence_city: number;
-  genders: number;
-  nationality: number;
-  education_institute: number;
-  education_level: number;
-  major: number;
-  experience_years: number;
-  occupation: number;
+  residence_country: ItemProps;
+  residence_city: ItemProps;
+  gender: ItemProps;
+  nationality: ItemProps;
+  education_institute: ItemProps;
+  education_level: ItemProps;
+  major: ItemProps;
+  experience_years: ItemProps;
+  occupation: ItemProps;
   skills: number;
   password: string;
   password_confirmation: string;
@@ -52,6 +59,7 @@ export const useUserData = () => {
     },
   });
 };
+
 
 export const useCompanyData = () => {
   return useQuery({

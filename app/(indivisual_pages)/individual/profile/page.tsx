@@ -34,7 +34,7 @@ import { useForm } from "react-hook-form"
 import * as z from "zod"
 import { cn } from '@/lib/utils';
 import { Calendar } from '@/components/ui/calendar';
-import { format } from "date-fns"
+import { format, set } from "date-fns"
 import api from '@/context/apiRequest';
 import { useQuery } from '@tanstack/react-query';
 import { toast } from 'sonner';
@@ -84,58 +84,17 @@ interface FormDataProps {
   diplomas: [];
 }
 
-type CountryProps = {
+type ItemProps = {
   id: number;
   name: string;
 }
-
-type CityProps = {
-  id: number;
-  name:string;
-}
-
-type EducationLevelsProps = {
-  id: number;
-  name: string;
-}
-
-type EducationInstitutesProps = {
-  id: number;
-  name: string;
-}
-
-type OccupationsProps = {
-  id: number;
-  name: string;
-}
-
-type ExperienceYearProps = {
-  id: number;
-  name: string;
-}
-
-type SkillsProps = {
-  id: number;
-  name: string;
-} 
-
-type MajorsProps = {
-  id: number;
-  name: string;
-}
-
-type GendersProps = {
-  id: number;
-  name: string;
-}
-
 
 const formSchema = z.object({
   first_name: z.string().min(1, 'Fistname is required'),
   second_name: z.string().min(1, 'Secondname is required'),
   last_name: z.string().min(1, 'Lastname is required'),
   email: z.string().email('Invalid Email'),
-  phone: z.string().min(10, 'Phone number should be at least 10 digits'),
+  phone: z.any(),
   
   birth_country: z.number().min(1, { message: "pirth day is required."}),
   birth_city: z.number().min(1, { message: "pirth city is required."}),
@@ -158,7 +117,6 @@ const formSchema = z.object({
 
 export default function Profile() {
 
-  const { currentUser } = useContext(AuthContext);
   const [ err, setErr ] = useState<string>()
 
   // form data fetching
@@ -178,15 +136,14 @@ export default function Profile() {
     })
   })
 
-
   // currentuser skills array
-  const currenUserSkills = Array.isArray(currentUser?.skills)
-    ? currentUser?.skills.map((skill) => skill.id)
+  const currenUserSkills = Array.isArray(userData?.skills)
+    ? userData?.skills?.map((skill) => skill.id)
     : []
   ;
 
   // date saver
-  const [ datePicker, setDatePicker ] = useState<Date | undefined | string>(currentUser?.birth_date);
+  const [ datePicker, setDatePicker ] = useState<Date | undefined | string>(userData?.birth_date);
 
   // selected skills array function
   const [ selectedSkills, setSelectedSkills ] = useState<number[]>(currenUserSkills||[]); 
@@ -198,38 +155,38 @@ export default function Profile() {
   }
 
   // form data distruction
-  const countries: CountryProps[] = formData?.countries || [];
-  const education_institutes: EducationInstitutesProps[] = formData?.education_institutes || [];
-  const education_levels: EducationLevelsProps[] = formData?.education_levels || [];
-  const occupations: OccupationsProps[] = formData?.occupations || [];
-  const experience_year: ExperienceYearProps[] = formData?.experience_year || [];
-  const skills: SkillsProps[] = formData?.skills || [];
-  const majors: MajorsProps[] = formData?.majors || [];
-  const genders: GendersProps[] = formData?.genders || [];
+  const countries: ItemProps[] = formData?.countries || [];
+  const education_institutes: ItemProps[] = formData?.education_institutes || [];
+  const education_levels: ItemProps[] = formData?.education_levels || [];
+  const occupations: ItemProps[] = formData?.occupations || [];
+  const experience_year: ItemProps[] = formData?.experience_year || [];
+  const skills: ItemProps[] = formData?.skills || [];
+  const majors: ItemProps[] = formData?.majors || [];
+  const genders: ItemProps[] = formData?.genders || [];
 
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      first_name: currentUser && currentUser?.first_name || undefined,
-      second_name: currentUser && currentUser?.second_name || undefined,
-      last_name: currentUser && currentUser?.last_name || undefined,
-      email: currentUser && currentUser?.email || undefined,
-      phone: currentUser && currentUser?.phone || undefined,
+      first_name: userData && userData?.first_name || undefined,
+      second_name: userData && userData?.second_name || undefined,
+      last_name: userData && userData?.last_name || undefined,
+      email: userData && userData?.email || undefined,
+      phone: userData && userData?.phone,
       
-      birth_country: currentUser && currentUser?.birth_country.id || undefined,
-      birth_city: currentUser && currentUser?.birth_city.id || undefined,
-      // birth_date: currentUser && currentUser?.birth_date || undefined,
-      residence_country: currentUser && currentUser?.residence_country.id || undefined,
-      residence_city: currentUser && currentUser?.residence_city.id || undefined,
-      gender: currentUser && currentUser?.gender?.id || undefined,
+      birth_country: userData && userData.birth_country.id || undefined,
+      birth_city: userData && userData?.birth_city.id || undefined,
+      // birth_date: userData && userData?.birth_date || undefined,
+      residence_country: userData && userData?.residence_country.id || undefined,
+      residence_city: userData && userData?.residence_city.id || undefined,
+      gender: userData && userData?.gender.id || undefined,
       
-      nationality: currentUser && currentUser?.nationality.id || undefined,
-      education_institute: currentUser && currentUser?.education_institute.id || undefined,
-      education_level: currentUser && currentUser?.education_level.id || undefined,
-      major: currentUser && currentUser?.major.id || undefined,
-      experience_years: currentUser && currentUser?.experience_years.id || undefined,
-      occupation: currentUser && currentUser?.occupation.id || undefined,
+      nationality: userData && userData?.nationality.id || undefined,
+      education_institute: userData && userData?.education_institute.id || undefined,
+      education_level: userData && userData?.education_level.id || undefined,
+      major: userData && userData?.major.id || undefined,
+      experience_years: userData && userData?.experience_years.id || undefined,
+      occupation: userData && userData?.occupation.id || undefined,
       skills: currenUserSkills || undefined,
   
     },
@@ -263,6 +220,7 @@ export default function Profile() {
   } 
 
   useEffect(() => {
+
     setTimeout(() => {
       setErr('')
     }, 4000);
@@ -279,7 +237,6 @@ export default function Profile() {
       className='w-full flex gap-8 justify-between'
     >
       <div className='w-full'>
-
         <div className='min-h-[700px] border rounded-lg bg-white'>
           <div className=' w-full text-center p-5'>
             <h1 className=' font-bold text-slate-600'>Personal information</h1>
