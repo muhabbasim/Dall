@@ -164,7 +164,7 @@ export default function CoorporateForm() {
     setTimeout(() => {
       setErr('')
     }, 4000);
-  }, [err]) 
+  }, []) 
 
 
   return (

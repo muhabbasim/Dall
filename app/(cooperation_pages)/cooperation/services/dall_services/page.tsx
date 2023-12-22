@@ -80,7 +80,7 @@ export default function DallServices() {
 
           <div className='dall_services_container py-20 px-10 h-full '>
             {services.map((service: ServiceProps) => (
-              <ServiceCard service={service} />
+              <ServiceCard key={service.id} service={service} />
             ))}
           </div>
         </div>  

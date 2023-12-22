@@ -95,7 +95,7 @@ export default function IndivisualForm() {
     setTimeout(() => {
       setErr('')
     }, 4000);
-  }, [err]) 
+  }, []) 
 
   return (
     <div className='register_inputs w-full h-full flex-1 md:p-16 p-5'>

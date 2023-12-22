@@ -101,7 +101,7 @@ export default function ReconstructionService({ params }: { params: { serviceId:
 
             <div className='personal_info p-20'>
 
-              <div className='info_form '>
+              <div className='info_form '>CoorporateForm
                 <div className=' w-full'>
                   <h1 className=' font-bold text-slate-600'>Service registeration form</h1>
                   <h1 className='text-sm text-rose-800'>All fields are required *</h1>
