@@ -23,7 +23,6 @@ import {
   LogOut, 
   Settings
 } from "lucide-react"
-import Image from 'next/image';
 import { useUserData } from '@/components/data/dataFether';
 import CorporateNavImage from '@/app/(cooperation_pages)/cooperation/dashboard/_components/navbar_image/CorporateNavImage';
 import IndividualNavImage from '@/app/(indivisual_pages)/individual/dashboard/_components/navbar_image/IndividualNavImage';

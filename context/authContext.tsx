@@ -50,7 +50,7 @@ interface User {
   second_name: string;
   last_name: string;
   email: string;
-  phone: string | undefined;
+  phone: string | string;
   
   birth_country: number & InputProps;
   birth_city: number & InputProps;
@@ -69,7 +69,7 @@ interface User {
   is_verified: boolean;
 
   // cooperations user
-  name: string | undefined;
+  name: string;
   staff: number;
   address: string;
   password: string;

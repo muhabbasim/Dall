@@ -23,7 +23,7 @@ type userProps = {
   birth_date: string;
   residence_country: number;
   residence_city: number;
-  genders: number;
+  gender: number;
   nationality: number;
   
   education_institute: number;
