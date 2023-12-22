@@ -160,11 +160,11 @@ export default function CoorporateForm() {
     
   }
 
-  useEffect(() => {
-    setTimeout(() => {
-      setErr('')
-    }, 4000);
-  }, []) 
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setErr('')
+  //   }, 4000);
+  // }, []) 
 
 
   return (

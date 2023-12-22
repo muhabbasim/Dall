@@ -91,11 +91,11 @@ export default function IndivisualForm() {
   }
 
    
-  useEffect(() => {
-    setTimeout(() => {
-      setErr('')
-    }, 4000);
-  }, []) 
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setErr('')
+  //   }, 4000);
+  // }, []) 
 
   return (
     <div className='register_inputs w-full h-full flex-1 md:p-16 p-5'>
