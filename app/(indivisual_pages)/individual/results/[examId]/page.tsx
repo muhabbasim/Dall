@@ -170,7 +170,7 @@ export default function IndividualResults({ params } : { params: { examId: numbe
       <div className='relative w-full'>
         { processResult ? (
           <div className='w-full h-[80vh] border rounded-lg flex flex-col items-center justify-center bg-white'>
-            <Lottie loop={true} animationData={loader3}/>
+            <Lottie loop={true} animationData={loader2}/>
             <h1>Processing your result...</h1>
           </div> 
 
