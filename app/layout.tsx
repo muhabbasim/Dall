@@ -5,8 +5,7 @@ import { AuthContextProvider } from '@/context/authContext'
 import { Toaster } from 'sonner';
 import ReactQueryProvider from '@/components/providers/ReactQeuryProvider';
 import ConfettiProvider from '@/components/providers/ConfettiProvider';
-
-
+import logo from '../public/assets/logo.png'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {

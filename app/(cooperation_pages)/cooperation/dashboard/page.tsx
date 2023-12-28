@@ -57,20 +57,3 @@ export default function CooperationDashboard() {
   )
 }
 
-
-{/* <div className='p-5 flex flex-col gap-4'>
-<DashboardStates/>
-
-<div className='grid grid-cols-3 gap-6'>
-
-  <div className='grid grid-cols-2 gap-4 col-span-2'>
-    <Employees_services/> 
-    <RecentServices/>
-    <EmployeesTopService/>
-  </div>
-
-  <div className=''>
-    <EmployeesTable/>
-  </div>
-</div>
-</div> */}

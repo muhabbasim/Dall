@@ -8,7 +8,6 @@ import { Ban, Loader2 } from 'lucide-react'
 import Service_status from '../_components/ServiceStatus'
 import ServiceEmployeeDataTable from '../_components/service_employee_data_table/ServiceEmployeeDataTable'
 import { columns } from '../_components/service_employee_data_table/ServiceEmployeeDataColumns'
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 type individualsProps = {
   name: string;
   email: string;

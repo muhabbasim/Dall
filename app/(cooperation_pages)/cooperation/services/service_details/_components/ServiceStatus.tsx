@@ -51,7 +51,7 @@ export default function Service_status({ service }: ServiceProps) {
     <div className=''>
       <div className='service_state_container'>
         <div className='rounded-lg  h-46 p-4 border shadow-sm'>
-          <h1 className='mb-8 font-bold'>Service Status:</h1>
+          <h1 className='mb-4 font-bold'>Service Status:</h1>
           <div className=' space-y-2'>
             <div className='flex gap-3 items-center'>
               <h1 className='w-24'>Service:</h1>
@@ -65,7 +65,7 @@ export default function Service_status({ service }: ServiceProps) {
         </div>
 
         <div className='rounded-lg  h-46 p-4 border shadow-sm'>
-          <h1 className='mb-8 font-bold'>Employees Status:</h1>
+          <h1 className='mb-4 font-bold'>Employees Status:</h1>
           <div className=' space-y-2'>
             <div className='flex gap-3 items-center'>
               <h1 className='w-28'>Total Seats:</h1>
@@ -83,7 +83,7 @@ export default function Service_status({ service }: ServiceProps) {
         </div>
 
         <div className='rounded-lg  h-46 p-4 border shadow-sm'>
-          <h1 className='mb-8 font-bold'>Date Status:</h1>
+          <h1 className='mb-4 font-bold'>Date Status:</h1>
           <div className=' space-y-2'>
             <div className='flex gap-3 items-center'>
               <h1 className='w-36'>Registration date:</h1>
