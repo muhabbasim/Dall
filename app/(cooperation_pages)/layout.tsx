@@ -18,7 +18,7 @@ export default function Layout({ children } : {
   const { currentUser } = useContext(AuthContext);
 
   if ( currentUser && currentUser?.role !== 'company' ) {
-    router.push('/')
+    router.push('/authorization_error')
     return;
   }
   

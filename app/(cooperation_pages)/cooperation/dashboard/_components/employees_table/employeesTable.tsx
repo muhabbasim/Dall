@@ -116,31 +116,31 @@ export const columns: ColumnDef<Payment>[] = [
     cell: ({ row }) => {
       const isConfirmed = row.getValue("isConfirmed") || false;
       return (
-        <div className="flex justify-center items-center">
+        <div className="flex justify-start items-center">
           {
             isConfirmed ?
             (
-              <Badge 
+              <div 
                 className={cn(
-                  "bg-sky-700 cursor-pointer",
+                  "cursor-pointer flex items-center justify-center gap-2",
                 )}
               >
-                {/* <Check className="text-white w-4 h-4" /> */}
+                <div className=" bg-cyan-500 rounded-full w-2 h-2"></div>
                 <span className="text-xs">
                   Confirmed
                 </span>
-              </Badge>
+              </div>
             ) : (
-              <Badge 
+              <div 
                 className={cn(
-                  "bg-slate-500 cursor-pointer",
+                  " cursor-pointer flex items-center justify-center gap-2",
                 )}
               >
-                {/* <Clock9 className="text-white w-4 h-4" />  */}
+                <div className="bg-rose-700 rounded-full w-2 h-2"></div>
                 <span className="text-xs">
                   Waiting
                 </span>
-              </Badge>
+              </div>
 
             )
           }
@@ -245,30 +245,7 @@ export function EmployeesTable() {
             </TableBody>
           </Table>
         </div>
-        {/* <div className="flex items-center justify-end space-x-2 py-4">
-          <div className="flex-1 text-sm text-muted-foreground">
-            {table.getFilteredSelectedRowModel().rows.length} of{" "}
-            {table.getFilteredRowModel().rows.length} row(s) selected.
-          </div>
-          <div className="space-x-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => table.previousPage()}
-              disabled={!table.getCanPreviousPage()}
-            >
-              Previous
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => table.nextPage()}
-              disabled={!table.getCanNextPage()}
-            >
-              Next
-            </Button>
-          </div>
-        </div> */}
+  
       </div>
     </div>
   )

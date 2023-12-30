@@ -1,6 +1,6 @@
 'use client'
 import { Separator } from '@/components/ui/separator'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { useQuery } from '@tanstack/react-query'
 import api from '@/context/apiRequest'
@@ -8,6 +8,10 @@ import { Ban, Loader2 } from 'lucide-react'
 import Service_status from '../_components/ServiceStatus'
 import ServiceEmployeeDataTable from '../_components/service_employee_data_table/ServiceEmployeeDataTable'
 import { columns } from '../_components/service_employee_data_table/ServiceEmployeeDataColumns'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchService } from '@/app/redux/service_details/ServiceSlide'
+import Spinner from '@/components/spinner/Spinner'
+import { AppState } from '@/app/redux/store'
 type individualsProps = {
   name: string;
   email: string;
@@ -34,7 +38,10 @@ type ServiceDetailsProps = {
 
 export default function ServiceDetails({ params }: { params: { serviceId: number }}) {
   
+
   const serviceId = params.serviceId;
+  const dispatch = useDispatch();
+  const [ refresh, setRefresh ] = useState<boolean>(false);
 
   const { data: serviceDetails, isError, isLoading } = useQuery({
     queryKey: ['services_details'],
@@ -43,10 +50,20 @@ export default function ServiceDetails({ params }: { params: { serviceId: number
       return res.data?.data;
     })
   }) 
-
   const registeredUsers: individualsProps[] = serviceDetails?.individuals
-  
+
+
+  useEffect(() => {
+    setRefresh(true)
+  }, [])
+
+  setTimeout(() => {
+    setRefresh(false)
+  }, 500);
+
+
   return (
+
     <motion.div 
       initial={{ y: 50, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
@@ -54,7 +71,7 @@ export default function ServiceDetails({ params }: { params: { serviceId: number
         duration: .3,
         delay: .1
       }} 
-      className='w-full flex gap-8 justify-between'
+      className='w-full flex gap-8 justify-center'
     >
       <div className='w-full'>
 
@@ -62,22 +79,17 @@ export default function ServiceDetails({ params }: { params: { serviceId: number
           <div className=' w-full text-center p-5'>
             <h1 className=' font-bold text-slate-600'>Service Details</h1>
           </div>
-          <Separator className='w-full px-10 h-[1px]'/>
-          { isLoading ? 
-            ( <div className=' w-full min-h-[500px] flex items-center justify-center'>
-                <div className='flex items-center justify-center gap-2'>
-                  <Loader2 className="mr-2 h-10 w-10 text-cyan-700 animate-spin" />
-                  <h1>Loading data...</h1>
-                </div>
+
+          {refresh ? (
+            <div className=' w-full h-[700px] flex items-center justify-center'>
+              <div className='flex items-center justify-center gap-2'>
+                <Loader2 className="mr-2 h-10 w-10 text-cyan-700 animate-spin" />
+                <h1>Loading data...</h1>
               </div>
-            ) : isError ? (
-              <div className='w-full min-h-[500px] flex items-center justify-center'>
-                <div className='flex items-center justify-center gap-2'>
-                  <Ban className="mr-2 h-10 w-10 text-rose-700" />
-                  <h1>Server error</h1>
-                </div>
-              </div>
-            ) : (
+            </div>
+          ) : (
+            <>
+              <Separator className='w-full px-10 h-[1px]'/>
               <div className='p-6 md:py-10 md:px-20'>
                 <Service_status service={serviceDetails!}/>
                 <Separator className='w-full px-10 h-[1px]'/>
@@ -91,9 +103,12 @@ export default function ServiceDetails({ params }: { params: { serviceId: number
                   />
                 </div>
               </div>
-            )}
+            </>
+          )}
         </div>  
       </div>
     </motion.div>
+  
+
   )
 }

@@ -8,6 +8,8 @@ import Employees_services from './_components/employee_services/Employees_servic
 import EmployeesTopService from './_components/employee_services2/EmployeesTopServices';
 import DashboardStates from './_components/dashboard_states/DashboardStates';
 import RecentServices from './_components/recent_services/RecentServices';
+import AreaChart from './_components/Area_charts/AreaChart';
+import ColumnChart from './_components/column_chart/ColumnChart';
 
 
 
@@ -36,14 +38,14 @@ export default function CooperationDashboard() {
             <div className="box">
 
               <div className='box2'>
-                <Employees_services/> 
+                <ColumnChart/> 
               </div>
               
               <div className='box2'>
                 <RecentServices/>
               </div>
               <div className='responsive_chart box3'>
-                <EmployeesTopService/>
+                <AreaChart/>
               </div>
               <div className='box1'>
                 <EmployeesTable/>

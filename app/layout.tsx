@@ -5,7 +5,8 @@ import { AuthContextProvider } from '@/context/authContext'
 import { Toaster } from 'sonner';
 import ReactQueryProvider from '@/components/providers/ReactQeuryProvider';
 import ConfettiProvider from '@/components/providers/ConfettiProvider';
-import logo from '../public/assets/logo.png'
+import { Providers } from './redux/provider';
+
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
@@ -22,13 +23,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <AuthContextProvider>
-          <ReactQueryProvider>
-            <ConfettiProvider/>
-            <Toaster/>
-            {children}
-          </ReactQueryProvider>
-        </AuthContextProvider>
+        <Providers>
+          <AuthContextProvider>
+            <ReactQueryProvider>
+              <ConfettiProvider/>
+              <Toaster/>
+              {children}
+            </ReactQueryProvider>
+          </AuthContextProvider>
+        </Providers>
       </body>
     </html>
   )

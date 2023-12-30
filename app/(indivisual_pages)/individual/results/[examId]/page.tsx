@@ -2,7 +2,7 @@
 import { Separator } from '@/components/ui/separator'
 import React, { useEffect, useState } from 'react'
 import {motion} from 'framer-motion'
-import { FolderTree, Warehouse } from 'lucide-react';
+import { ArrowBigDown, ArrowBigUp, FolderTree, Warehouse } from 'lucide-react';
 import StatusChart from '../_components/Status';
 import { ProgressBar } from '../_components/ProgressBar';
 import PieChart from '../_components/PieChart';
@@ -17,6 +17,7 @@ import loader2 from '../_components/loader2.json'
 import loader3 from '../_components/loader3.json'
 import process from '../_components/process.json'
 import Image from 'next/image';
+import Customers from '@/components/_components/card/Customers';
 
 
 type ResultSymbolProps = {
@@ -197,7 +198,50 @@ export default function IndividualResults({ params } : { params: { examId: numbe
                   </div>
 
                   <div className='result_state_container py-10'>
-                    <StatusChart
+                    <Customers
+                      isSub={false} 
+                      color='#D988B9'
+                      data={
+                        [30, 25, 35, 20, 30, 40]
+                      }
+                      title='Main specialization'
+                      subtitle={result?.symbol?.first_major}
+                      Icon={ArrowBigUp}
+                      percentage={result?.first_major_percentage}
+                    />
+                    <Customers
+                      isSub={true} 
+                      color='#FFCD4B'
+                      data={
+                        [25, 66, 20, 40, 12, 58, 20]
+                      }
+                      title='Sub specializtion'
+                      subtitle={result?.symbol.second_major}
+                      Icon={ArrowBigDown}
+                    />
+                    <Customers
+                      isSub={false} 
+                      color='#2BB46C'
+                      data={
+                        [25, 66, 20, 40, 12, 58, 20]
+                      }
+                      title='Main profession'
+                      subtitle={result?.symbol.first_job}
+                      Icon={ArrowBigUp}
+                      percentage={result?.second_major_percentage}
+                    />
+                    <Customers
+                      isSub={true} 
+                      color='#B15EFF'
+                      data={
+                        [25, 66, 20, 40, 12, 58, 20]
+                      }
+                      title='Sub profession'
+                      subtitle={result?.symbol.second_job}
+                      Icon={ArrowBigDown}
+                    />
+                    
+                    {/* <StatusChart
                       isSub={false}
                       Icon={Warehouse}
                       title={'Main-speciality'}
@@ -227,7 +271,7 @@ export default function IndividualResults({ params } : { params: { examId: numbe
                       title='Sub-profession'
                       data={SubChartData}
                       specialty={result?.symbol.second_job}
-                      />
+                      /> */}
                   </div>
 
                   <div className='w-full border rounded-sm hover:shadow-lg shadow-md'>

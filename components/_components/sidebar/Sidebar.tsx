@@ -1,11 +1,11 @@
 import React, { useContext } from 'react'
 import './sidebar.css'
-import { BarChartHorizontalBig, Box, FileEdit, LayoutDashboard, LogOut, MessageSquare, Users } from 'lucide-react';
+import { Box, FileEdit, LayoutDashboard, LogOut, MessageSquare, Users } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
-import SidebarItem from '../sidebarItem/SidebarItem';
 import { Separator } from '../../ui/separator';
 import Link from 'next/link';
 import { AuthContext } from '@/context/authContext';
+import SidebarItem from '../sidebarItem/SidebarItem';
 
 type RouterProps = {
   icon: any;
@@ -112,7 +112,7 @@ export default function Sidebar() {
             className="object-cover w-full"
             />
         </div>
-        <Link href={'/'} className='sidebar_title text-3xl text-gray-500 font-[700] transition-all'>Dall_In</Link>
+        <Link href={''} className='sidebar_title text-3xl text-gray-500 font-[700] transition-all'>Dall_In</Link>
       </div>
 
       

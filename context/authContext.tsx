@@ -155,6 +155,16 @@ export const AuthContextProvider = ({ children }: Props ) => {
 
   // get the login axios from the login page
   const login = async (formData: any) => {
+
+    // await fetch(`https://dall.app/api/login`, {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   credentials: 'include',
+    //   body: JSON.stringify(formData)
+    // })
+
     const res = await axios.post('https://dall.app/api/login', formData)
 
     console.log(res.data)

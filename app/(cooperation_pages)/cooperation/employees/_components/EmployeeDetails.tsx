@@ -9,6 +9,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+import Spinner from '@/components/spinner/Spinner'
 
 type element = {
   id: number;
@@ -41,8 +42,10 @@ export default function EmployeeDetails({ userId }) {
 
   const { currentUser } = useContext(AuthContext);
   
+  const [ refresh, setRefresh ] = useState<boolean>(false);
+
   const [ userData, setUserData ] = useState<UserDetailsProps>();
-  const { data: user, isError, isLoading } = useQuery({
+  const { data: user } = useQuery({
     queryKey: ['userDetails'],
     queryFn: async () => 
     await api.get(`company/individuals/${userId}/show`).then((res) => {
@@ -51,28 +54,27 @@ export default function EmployeeDetails({ userId }) {
   })
   
   const isVerified = userData?.verification;
+
   useEffect(() => {
     setUserData(user)
   },[user]);
+
+  useEffect(() => {
+    setRefresh(true)
+  }, [])
+
+  setTimeout(() => {
+    setRefresh(false);
+  }, 500);
   
+
   return (
     <>
-      { isLoading ? 
+      { refresh ? 
         ( <div className=' w-full h-full flex items-center justify-center'>
-            <div className='flex items-center justify-center gap-2'>
-              <Loader2 className="mr-2 h-10 w-10 text-cyan-700 animate-spin" />
-              <h1>Loading data...</h1>
-            </div>
-          </div>
-        ) : isError ? (
-          <div className='w-full h-full flex items-center justify-center'>
-            <div className='flex items-center justify-center gap-2'>
-              <Ban className="mr-2 h-10 w-10 text-rose-700" />
-              <h1>No services</h1>
-            </div>
+            <Spinner/>
           </div>
         ) : (
-
           <div className='box w-full pt-6'>
   
             {/* Box */}

@@ -1,20 +1,10 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table"
-import { ArrowUpDown, Eye, MoreHorizontal, Pencil } from "lucide-react"
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-
-import { Badge } from "@/components/ui/badge";
+import { ArrowUpDown } from "lucide-react"
 import { cn } from "@/lib/utils";
-
+import { useDispatch } from "react-redux";
+import HandleDetils from "../HandleDetils";
 
 
 
@@ -27,9 +17,7 @@ export type Service = {
   start_date: Date;
 }
 
-const handleDetails = () => {
-  console.log('details')
-}
+
 
 export const columns: ColumnDef<Service>[] = [
   {
@@ -163,29 +151,11 @@ export const columns: ColumnDef<Service>[] = [
       )
     },
     cell: ({ row }) => {
-      const id = row.getValue("id");
-
+      const id: number = row.getValue("id");
+      const dispatch = useDispatch()
       return (
         <div className="flex items-center justify-center">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="h-4 w-4 p-0">
-                
-                <MoreHorizontal className="h-4 w-4"/>
-              </Button>
-            </DropdownMenuTrigger>
-
-            <DropdownMenuContent> 
-
-              <Link className="" href={`/cooperation/services/service_details/${id}`}>
-                <DropdownMenuItem className="cursor-pointer">
-                  Details
-                  <Eye className="h-4 w-4 ml-2"/>
-                </DropdownMenuItem>
-              </Link>
-            
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <HandleDetils id={id}/>
         </div>
 
       )

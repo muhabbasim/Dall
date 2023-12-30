@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { AuthContext } from '@/context/authContext';
 
 
-export default function NotFound() {
+export default function NotAuthorized() {
   const router = useRouter();
   const { currentUser } = useContext(AuthContext);
 
@@ -31,11 +31,11 @@ export default function NotFound() {
       <div className='flex items-center justify-center'>
         <img src='/assets/errorimg.svg' className='' alt="404" />
       </div>
-      <Typography align="center" variant="h1" mb={4}>
-        Opps!!!
+      <Typography align="center" variant="h2" mb={4}>
+        Authorization Issue!!!
       </Typography>
       <Typography align="center" variant="h4" mb={4}>
-        This page you are looking for could not be found.
+        You are not authorized to have access to this page.
       </Typography>
       <Button
         color="primary"

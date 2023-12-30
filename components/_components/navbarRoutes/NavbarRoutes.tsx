@@ -45,8 +45,6 @@ const DashNavItems = [
 
 export default function NavbarRoutes() {
   const { currentUser } = useContext(AuthContext);
-  const { data: userData  } = useUserData();
-  // const { data: companyData } = useCompanyData();
 
   const { logout } = useContext(AuthContext);
   const router = useRouter();
@@ -98,7 +96,7 @@ export default function NavbarRoutes() {
             </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56">
-            <DropdownMenuLabel> Welcome {userData?.first_name || userData?.name }</DropdownMenuLabel>
+            <DropdownMenuLabel> Welcome To Dall</DropdownMenuLabel>
             <DropdownMenuSeparator />
             
             <DropdownMenuGroup>
