@@ -1,6 +1,5 @@
 'use client'
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
+
 import dynamic from 'next/dynamic';
 import React from 'react';
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });

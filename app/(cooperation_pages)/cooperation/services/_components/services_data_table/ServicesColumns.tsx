@@ -3,7 +3,6 @@
 import { ColumnDef } from "@tanstack/react-table"
 import { ArrowUpDown } from "lucide-react"
 import { cn } from "@/lib/utils";
-import { useDispatch } from "react-redux";
 import HandleDetils from "../HandleDetils";
 
 
@@ -152,7 +151,6 @@ export const columns: ColumnDef<Service>[] = [
     },
     cell: ({ row }) => {
       const id: number = row.getValue("id");
-      const dispatch = useDispatch()
       return (
         <div className="flex items-center justify-center">
           <HandleDetils id={id}/>
