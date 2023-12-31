@@ -32,6 +32,7 @@ interface UserDataProps {
   password_confirmation: string;
   created_at: string;
   joined_at: string;
+  name: string;
 }
 
 interface CooperationDataProps {

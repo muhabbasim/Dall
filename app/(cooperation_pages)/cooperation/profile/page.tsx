@@ -38,6 +38,7 @@ import { toast } from 'sonner';
 import { AxiosError } from 'axios'
 import ProfileImage from '@/app/(indivisual_pages)/individual/profile/_components/ProfileImage'
 import { ChangePasswordDialog } from '@/app/(indivisual_pages)/individual/profile/_components/ChangePasswordDialog'
+import CooperationProfileImage from '../dashboard/_components/CooperationProfileImage'
 
 
 
@@ -194,7 +195,7 @@ export default function Profile() {
           {userData ? (
             <div className='personal_info'>
               <div className='w-full flex flex-col items-center'>
-                <ProfileImage user={userData}/>
+                <CooperationProfileImage user={userData}/>
               </div>
               <div className='info_form px-6 md:px-20 flex justify-end'>
                 <ChangePasswordDialog/>

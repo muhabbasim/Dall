@@ -2,7 +2,7 @@
 import { Separator } from '@/components/ui/separator'
 import { AlertTriangle, Ban, CalendarIcon, Check, ChevronsUpDown, Loader2, Pencil } from 'lucide-react'
 import {motion} from 'framer-motion'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -20,7 +20,6 @@ import {
   CommandItem,
 } from "@/components/ui/command"
 import { useUserData } from '@/components/data/dataFether';
-import { AuthContext } from '@/context/authContext'
 import { Badge } from '@/components/ui/badge'
 import {
   Popover,
@@ -34,7 +33,7 @@ import { useForm } from "react-hook-form"
 import * as z from "zod"
 import { cn } from '@/lib/utils';
 import { Calendar } from '@/components/ui/calendar';
-import { format, set } from "date-fns"
+import { format } from "date-fns"
 import api from '@/context/apiRequest';
 import { useQuery } from '@tanstack/react-query';
 import { toast } from 'sonner';

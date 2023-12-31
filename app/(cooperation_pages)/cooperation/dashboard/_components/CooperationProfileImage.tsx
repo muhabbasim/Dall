@@ -11,12 +11,12 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import Image from 'next/image'
-import ReactImageUpload from '../../../../../components/_components/react_image_upload/ReactImageUpload'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import api from '@/context/apiRequest'
 import { toast } from 'sonner'
 import { AxiosError } from 'axios'
 import { useRouter } from 'next/navigation'
+import ReactImageUpload from '@/components/_components/react_image_upload/ReactImageUpload'
 
 interface userDataProps {
   first_name: string | undefined;
@@ -32,7 +32,7 @@ type userProps = {
   user: userDataProps
 }
 
-export default function ProfileImage({ user }: userProps) {
+export default function CooperationProfileImage({ user }: userProps) {
 
   const [ imageFile, setImageFile ] = useState<any>();
   const [ imageValue, setImageValue ] = useState<any>();
@@ -139,7 +139,7 @@ export default function ProfileImage({ user }: userProps) {
 
       <div className=' flex gap-5 items-center '>
         <div className='text-center md:text-left'>
-          <h2>{user?.first_name}, <span className='font-bold'>{user?.last_name}</span></h2>
+          <h2>{user?.name}</h2>
           <h3 className='text-gray-400 text-sm'>{user?.email}</h3>
         </div>
       </div>
