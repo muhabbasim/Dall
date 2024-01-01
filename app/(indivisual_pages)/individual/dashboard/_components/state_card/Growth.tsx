@@ -1,8 +1,6 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
+
 import React from 'react';
 import { Box } from '@mui/material';
-import icon1 from '../../../../../../public/assets/svgs/icon-bars.svg';
 import dynamic from 'next/dynamic';
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 import { Props } from 'react-apexcharts';
