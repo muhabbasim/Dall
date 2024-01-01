@@ -3,6 +3,10 @@ import { ChevronRight, LucideIcon } from 'lucide-react';
 import React from 'react'
 import CardDetails from './CardDetails';
 
+type ServiceFeaturesProps = {
+  desc: string;
+}
+
 type ServiceProps = {
   id: number;
   icon: LucideIcon;
@@ -11,6 +15,7 @@ type ServiceProps = {
   fullDesc: string;
   img: string;
   href: string;
+  features: ServiceFeaturesProps[];
 }
 
 type Service = {

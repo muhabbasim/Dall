@@ -70,7 +70,7 @@ const AreaChart = () => {
       name: 'Sales Summery 2',
       data: [11, 32, 45, 32, 34, 52, 41],
     },
-]
+  ]
 
 return(
   <>

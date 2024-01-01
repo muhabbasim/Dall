@@ -4,6 +4,9 @@ import { AlertTriangle, Ban, CalendarIcon, Check, ChevronsUpDown, Loader2, Penci
 import {motion} from 'framer-motion'
 import React, { useEffect, useState } from 'react'
 import { Button } from "@/components/ui/button"
+import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
 import {
   Form,
   FormControl,
@@ -40,6 +43,7 @@ import { toast } from 'sonner';
 import ProfileImage from './_components/ProfileImage'
 import { ChangePasswordDialog } from './_components/ChangePasswordDialog'
 import { AxiosError } from 'axios'
+import dayjs from 'dayjs'
 
 interface userDataProps {
   first_name: string | undefined;
@@ -143,6 +147,7 @@ export default function Profile() {
 
   // date saver
   const [ datePicker, setDatePicker ] = useState<Date | undefined | string>(userData?.birth_date);
+  const [ muiDatePicker, setMuiDatePicker ] = useState<any>(userData?.birth_date);
 
   // selected skills array function
   const [ selectedSkills, setSelectedSkills ] = useState<number[]>(currenUserSkills||[]); 
@@ -235,6 +240,8 @@ export default function Profile() {
       }} 
       className='w-full flex gap-8 justify-between'
     >
+
+      
       <div className='w-full'>
         <div className='min-h-[700px] border rounded-lg bg-white'>
           <div className=' w-full text-center p-5'>
@@ -250,6 +257,7 @@ export default function Profile() {
               <div className='info_form px-6 md:px-20 flex justify-end'>
                 <ChangePasswordDialog/>
               </div>
+
               <div className='info_form px-6 md:px-20'>
                 <div>
                   <Form {...form}>
@@ -493,6 +501,39 @@ export default function Profile() {
                         
                       </div>
 
+                      <div className='flex flex-col md:flex-row flex-wrap w-full gap-5'>
+                        <div className='w-full flex-1'>
+                        <FormField
+                          control={form.control}
+                          name="birth_date"
+                          render={({ field }) => (
+                            <FormItem className="flex flex-col">
+                              <FormLabel className='py-1'>Date of birth</FormLabel>
+                               <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <DemoContainer
+                                  components={[
+                                    'DatePicker',
+                                    'TimePicker',
+                                    'DateTimePicker',
+                                    'DateRangePicker',
+                                  ]}
+                                >
+                                  <DemoItem>
+                                    <DatePicker 
+                                      className='h-full p-3'
+                                      onChange={(newDate: any) => setMuiDatePicker(newDate)}
+                                      defaultValue={dayjs(muiDatePicker)}
+                                      // value={muiDatePicker}
+                                    />
+                                  </DemoItem>
+                                </DemoContainer>
+                              </LocalizationProvider>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        </div>
+                      </div>
                       <div className='flex flex-col md:flex-row flex-wrap w-full gap-5'>
                         <div className='w-full flex-1'>
                         <FormField

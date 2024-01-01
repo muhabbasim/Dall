@@ -16,7 +16,6 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import api from '@/context/apiRequest'
 import { toast } from 'sonner'
 import { AxiosError } from 'axios'
-import { useRouter } from 'next/navigation'
 
 interface userDataProps {
   first_name: string | undefined;

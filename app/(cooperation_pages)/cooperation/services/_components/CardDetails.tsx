@@ -10,6 +10,9 @@ import {
 } from './dialog';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
+type ServiceFeaturesProps = {
+  desc: string;
+}
 
 
 type ServiceProps = {
@@ -20,6 +23,7 @@ type ServiceProps = {
   fullDesc: string;
   img: string;
   href: string;
+  features: ServiceFeaturesProps[]
 }
 
 type Services = {
@@ -93,30 +97,16 @@ export default function CardDetails({ service } : Services) {
                           }}
                           className='pt-10 space-y-1'
                         >
-                          <div
-                            className=" flex flex-row items-center gap-3"
-                          >
-                            <div className=' rounded-full p-1 text-white'>
-                              <Package className='text-cyan-500'/>
+                          {service.features.map((features) => (
+                            <div
+                              className=" flex flex-row items-center gap-3"
+                            >
+                              <div className=' rounded-full p-1 text-white'>
+                                <Package className='text-white'/>
+                              </div>
+                              <h2 className='text-gray-300 text-sm'>{features.desc}</h2>
                             </div>
-                            <h2 className='text-gray-300 text-sm'>Lorem ipsum dolor sit amet.</h2>
-                          </div>
-                          <div
-                            className=" flex flex-row items-center gap-3"
-                          >
-                            <div className=' rounded-full p-1 text-white'>
-                              <Package className='text-cyan-500'/>
-                            </div>
-                            <h2 className='text-gray-300 text-sm'>Lorem ipsum dolor sit amet.</h2>
-                          </div>
-                          <div
-                            className=" flex flex-row items-center gap-3"
-                          >
-                            <div className=' rounded-full p-1 text-white'>
-                              <Package className='text-cyan-500'/>
-                            </div>
-                            <h2 className='text-gray-300 text-sm'>Lorem ipsum dolor sit amet.</h2>
-                          </div>
+                          ))}
                         
                         </motion.div>
                         <div className='flex w-full items-end justify-end mt-10'>

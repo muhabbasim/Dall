@@ -1,9 +1,13 @@
 'use client'
 import React from 'react'
-import { Expand, GraduationCap, TvIcon } from 'lucide-react';
 import { motion } from 'framer-motion'
 import { useQuery } from '@tanstack/react-query';
 import api from '@/context/apiRequest';
+import Growth from './state_card/Growth';
+import icon1 from '../../../../../public/assets/svgs/icon-connect.svg';
+import icon2 from '../../../../../public/assets/svgs/icon-pie.svg';
+import icon3 from '../../../../../public/assets/svgs/icon-tasks.svg';
+
 
 export default function IndividualStates({ examsData }) {
 
@@ -24,7 +28,7 @@ export default function IndividualStates({ examsData }) {
       className=' individual_dashboard_state_container  flex gap-5 justify-between'
     >
       <div
-        className='indivisual_status  cursor-pointer text-white bg-white w-full py-3 border rounded-lg flex items-center justify-around gap-5 shasdow shadow-lg'
+        className='p-6 cursor-pointer text-slate-700 bg-white w-full py-3 border rounded-lg flex items-center justify-around gap-5 shasdow shadow-lg'
       >
 
         <div>
@@ -39,12 +43,11 @@ export default function IndividualStates({ examsData }) {
           </p>
         </div>
         <div className='h-full pt-4'>
-          <TvIcon className='h-6 w-6'/>
+          <Growth Icon={icon3} color='#EEF5FF'/>
         </div>
-        
       </div>
       <div
-        className='indivisual_status  cursor-pointer text-white bg-white w-full py-3 border rounded-lg flex items-center justify-around gap-5  shadow-lg'
+        className='p-6 cursor-pointer text-slate-700 bg-white w-full py-3 border rounded-lg flex items-center justify-around gap-5  shadow-lg'
       >
           <div>
           <h1 className='text-sm'>
@@ -58,14 +61,14 @@ export default function IndividualStates({ examsData }) {
           </p>
         </div>
         <div className='h-full pt-4'>
-          <Expand className='h-6 w-6'/>
+          <Growth Icon={icon2} color='#FDF0F0'/>
         </div>
       
       </div>
       <div 
-        className='indivisual_status  cursor-pointer text-white bg-white w-full py-3 border rounded-lg flex items-center justify-around gap-5  shadow-lg'
+        className='  cursor-pointer text-slate-700 bg-white w-full p-6 border rounded-lg flex items-center justify-around gap-5  shadow-lg'
       >
-        <div>
+        <div className='space-y-1'>
           <h1 className='text-sm'>
             Result
           </h1>
@@ -76,10 +79,13 @@ export default function IndividualStates({ examsData }) {
             total results
           </p>
         </div>
-        <div className='h-full pt-4'>
-          <GraduationCap className='h-6 w-6'/>
+        <div className='h-full'>
+          <Growth Icon={icon1} color='#DAFFFB'/>
         </div>
       </div>
+      {/* <div>
+        <Growth/>
+      </div> */}
     </motion.div>
   )
 }
