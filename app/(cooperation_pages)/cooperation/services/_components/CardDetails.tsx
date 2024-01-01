@@ -99,6 +99,7 @@ export default function CardDetails({ service } : Services) {
                         >
                           {service.features.map((features) => (
                             <div
+                            key={features.desc}
                               className=" flex flex-row items-center gap-3"
                             >
                               <div className=' rounded-full p-1 text-white'>
